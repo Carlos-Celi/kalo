@@ -1,3 +1,4 @@
+import type { Perfil, Plan } from '../domain/perfil'
 import type { CaloriasDia, ResumenInicio } from '../domain/tipos'
 import type { Repositorios } from './repositorios'
 
@@ -12,15 +13,43 @@ function ultimosSieteDias(hoy: Date): CaloriasDia[] {
   })
 }
 
-export function resumenInicioDeEjemplo(hoy: Date = new Date()): ResumenInicio {
+/** El perfil de ejemplo del diseño del onboarding, ya completado. */
+export function perfilDeEjemplo(): Perfil {
   return {
     nombre: 'Carlos',
+    plan: {
+      datos: {
+        nombre: 'Carlos',
+        edad: 30,
+        sexo: 'masculino',
+        estaturaCm: 172,
+        pesoKg: 78,
+        objetivo: 'bajar',
+        pesoMetaKg: 72,
+        actividad: 'ligero',
+        suenoHabitual: '5-7',
+        alcohol: 'fines-de-semana',
+        restricciones: ['sin-lactosa'],
+      },
+      metas: { kcal: 1850, proteinaG: 140, aguaL: 2.5, ejercicioMin: 60, suenoMin: 480 },
+    },
+  }
+}
+
+/**
+ * Registros del día de ejemplo con el nombre y las metas del perfil: hasta
+ * que existan los registros reales, lo único propio del usuario es su plan.
+ */
+export function resumenInicioDeEjemplo(perfil: Perfil, hoy: Date = new Date()): ResumenInicio {
+  const metas = perfil.plan?.metas ?? perfilDeEjemplo().plan!.metas
+  return {
+    nombre: perfil.nombre,
     fecha: hoy,
-    calorias: { valor: 1190, meta: 1850 },
-    proteina: { valor: 52, meta: 140 },
-    agua: { valor: 1.6, meta: 2.5 },
-    ejercicio: { valor: 35, meta: 60 },
-    sueno: { valor: 405, meta: 480 },
+    calorias: { valor: 1190, meta: metas.kcal },
+    proteina: { valor: 52, meta: metas.proteinaG },
+    agua: { valor: 1.6, meta: metas.aguaL },
+    ejercicio: { valor: 35, meta: metas.ejercicioMin },
+    sueno: { valor: 405, meta: metas.suenoMin },
     comidas: { valor: 3, meta: 5 },
     siguientePaso: {
       comida: 'cena',
@@ -30,8 +59,22 @@ export function resumenInicioDeEjemplo(hoy: Date = new Date()): ResumenInicio {
   }
 }
 
+// En modo demostración el perfil vive en memoria: se pierde al recargar.
+let perfilActual = perfilDeEjemplo()
+
+/** Para las pruebas: fija el perfil en memoria (por defecto, el de ejemplo). */
+export function restablecerPerfilMock(perfil: Perfil = perfilDeEjemplo()): void {
+  perfilActual = perfil
+}
+
 export const repositoriosMock: Repositorios = {
   resumen: {
-    obtenerResumenInicio: async () => resumenInicioDeEjemplo(),
+    obtenerResumenInicio: async () => resumenInicioDeEjemplo(perfilActual),
+  },
+  perfil: {
+    obtener: async () => perfilActual,
+    guardarPlan: async (plan: Plan) => {
+      perfilActual = { nombre: plan.datos.nombre, plan }
+    },
   },
 }

@@ -1,3 +1,4 @@
+import type { Perfil, Plan } from '../domain/perfil'
 import type { ResumenInicio } from '../domain/tipos'
 
 /**
@@ -9,6 +10,13 @@ export interface ResumenRepositorio {
   obtenerResumenInicio(): Promise<ResumenInicio>
 }
 
+export interface PerfilRepositorio {
+  obtener(): Promise<Perfil>
+  /** Guarda el resultado del onboarding y lo da por completado. */
+  guardarPlan(plan: Plan): Promise<void>
+}
+
 export interface Repositorios {
   resumen: ResumenRepositorio
+  perfil: PerfilRepositorio
 }

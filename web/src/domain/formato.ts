@@ -26,9 +26,15 @@ export function formatoEntero(valor: number): string {
   return entero.format(valor)
 }
 
-/** 1.6 → "1,6" · 2 → "2" */
-export function formatoDecimal(valor: number): string {
-  return unDecimal.format(valor)
+const dosDecimales = new Intl.NumberFormat(LOCALE, {
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
+  useGrouping: 'always',
+})
+
+/** 1.6 → "1,6" · 2 → "2". Con `decimales = 2`: 2.25 → "2,25" */
+export function formatoDecimal(valor: number, decimales: 1 | 2 = 1): string {
+  return (decimales === 2 ? dosDecimales : unDecimal).format(valor)
 }
 
 /** 405 → "6 h 45" · 480 → "8 h" · 25 → "25 min" */

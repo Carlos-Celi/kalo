@@ -8,7 +8,7 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 |---|---|---|
 | 1 | Base local: Docker, documentación, tema, componentes, navegación e Inicio con datos de ejemplo | ✅ |
 | 2 | Vercel y Supabase: cabeceras de despliegue, esquema con RLS y login real | ✅ código · ⏳ crear los proyectos en Vercel y Supabase |
-| 3 | Onboarding: Perfil, Medidas, Objetivos, Hábitos, Metas | ⏳ |
+| 3 | Onboarding: Perfil, Medidas, Objetivos, Hábitos, Metas | ✅ |
 | 4 | Registros (Comida, Agua, Ejercicio, Sueño), Registro rápido y Peso, con persistencia | ⏳ |
 | 5 | Progreso (gráficas con datos reales), Recordatorios y Ajustes | ⏳ |
 | 6 | IA: Proveedor de IA, Cámara + Análisis, Manual y Asistente | ⏳ |
@@ -18,9 +18,9 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 
 | Pantalla | Diseño de referencia | Ruta | Estado |
 |---|---|---|---|
-| Inicio | `Inicio.dc.html` | `/` | ✅ datos de ejemplo |
+| Inicio | `Inicio.dc.html` | `/` | ✅ nombre y metas reales; registros de ejemplo |
 | Login (iniciar sesión, crear cuenta, recuperar contraseña) | `Login.dc.html` | `/login`, `/restablecer` | ✅ |
-| Perfil, Medidas, Objetivos, Hábitos, Metas | `Perfil`, `Medidas`, `Objetivos`, `Habitos`, `Metas` | — | ⏳ |
+| Perfil, Medidas, Objetivos, Hábitos, Metas | `Perfil`, `Medidas`, `Objetivos`, `Habitos`, `Metas` | `/bienvenida`, `/bienvenida/medidas`, `/bienvenida/objetivos`, `/bienvenida/habitos`, `/bienvenida/plan` | ✅ plan por fórmula, sin IA |
 | Registros | `Registros.dc.html` y variantes | `/registros`, `/registros/agua`, `/registros/ejercicio`, `/registros/sueno` | ⏳ marcador |
 | Foto con IA | `Camara.dc.html` | `/registros/comida/foto` | ⏳ marcador |
 | Resultado de la IA, Manual | `Analisis.dc.html`, `Manual.dc.html` | — | ⏳ |
@@ -30,7 +30,7 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 | Proveedor de IA | `ProveedorIA.dc.html` | — | ⏳ |
 | Progreso | `Progreso.dc.html` | `/progreso` | ⏳ marcador |
 | Recordatorios | `Recordatorios.dc.html` | `/recordatorios` | ⏳ marcador |
-| Configuración | `Ajustes.dc.html` | `/ajustes` | 🚧 solo cuenta y cierre de sesión |
+| Configuración | `Ajustes.dc.html` | `/ajustes` | 🚧 cuenta, cierre de sesión y rehacer el plan |
 
 "Marcador" significa que la ruta existe y es navegable, pero muestra una pantalla de "en construcción".
 

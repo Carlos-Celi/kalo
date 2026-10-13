@@ -52,6 +52,42 @@ const trazos = {
   ),
   escudo: <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" />,
   salir: <path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h9" />,
+  flechaAtras: <path d="M15 5l-7 7 7 7" />,
+  persona: (
+    <>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c1-4 4-6 8-6s7 2 8 6" />
+    </>
+  ),
+  calendario: (
+    <>
+      <rect x="4" y="5" width="16" height="16" rx="2" />
+      <path d="M4 10h16M8 3v4M16 3v4" />
+    </>
+  ),
+  pulso: <path d="M3 12h4l3-7 4 14 3-7h4" />,
+  pesa: <path d="M6 6l12 12M4 8l4-4M16 20l4-4M3 11l8-8M13 21l8-8" />,
+  hoja: (
+    <>
+      <path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15" />
+      <path d="M5 19l8-8" />
+    </>
+  ),
+  diana: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" />
+    </>
+  ),
+  destello: <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />,
+  check: <path d="M5 12l5 5 9-10" />,
+  muslo: (
+    <>
+      <path d="M14.5 4.5a4.5 4.5 0 1 1 5 5l-6.2 6.2a2.6 2.6 0 1 1-3.7-3.7z" />
+      <path d="M10 14l-3.5 3.5" />
+    </>
+  ),
 } satisfies Record<string, ReactNode>
 
 export type NombreIcono = keyof typeof trazos

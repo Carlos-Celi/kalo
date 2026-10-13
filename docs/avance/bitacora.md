@@ -2,6 +2,53 @@
 
 Las entradas más recientes van arriba.
 
+## 2026-10-13 · Web, entrega 3: onboarding
+
+**Hecho**
+- Las cinco pantallas del onboarding según el diseño: Perfil, Medidas, Objetivos, Hábitos y el plan con metas ajustables (`/bienvenida/…`). En escritorio se muestran en una tarjeta centrada, como el login.
+- Quien inicia sesión sin plan pasa primero por el onboarding; no se puede saltar pasos por la URL. Desde Configuración se puede rehacer el plan con los datos actuales.
+- Cálculo del plan con reglas fijas (Mifflin-St Jeor, proteína por kilo, agua por kilo): ver [ADR 0004](../tecnica/decisiones/0004-plan-calculado-sin-ia.md).
+- Migración `20261013000000_onboarding.sql`: datos del perfil y metas en `perfiles`, con `check` por columna, permisos de escritura solo sobre esas columnas y una restricción que impide marcar el onboarding como completo con datos a medias.
+- Inicio usa el nombre y las metas reales del usuario; los registros del día siguen siendo de ejemplo.
+- Seed con dos cuentas: `prueba@kalo.test` (plan completo) y `nuevo@kalo.test` (entra al onboarding).
+- El proyecto de Docker Compose pasa a llamarse `kalo-web`: compartía nombre con el de Supabase y su CLI borraba el contenedor de la web en cada `supabase stop` o `supabase db reset`.
+
+**Verificado (contra Supabase local)**
+- Lint, tipos, 54 pruebas y build en verde.
+- En el navegador a 390 px y en escritorio: recorrido completo con `nuevo@kalo.test`, plan guardado en la base de datos, Inicio con el nombre y las metas nuevas, y el plan visible en Configuración tras recargar.
+- Por API con las dos cuentas: cada una lee solo su fila; editar la de otra no afecta a ninguna fila; valores fuera de rango, restricciones inventadas, `creado_en` y el onboarding "completo" con datos a medias quedan rechazados; como anónimo, sin acceso.
+
+**Diferencias deliberadas respecto al diseño**
+- Sin IA todavía: "Generar mi plan" y "Sugerido para ti" en lugar de "…con IA" y "Sugerido por la IA".
+- Sexo, objetivo y hábitos empiezan sin selección (en el diseño vienen marcados los datos de ejemplo) y son obligatorios, salvo las restricciones.
+- En el primer paso, la flecha de volver cierra la sesión: con sesión iniciada no se puede volver al login.
+- Los chips miden 44 px de alto (42 en el diseño de Hábitos) por el objetivo táctil mínimo.
+
+**Sin verificar**
+- La vista previa de producción (no cambiaron cabeceras ni dependencias) y el despliegue real.
+
+**Pendiente / siguiente**
+- Decisión de producto: edad mínima (ahora 16) y si el plan debe generarlo la IA cuando exista.
+- Editar perfil y metas campo a campo desde Configuración (entrega 5); por ahora se rehace el plan entero.
+- Entrega 4: Registros con persistencia.
+
+## 2026-10-13 · Entorno local: cuenta de prueba (seed)
+
+**Hecho**
+- `supabase/seed.sql`: crea una cuenta ya confirmada (`prueba@kalo.test`) con su perfil, para entrar en local sin pasar por el correo. Se carga con `supabase start` y `supabase db reset`; no se aplica al proyecto remoto.
+- `docs/tecnica/entorno-local.md`: cuenta de prueba, uso de `npx supabase` sin instalar la CLI y qué revisar cuando el formulario de acceso no deja crear cuentas.
+
+**Diagnóstico**
+- "No permite crear usuarios" en una máquina recién clonada no era un fallo del registro: faltaban Supabase local y `web/.env.local`, así que la web estaba en modo demostración, que deshabilita el formulario.
+
+**Verificado (Windows, contra Supabase local)**
+- Lint, tipos, 37 pruebas y build en verde.
+- En el navegador: inicio de sesión con la cuenta del seed (Inicio saluda con el nombre del perfil) y registro de una cuenta nueva desde `/login` con su correo en la bandeja de pruebas.
+- Por API: el perfil del seed solo se lee con su sesión; como anónimo, 401.
+
+**Sin verificar**
+- La confirmación de la cuenta nueva abriendo el enlace del correo (ya se comprobó en la entrega 2).
+
 ## 2026-10-12 · Web, entrega 2: Vercel y Supabase
 
 **Hecho**

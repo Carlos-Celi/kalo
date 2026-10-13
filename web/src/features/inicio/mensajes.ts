@@ -30,7 +30,7 @@ export function mensajeProteina(proteina: Avance): string {
 export function valorHabito(habito: Habito, { valor, meta }: Avance): string {
   switch (habito) {
     case 'agua':
-      return `${formatoDecimal(valor)} / ${formatoDecimal(meta)} L`
+      return `${formatoDecimal(valor)} / ${formatoDecimal(meta, 2)} L`
     case 'ejercicio':
       return `${formatoEntero(valor)} / ${formatoEntero(meta)} min`
     case 'sueno':

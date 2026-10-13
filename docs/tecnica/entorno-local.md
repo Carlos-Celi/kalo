@@ -65,9 +65,30 @@ La primera vez descarga varias imágenes. Al terminar, `supabase status` muestra
 
 En local no se envía correo real: los enlaces de confirmación llegan a esa bandeja.
 
+Sin instalar la CLI también sirve `npx supabase <comando>` (por ejemplo en Windows, donde no hay `brew`).
+
+### Cuenta de prueba (seed)
+
+`supabase/seed.sql` crea dos cuentas ya confirmadas, para entrar sin pasar por el correo. Contraseña de ambas: `kalo-local-1234`.
+
+| Correo | Estado |
+|---|---|
+| `prueba@kalo.test` | Onboarding completo: entra directo a Inicio |
+| `nuevo@kalo.test` | Recién registrada: entra al onboarding |
+
+Se cargan al crear la base de datos (`supabase start` la primera vez) y cada vez que se ejecuta `supabase db reset`. Solo existen en local: el seed no se aplica al proyecto remoto.
+
+### Si el formulario de acceso está deshabilitado o no deja crear cuentas
+
+- **Aviso "Modo demostración" y campos deshabilitados:** la web no tiene configurado Supabase. Falta `web/.env.local` o no se reinició el servicio `web` después de crearlo.
+- **"Demasiados intentos":** se superaron los 30 registros o inicios de sesión en 5 minutos desde la misma IP. Espera o usa la cuenta de prueba. (El límite de 2 correos por hora de `config.toml` solo aplica con un SMTP propio; con la bandeja de pruebas no se alcanza.)
+- **"No pudimos completar la operación":** Supabase no está levantado (`supabase status`).
+- **La cuenta se crea pero no deja entrar:** falta confirmar el correo desde la bandeja de pruebas, en el mismo navegador que hizo el registro.
+
 | Necesito… | Comando |
 |---|---|
-| Recrear la base de datos desde las migraciones | `supabase db reset` |
+| Recrear la base de datos desde las migraciones y el seed | `supabase db reset` |
+| Aplicar una migración nueva sin borrar los datos | `supabase migration up` |
 | Crear una migración | `supabase migration new <nombre>` |
 | Parar Supabase | `supabase stop` |
 | Vista previa de producción con Supabase | `docker compose --env-file web/.env.local --profile preview up --build web-preview` |

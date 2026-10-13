@@ -20,3 +20,6 @@ supabase/.temp/
 supabase/.branches/
 supabase/.env
 supabase/.env.*
+
+# Notas locales para continuar el trabajo en otra máquina
+CONTINUAR.md

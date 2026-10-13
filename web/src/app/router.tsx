@@ -5,16 +5,24 @@ import { LoginPage } from '../features/auth/LoginPage'
 import { RestablecerPage } from '../features/auth/RestablecerPage'
 import { RutaProtegida } from '../features/auth/RutaProtegida'
 import { InicioPage } from '../features/inicio/InicioPage'
+import { HabitosPaso } from '../features/onboarding/HabitosPaso'
+import { MedidasPaso } from '../features/onboarding/MedidasPaso'
+import { ObjetivosPaso } from '../features/onboarding/ObjetivosPaso'
+import { OnboardingLayout } from '../features/onboarding/OnboardingLayout'
+import { PerfilPaso } from '../features/onboarding/PerfilPaso'
+import { PlanPaso } from '../features/onboarding/PlanPaso'
 import { PantallaPendiente } from '../features/pendiente/PantallaPendiente'
+import { PerfilProvider } from '../features/perfil/PerfilProvider'
+import { RequierePlan } from '../features/perfil/RequierePlan'
 import { AppShell } from './AppShell'
 import { rutas } from './rutas'
 
-const rutasDeLaApp: RouteObject[] = [
+const pantallasConNavegacion: RouteObject[] = [
   {
     element: (
-      <RutaProtegida>
+      <RequierePlan>
         <AppShell />
-      </RutaProtegida>
+      </RequierePlan>
     ),
     children: [
       { path: rutas.inicio, element: <InicioPage /> },
@@ -59,6 +67,32 @@ const rutasDeLaApp: RouteObject[] = [
       { path: rutas.ajustes, element: <AjustesPage /> },
       { path: '*', element: <PantallaPendiente titulo="Página no encontrada" /> },
     ],
+  },
+]
+
+const onboarding: RouteObject = {
+  path: rutas.bienvenida,
+  element: <OnboardingLayout />,
+  children: [
+    { index: true, element: <PerfilPaso /> },
+    { path: rutas.bienvenidaMedidas, element: <MedidasPaso /> },
+    { path: rutas.bienvenidaObjetivos, element: <ObjetivosPaso /> },
+    { path: rutas.bienvenidaHabitos, element: <HabitosPaso /> },
+    { path: rutas.bienvenidaPlan, element: <PlanPaso /> },
+  ],
+}
+
+const rutasDeLaApp: RouteObject[] = [
+  {
+    // Con sesión: se carga el perfil y, si aún no hay plan, se pasa por el onboarding.
+    element: (
+      <RutaProtegida>
+        <PerfilProvider>
+          <Outlet />
+        </PerfilProvider>
+      </RutaProtegida>
+    ),
+    children: [onboarding, ...pantallasConNavegacion],
   },
   { path: rutas.login, element: <LoginPage /> },
   { path: rutas.restablecer, element: <RestablecerPage /> },

@@ -5,7 +5,9 @@
 #
 # Los puertos se publican solo en 127.0.0.1: no quedan expuestos en la red local.
 
-name: kalo
+# Distinto del `project_id` de Supabase ("kalo"): su CLI elimina todos los contenedores
+# etiquetados con ese proyecto al hacer `supabase stop` o `supabase db reset`.
+name: kalo-web
 
 services:
   web:

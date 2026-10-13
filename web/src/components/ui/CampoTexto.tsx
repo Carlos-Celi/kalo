@@ -9,13 +9,25 @@ interface Props
   valor: string
   onCambio: (valor: string) => void
   error?: string | null
+  /** Unidad que se muestra a la derecha (p. ej. "kg"). */
+  sufijo?: string
 }
 
 /**
  * Campo de formulario del diseño (Login): etiqueta, icono y borde que se
  * enciende con el foco. Con `type="password"` añade el botón de mostrar.
  */
-export function CampoTexto({ id, etiqueta, icono, valor, onCambio, error, type, ...resto }: Props) {
+export function CampoTexto({
+  id,
+  etiqueta,
+  icono,
+  valor,
+  onCambio,
+  error,
+  sufijo,
+  type,
+  ...resto
+}: Props) {
   const esContrasena = type === 'password'
   const [visible, setVisible] = useState(false)
   const idError = `${id}-error`
@@ -41,6 +53,7 @@ export function CampoTexto({ id, etiqueta, icono, valor, onCambio, error, type, 
           className="min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-tinta outline-none"
           {...resto}
         />
+        {sufijo && <span className="text-[13px] font-semibold">{sufijo}</span>}
         {esContrasena && (
           <button
             type="button"

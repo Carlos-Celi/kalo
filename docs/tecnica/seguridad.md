@@ -45,7 +45,7 @@ Para que la CSP no necesite `'unsafe-inline'` ni `data:`: la fuente se autoaloja
 | Sin `dangerouslySetInnerHTML`, `eval` ni HTML construido con texto del usuario (React escapa por defecto) | ✅ |
 | Rutas internas como constantes; ningún redireccionamiento a URLs tomadas de parámetros | ✅ |
 | Sin mapas de código fuente en producción | ✅ |
-| Validación de la entrada en cliente y de nuevo en servidor (restricciones `check` y RLS en la base de datos) | ✅ login y perfil |
+| Validación de la entrada en cliente y de nuevo en servidor (restricciones `check` y RLS en la base de datos) | ✅ login, perfil y onboarding |
 | Nada sensible en `console.log`, URLs ni mensajes de error | ✅ norma vigente |
 
 ## 4. Dependencias y contenedores

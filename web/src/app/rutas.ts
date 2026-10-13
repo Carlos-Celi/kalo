@@ -12,4 +12,9 @@ export const rutas = {
   ajustes: '/ajustes',
   login: '/login',
   restablecer: '/restablecer',
+  bienvenida: '/bienvenida',
+  bienvenidaMedidas: '/bienvenida/medidas',
+  bienvenidaObjetivos: '/bienvenida/objetivos',
+  bienvenidaHabitos: '/bienvenida/habitos',
+  bienvenidaPlan: '/bienvenida/plan',
 } as const
