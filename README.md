@@ -1,4 +1,4 @@
-# Kalo
+# Kalo (En proceso)
 
 App de nutrición y hábitos con IA: registro de comida (foto + IA o manual), agua, ejercicio, sueño y peso, con calorías y proteína como metas principales y un asistente que actúa como nutriólogo.
 
