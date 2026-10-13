@@ -9,8 +9,12 @@
   --color-kalo-claro: #ffe3cc;
   --color-llama: #f97316;
   --color-sol: #ffc933;
+  --color-llama-suave: #f9a15f;
+  --color-agua-claro: #9cc3ee;
+  --color-azucar: #f2a93b;
+  --color-azucar-pista: #fcebd2;
+  --color-grasa-pista: #fbe0cd;
   --color-brasa: #a92408;
-  --color-mascota: #f04a1a;
 
   --color-crema: #fff0e3;
   --color-crema-suave: #fff8f2;
@@ -20,11 +24,24 @@
   --color-barra-suave: #ffd3ae;
   --color-anillo-pista: #e5663a;
 
+  --color-camara: #2a0f08;
+  --color-camara-visor: #3d1a10;
+  --color-camara-chip: #4a2216;
+
   --color-tinta: #2b1810;
   --color-tinta-2: #5a4337;
   --color-tinta-3: #7a6458;
-  --color-marcador: #8c7a6e;
+  /* Placeholders y marcadores: ≥ 4,5:1 sobre blanco y crema (el diseño usaba #8c7a6e, 4,1:1). */
+  --color-marcador: #75665b;
 
+  --color-divisor: #f6ece4;
+  --color-calorias-pista: #fad9bf;
+  --color-proteina: #f5b301;
+  --color-proteina-pista: #ffe9b8;
+  --color-agua-fondo: #eef5fd;
+  --color-agua-pista: #bfd8f4;
+  --color-ejercicio-pista: #f7d9c4;
+  --color-ejercicio-boton: #ffe9d6;
   --color-agua: #2f80d8;
   --color-agua-fuerte: #1a5fa8;
   --color-agua-suave: #e6f0fb;
@@ -41,10 +58,110 @@
   --color-media-fondo: #fff1dc;
   --color-ia-fondo: #ffe6d2;
 
+  /*
+   * Sin `forwards`: un transform que se queda aplicado al terminar convierte al
+   * elemento en bloque contenedor de sus descendientes `fixed` (la hoja de
+   * Registro rápido dejaba de anclarse a la ventana).
+   */
+  --animate-aparecer: aparecer 0.4s ease-out backwards;
+  /* Entrada de pantalla: solo opacidad y breve, para no frenar el cambio de pestaña. */
+  --animate-ruta: ruta 0.16s ease-out backwards;
+  --animate-crecer: crecer 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-escaneo: escaneo 2.4s ease-in-out infinite;
+  --animate-latido: latido 1.6s ease-in-out infinite;
+  --animate-punto: punto 1.1s ease-in-out infinite;
+  --animate-brillo: brillo 1.8s ease-in-out infinite;
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes ruta {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes crecer {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  /* El rayo del escáner sube y baja por toda la foto. */
+  @keyframes escaneo {
+    0%,
+    100% {
+      top: 2%;
+    }
+    50% {
+      top: 98%;
+    }
+  }
+
+  @keyframes latido {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes punto {
+    0%,
+    80%,
+    100% {
+      opacity: 0.35;
+      transform: translateY(0);
+    }
+    40% {
+      opacity: 1;
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes brillo {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
   --radius-boton: 14px;
   --radius-boton-sm: 12px;
   --radius-tarjeta: 18px;
   --radius-tarjeta-lg: 22px;
+}
+
+/* Elevación de las tarjetas: apenas perceptible, cálida como la paleta. */
+@utility sombra-suave {
+  box-shadow:
+    0 1px 2px rgb(95 50 25 / 0.05),
+    0 10px 28px -14px rgb(95 50 25 / 0.18);
+}
+
+@utility sombra-destacada {
+  box-shadow: 0 18px 40px -18px rgb(209 61 10 / 0.6);
 }
 
 @layer base {
@@ -56,6 +173,7 @@
 
   body {
     background: #ffffff;
+    min-height: 100dvh;
     color: var(--color-tinta);
     font-family: var(--font-sans);
   }
@@ -85,6 +203,11 @@
   input::placeholder,
   textarea::placeholder {
     color: var(--color-marcador);
+  }
+
+  /* Oculta lo escrito como un campo de contraseña, sin serlo (API key). */
+  .texto-oculto:not(:placeholder-shown) {
+    -webkit-text-security: disc;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -5,16 +5,11 @@ import { useTitulo } from '../../app/useTitulo'
 import { Button } from '../../components/ui/Button'
 import { CampoTexto } from '../../components/ui/CampoTexto'
 import { Chip } from '../../components/ui/Chip'
-import { LIMITES, validarEdad, validarNombre, type Sexo } from '../../domain/perfil'
+import { LIMITES, validarEdad, validarNombre } from '../../domain/perfil'
+import { opcionesSexo } from '../perfil/opciones'
 import { cerrarSesion } from '../auth/acciones'
 import { aNumero, useOnboarding } from './borrador'
 import { MarcoOnboarding, Nota } from './MarcoOnboarding'
-
-const sexos: { valor: Sexo; etiqueta: string }[] = [
-  { valor: 'femenino', etiqueta: 'Femenino' },
-  { valor: 'masculino', etiqueta: 'Masculino' },
-  { valor: 'sin-especificar', etiqueta: 'Prefiero no decir' },
-]
 
 interface Errores {
   nombre?: string | null
@@ -58,6 +53,7 @@ export function PerfilPaso() {
         </Button>
       }
     >
+      <div className="grid gap-5 sm:grid-cols-2">
       <CampoTexto
         id="nombre"
         etiqueta="Nombre"
@@ -82,6 +78,7 @@ export function PerfilPaso() {
         onCambio={(edad) => cambiar({ edad: edad.replace(/\D/g, '') })}
         error={errores.edad}
       />
+      </div>
       <div className="flex flex-col gap-2.5">
         <div id="sexo-etiqueta" className="text-[13px] font-semibold">
           Sexo
@@ -92,7 +89,7 @@ export function PerfilPaso() {
           aria-describedby={errores.sexo ? 'sexo-error' : undefined}
           className="flex flex-wrap gap-2"
         >
-          {sexos.map(({ valor, etiqueta }) => (
+          {opcionesSexo.map(({ valor, etiqueta }) => (
             <Chip
               key={valor}
               tono="crema"

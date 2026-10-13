@@ -1,10 +1,12 @@
 import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { ErrorCarga } from '../../components/ui/ErrorCarga'
+import { Esqueleto } from '../../components/ui/Esqueleto'
 import { Icon, type NombreIcono } from '../../components/ui/Icon'
 import { MascotAvatar } from '../../components/ui/MascotAvatar'
 import { formatoFechaLarga } from '../../domain/formato'
-import { CaloriasSemana } from './CaloriasSemana'
+import { GraficaSemana } from './GraficaSemana'
 import { HabitosGrid } from './HabitosGrid'
 import { mensajeDelDia } from './mensajes'
 import { MetasHoy } from './MetasHoy'
@@ -29,21 +31,25 @@ export function InicioPage() {
 
   if (estado.fase === 'cargando') {
     return (
-      <p role="status" className="py-10 text-center text-sm font-medium text-tinta-3">
-        Cargando tu día…
-      </p>
+      <div className="flex flex-col gap-3.5 lg:grid lg:grid-cols-12 lg:gap-5">
+        <p role="status" className="sr-only">
+          Cargando tu día…
+        </p>
+        <Esqueleto className="h-11 w-56 lg:col-span-12" />
+        <Esqueleto className="h-[270px] lg:col-span-7" />
+        <Esqueleto className="h-[190px] lg:h-[270px] lg:col-span-5" />
+        {[0, 1, 2, 3].map((i) => (
+          <Esqueleto key={i} className="h-24 lg:col-span-3" />
+        ))}
+      </div>
     )
   }
 
   if (estado.fase === 'error') {
-    return (
-      <p role="alert" className="py-10 text-center text-sm font-semibold text-error">
-        No pudimos cargar tu resumen. Recarga la página para intentarlo de nuevo.
-      </p>
-    )
+    return <ErrorCarga mensaje="No pudimos cargar tu resumen." />
   }
 
-  const { resumen } = estado
+  const { resumen, hoy, acciones } = estado
 
   return (
     <div className="flex flex-col gap-3.5 lg:grid lg:grid-cols-12 lg:gap-5">
@@ -79,11 +85,17 @@ export function InicioPage() {
         ejercicio={resumen.ejercicio}
         sueno={resumen.sueno}
         comidas={resumen.comidas}
+        onAgregarAgua={(ml) => acciones.agregarAgua(hoy, ml)}
+        onDeshacerAgua={() => acciones.deshacerAgua(hoy)}
         className="lg:col-span-12"
       />
-      <CaloriasSemana
-        dias={resumen.caloriasSemana}
-        meta={resumen.calorias.meta}
+      <GraficaSemana
+        dias={resumen.semana}
+        metas={{
+          kcal: resumen.calorias.meta,
+          proteinaG: resumen.proteina.meta,
+          aguaL: resumen.agua.meta,
+        }}
         className="lg:col-span-12"
       />
     </div>

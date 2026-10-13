@@ -82,6 +82,50 @@ const trazos = {
   ),
   destello: <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />,
   check: <path d="M5 12l5 5 9-10" />,
+  mancuerna: <path d="M3 9v6M6 7v10M18 7v10M21 9v6M6 12h12" />,
+  camara: (
+    <>
+      <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+      <circle cx="12" cy="13" r="3.5" />
+    </>
+  ),
+  cerrar: <path d="M6 6l12 12M18 6L6 18" />,
+  flechaAdelante: <path d="M9 6l6 6-6 6" />,
+  bascula: (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <path d="M8.5 10a4.5 4.5 0 0 1 7 0M12 9.5l1.5-2" />
+    </>
+  ),
+  copa: (
+    <>
+      <path d="M7 3h10l-1 8a4 4 0 0 1-8 0z" />
+      <path d="M12 15v6M8 21h8" />
+    </>
+  ),
+  rayo: <path d="M13 2L4 14h7l-1 8 9-12h-7z" />,
+  lapiz: <path d="M4 20h4L19 9l-4-4L4 16z" />,
+  imagen: (
+    <>
+      <rect x="3" y="4" width="18" height="16" rx="3" />
+      <circle cx="9" cy="10" r="2" />
+      <path d="M21 16l-5-5-9 9" />
+    </>
+  ),
+  llave: (
+    <>
+      <circle cx="8" cy="15" r="4" />
+      <path d="M11 12l9-9M16 7l3 3" />
+    </>
+  ),
+  enviar: <path d="M5 12h14M13 6l6 6-6 6" />,
+  papelera: <path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" />,
+  reloj: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M12 7.5V12l3 2" />
+    </>
+  ),
   muslo: (
     <>
       <path d="M14.5 4.5a4.5 4.5 0 1 1 5 5l-6.2 6.2a2.6 2.6 0 1 1-3.7-3.7z" />

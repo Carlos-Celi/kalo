@@ -49,6 +49,9 @@ Deben aparecer las seis cabeceras y un `200` (la ruta la resuelve la SPA). Despu
 
 Si se cambia la CSP aquí, hay que cambiarla también en `web/nginx.conf`, que la replica para la vista previa local.
 
+## 4. Recordatorios por correo (opcional)
+Requiere desplegar una Edge Function, programarla con `pg_cron` y una cuenta de Resend. Pasos completos en [recordatorios-por-correo.md](recordatorios-por-correo.md). Sin ellos, los recordatorios siguen funcionando como notificaciones del navegador.
+
 ## Notas
 - Con un dominio propio para Supabase, añade ese dominio a `connect-src` en `vercel.json`.
 - En las vistas previas, la barra de herramientas de Vercel puede quedar bloqueada por la CSP; es lo esperado y no afecta a la app.

@@ -30,16 +30,16 @@ function AnilloMeta({ nombre, unidad, etiquetaAccesible, avance, mensaje, claseT
         <span className="text-[22px] leading-none font-extrabold lg:text-[28px]">
           {porcentaje(avance)}%
         </span>
-        <span className="text-xs font-semibold text-kalo-claro lg:text-[13px]">{nombre}</span>
+        <span className="text-xs font-semibold lg:text-[13px]">{nombre}</span>
       </ProgressRing>
       <div className="text-center">
         <div className="text-[15px] font-extrabold lg:text-[17px]">
           {formatoEntero(avance.valor)}{' '}
-          <span className="text-xs font-semibold text-kalo-claro lg:text-[13px]">
+          <span className="text-xs font-semibold lg:text-[13px]">
             / {formatoEntero(avance.meta)} {unidad}
           </span>
         </div>
-        <div className="text-xs font-medium text-kalo-claro lg:text-[13px]">{mensaje}</div>
+        <div className="text-xs font-medium lg:text-[13px]">{mensaje}</div>
       </div>
     </Link>
   )
@@ -56,10 +56,10 @@ export function MetasHoy({ calorias, proteina, className = '' }: Props) {
   return (
     <section
       aria-labelledby="metas-hoy"
-      className={`flex flex-col gap-3.5 rounded-tarjeta-lg bg-kalo p-[18px] text-white lg:p-6 ${className}`}
+      className={`sombra-destacada flex flex-col gap-3.5 rounded-tarjeta-lg bg-linear-to-br from-kalo to-brasa p-[18px] text-white lg:p-6 ${className}`}
     >
       <div className="flex items-center justify-between">
-        <h2 id="metas-hoy" className="text-[13px] font-bold text-kalo-claro lg:text-sm">
+        <h2 id="metas-hoy" className="text-[13px] font-bold lg:text-sm">
           Metas principales de hoy
         </h2>
         <Link

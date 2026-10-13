@@ -57,3 +57,20 @@ export function formatoDiaCorto(fecha: Date): string {
   const texto = diaCorto.format(fecha).slice(0, 2)
   return texto.charAt(0).toUpperCase() + texto.slice(1)
 }
+
+const unDecimalFijo = new Intl.NumberFormat(LOCALE, {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+  useGrouping: 'always',
+})
+
+/** 78 → "78,0" */
+export function formatoPeso(kg: number): string {
+  return unDecimalFijo.format(kg)
+}
+
+/** Número escrito por el usuario, con coma o punto decimal; NaN si no lo es. */
+export function numeroDeTexto(texto: string): number {
+  const limpio = texto.trim().replace(',', '.')
+  return limpio === '' || !/^\d+(\.\d+)?$/.test(limpio) ? Number.NaN : Number(limpio)
+}

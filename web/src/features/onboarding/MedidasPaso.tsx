@@ -70,6 +70,7 @@ export function MedidasPaso() {
         </Button>
       }
     >
+      <div className="grid gap-5 sm:grid-cols-2">
       <Deslizador
         id="estatura"
         etiqueta="Estatura"
@@ -86,6 +87,7 @@ export function MedidasPaso() {
         valor={borrador.pesoKg}
         onCambio={(pesoKg) => cambiar({ pesoKg })}
       />
+      </div>
       {indice !== null && (
         <Nota icono="pulso">
           Tu IMC estimado es {formatoDecimal(indice)}. Lo usamos solo como referencia.

@@ -1,4 +1,5 @@
 import { useOutletContext } from 'react-router'
+import { numeroDeTexto } from '../../domain/formato'
 import {
   validarEdad,
   validarNombre,
@@ -70,10 +71,7 @@ export function textoDePeso(kg: number): string {
 }
 
 /** Acepta coma o punto decimal; NaN si no es un número. */
-export function aNumero(texto: string): number {
-  const limpio = texto.trim().replace(',', '.')
-  return limpio === '' ? Number.NaN : Number(limpio)
-}
+export const aNumero = numeroDeTexto
 
 export function pasoPerfilCompleto(b: Borrador): boolean {
   return !validarNombre(b.nombre) && !validarEdad(aNumero(b.edad)) && b.sexo !== null

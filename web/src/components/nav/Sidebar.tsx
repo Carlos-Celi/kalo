@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router'
 import { rutas } from '../../app/rutas'
+import { usePerfil } from '../../features/perfil/contexto'
 import { Button } from '../ui/Button'
 import { Icon } from '../ui/Icon'
 import { MascotAvatar } from '../ui/MascotAvatar'
@@ -19,7 +20,7 @@ function Entrada({ ruta, etiqueta, icono, exacta }: EntradaNav) {
         className={({ isActive }) =>
           `flex h-12 items-center gap-3 rounded-2xl px-3.5 text-[15px] no-underline ${
             isActive
-              ? 'bg-crema font-extrabold text-kalo'
+              ? 'bg-crema font-extrabold text-kalo-oscuro'
               : 'font-semibold text-tinta-2 hover:bg-crema-suave'
           }`
         }
@@ -33,6 +34,8 @@ function Entrada({ ruta, etiqueta, icono, exacta }: EntradaNav) {
 
 /** Navegación lateral de la vista de escritorio (sustituye al tab bar). */
 export function Sidebar({ className = '' }: { className?: string }) {
+  const { perfil } = usePerfil()
+  const nombre = perfil.plan?.datos.nombre ?? perfil.nombre
   return (
     <nav
       aria-label="Navegación principal"
@@ -63,6 +66,24 @@ export function Sidebar({ className = '' }: { className?: string }) {
           <Entrada key={entrada.ruta} {...entrada} />
         ))}
       </ul>
+
+      {nombre && (
+        <Link
+          to={rutas.ajustesPerfil}
+          className="flex items-center gap-3 rounded-2xl bg-crema-suave px-3 py-2.5 text-tinta no-underline hover:bg-crema"
+        >
+          <span
+            aria-hidden="true"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-kalo text-sm font-extrabold text-white"
+          >
+            {nombre.charAt(0).toUpperCase()}
+          </span>
+          <span className="flex min-w-0 flex-col">
+            <span className="truncate text-sm font-extrabold">{nombre}</span>
+            <span className="text-xs font-medium text-tinta-3">Ver mi perfil</span>
+          </span>
+        </Link>
+      )}
     </nav>
   )
 }

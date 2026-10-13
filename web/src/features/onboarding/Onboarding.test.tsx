@@ -97,7 +97,12 @@ describe('Onboarding', () => {
     expect(within(principales).getByText('1.900')).toBeVisible()
     expect(screen.getByText('2,25 L')).toBeVisible()
 
-    await pulsar('Guardar y empezar')
+    await pulsar('Guardar y continuar')
+
+    // Tras el plan se ofrece conectar la IA, y se puede dejar para después.
+    expect(await screen.findByRole('heading', { name: 'Conecta tu IA' })).toBeVisible()
+    expect(router.state.location.pathname).toBe('/bienvenida/ia')
+    await pulsar('Configurarla más tarde')
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Hola, Lucía' })).toBeVisible()
     expect(router.state.location.pathname).toBe('/')
@@ -124,11 +129,12 @@ describe('Onboarding', () => {
     })
   })
 
-  it('con plan, se puede rehacer desde Configuración con los datos actuales', async () => {
-    abrir('/ajustes')
+  it('con plan, editar el perfil desde Configuración abre su propia pantalla con los datos actuales', async () => {
+    const router = abrir('/ajustes')
 
-    await userEvent.click(await screen.findByRole('link', { name: 'Rehacer mi plan' }))
+    await userEvent.click(await screen.findByRole('link', { name: 'Editar perfil' }))
 
+    expect(router.state.location.pathname).toBe('/ajustes/perfil')
     expect(await screen.findByLabelText('Nombre')).toHaveValue('Carlos')
     expect(screen.getByLabelText('Edad')).toHaveValue('30')
     expect(screen.getByRole('button', { name: /Masculino/ })).toHaveAttribute('aria-pressed', 'true')

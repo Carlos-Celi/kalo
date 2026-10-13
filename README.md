@@ -11,7 +11,7 @@ App de nutrición y hábitos con IA: registro de comida (foto + IA o manual), ag
 | `docs/` | Documentación de avance y técnica |
 | `supabase/` | Configuración local y migraciones del esquema |
 | `design/` | Diseño de referencia: un HTML por pantalla (`*.dc.html`) |
-| `assets/` | Mascota/logo (`kalo-mascot.png`) |
+| `assets/` | Mascota/logo (`Kalo.png` sin fondo, `kalo-mascot-b.png` ícono a sangre, `kalo-mascot.png` original) |
 | `CLAUDE.md` | Especificación: identidad, pantallas, reglas de dominio, IA |
 
 ## Web en local (Docker)

@@ -1,11 +1,20 @@
 import { createBrowserRouter, Outlet, type RouteObject } from 'react-router'
 import { AjustesPage } from '../features/ajustes/AjustesPage'
+import { MedidasAjustePage } from '../features/ajustes/MedidasAjustePage'
+import { MetasAjustePage } from '../features/ajustes/MetasAjustePage'
+import { ObjetivoAjustePage } from '../features/ajustes/ObjetivoAjustePage'
+import { PerfilAjustePage } from '../features/ajustes/PerfilAjustePage'
 import { AuthProvider } from '../features/auth/AuthProvider'
 import { LoginPage } from '../features/auth/LoginPage'
 import { RestablecerPage } from '../features/auth/RestablecerPage'
 import { RutaProtegida } from '../features/auth/RutaProtegida'
+import { AnalisisPage } from '../features/ia/AnalisisPage'
+import { AsistentePage } from '../features/ia/AsistentePage'
+import { CamaraPage } from '../features/ia/CamaraPage'
+import { ProveedorIAPage } from '../features/ia/ProveedorIAPage'
 import { InicioPage } from '../features/inicio/InicioPage'
 import { HabitosPaso } from '../features/onboarding/HabitosPaso'
+import { IAPaso } from '../features/onboarding/IAPaso'
 import { MedidasPaso } from '../features/onboarding/MedidasPaso'
 import { ObjetivosPaso } from '../features/onboarding/ObjetivosPaso'
 import { OnboardingLayout } from '../features/onboarding/OnboardingLayout'
@@ -13,8 +22,16 @@ import { PerfilPaso } from '../features/onboarding/PerfilPaso'
 import { PlanPaso } from '../features/onboarding/PlanPaso'
 import { PantallaPendiente } from '../features/pendiente/PantallaPendiente'
 import { PerfilProvider } from '../features/perfil/PerfilProvider'
+import { PesoPage } from '../features/peso/PesoPage'
+import { ProgresoPage } from '../features/progreso/ProgresoPage'
+import { AvisosRecordatorios } from '../features/recordatorios/AvisosRecordatorios'
+import { RecordatoriosPage } from '../features/recordatorios/RecordatoriosPage'
+import { ComidaFormPage } from '../features/registros/ComidaFormPage'
+import { RegistroRapidoPage } from '../features/registros/RegistroRapidoPage'
+import { RegistrosPage } from '../features/registros/RegistrosPage'
 import { RequierePlan } from '../features/perfil/RequierePlan'
-import { AppShell } from './AppShell'
+import { AppShell, type ManejadorDeRuta } from './AppShell'
+import { PantallaError } from './PantallaError'
 import { rutas } from './rutas'
 
 const pantallasConNavegacion: RouteObject[] = [
@@ -26,49 +43,53 @@ const pantallasConNavegacion: RouteObject[] = [
     ),
     children: [
       { path: rutas.inicio, element: <InicioPage /> },
+      { path: rutas.registros, element: <RegistrosPage seccion="comida" /> },
+      { path: rutas.registrosAgua, element: <RegistrosPage seccion="agua" /> },
+      { path: rutas.registrosEjercicio, element: <RegistrosPage seccion="ejercicio" /> },
+      { path: rutas.registrosSueno, element: <RegistrosPage seccion="sueno" /> },
       {
-        path: rutas.registros,
-        element: <PantallaPendiente titulo="Registros" referencia="Registros.dc.html" />,
-      },
-      {
-        path: rutas.registrosAgua,
-        element: <PantallaPendiente titulo="Registros · Agua" referencia="RegistrosAgua.dc.html" />,
-      },
-      {
-        path: rutas.registrosEjercicio,
+        // La hoja se abre sobre Inicio, como en el diseño.
+        path: rutas.registroRapido,
         element: (
-          <PantallaPendiente titulo="Registros · Ejercicio" referencia="RegistrosEjercicio.dc.html" />
+          <>
+            <InicioPage />
+            <RegistroRapidoPage />
+          </>
         ),
       },
       {
-        path: rutas.registrosSueno,
-        element: <PantallaPendiente titulo="Registros · Sueño" referencia="RegistrosSueno.dc.html" />,
-      },
-      {
-        path: rutas.camara,
-        element: <PantallaPendiente titulo="Foto con IA" referencia="Camara.dc.html" />,
-      },
-      {
-        path: rutas.registroRapido,
-        element: <PantallaPendiente titulo="Registro rápido" referencia="Mas.dc.html" />,
-      },
-      {
         path: rutas.asistente,
-        element: <PantallaPendiente titulo="Asistente" referencia="Asistente.dc.html" />,
+        element: <AsistentePage />,
+        handle: { pantallaCompleta: true } satisfies ManejadorDeRuta,
       },
-      {
-        path: rutas.progreso,
-        element: <PantallaPendiente titulo="Progreso" referencia="Progreso.dc.html" />,
-      },
-      {
-        path: rutas.recordatorios,
-        element: <PantallaPendiente titulo="Recordatorios" referencia="Recordatorios.dc.html" />,
-      },
+      { path: rutas.progreso, element: <ProgresoPage /> },
+      { path: rutas.recordatorios, element: <RecordatoriosPage /> },
       { path: rutas.ajustes, element: <AjustesPage /> },
+      { path: rutas.ajustesPerfil, element: <PerfilAjustePage /> },
+      { path: rutas.ajustesMedidas, element: <MedidasAjustePage /> },
+      { path: rutas.ajustesObjetivo, element: <ObjetivoAjustePage /> },
+      { path: rutas.ajustesMetas, element: <MetasAjustePage /> },
       { path: '*', element: <PantallaPendiente titulo="Página no encontrada" /> },
     ],
   },
 ]
+
+/** Pantallas de un solo propósito, a pantalla completa y sin tab bar. */
+const flujos: RouteObject = {
+  element: (
+    <RequierePlan>
+      <Outlet />
+    </RequierePlan>
+  ),
+  children: [
+    { path: rutas.comidaManual, element: <ComidaFormPage /> },
+    { path: rutas.comidaEditar, element: <ComidaFormPage /> },
+    { path: rutas.peso, element: <PesoPage /> },
+    { path: rutas.camara, element: <CamaraPage /> },
+    { path: rutas.analisis, element: <AnalisisPage /> },
+    { path: rutas.proveedorIA, element: <ProveedorIAPage /> },
+  ],
+}
 
 const onboarding: RouteObject = {
   path: rutas.bienvenida,
@@ -79,6 +100,7 @@ const onboarding: RouteObject = {
     { path: rutas.bienvenidaObjetivos, element: <ObjetivosPaso /> },
     { path: rutas.bienvenidaHabitos, element: <HabitosPaso /> },
     { path: rutas.bienvenidaPlan, element: <PlanPaso /> },
+    { path: rutas.bienvenidaIA, element: <IAPaso /> },
   ],
 }
 
@@ -88,11 +110,12 @@ const rutasDeLaApp: RouteObject[] = [
     element: (
       <RutaProtegida>
         <PerfilProvider>
+          <AvisosRecordatorios />
           <Outlet />
         </PerfilProvider>
       </RutaProtegida>
     ),
-    children: [onboarding, ...pantallasConNavegacion],
+    children: [onboarding, flujos, ...pantallasConNavegacion],
   },
   { path: rutas.login, element: <LoginPage /> },
   { path: rutas.restablecer, element: <RestablecerPage /> },
@@ -101,6 +124,7 @@ const rutasDeLaApp: RouteObject[] = [
 /** Todas las rutas cuelgan del proveedor de sesión. */
 export const definicionRutas: RouteObject[] = [
   {
+    errorElement: <PantallaError />,
     element: (
       <AuthProvider>
         <Outlet />

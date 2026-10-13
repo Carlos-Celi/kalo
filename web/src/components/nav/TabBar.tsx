@@ -10,7 +10,7 @@ function Pestana({ ruta, etiqueta, icono, exacta }: EntradaNav) {
       end={exacta}
       className={({ isActive }) =>
         `mx-0.5 flex h-[52px] flex-col items-center justify-center gap-[3px] rounded-2xl text-xs no-underline ${
-          isActive ? 'bg-crema font-extrabold text-kalo' : 'font-medium text-tinta-3'
+          isActive ? 'bg-crema font-extrabold text-kalo-oscuro' : 'font-medium text-tinta-3'
         }`
       }
     >
@@ -26,7 +26,7 @@ export function TabBar({ className = '' }: { className?: string }) {
   return (
     <nav
       aria-label="Navegación principal"
-      className={`fixed inset-x-0 bottom-0 z-20 border-t border-borde bg-white ${className}`}
+      className={`fixed inset-x-0 bottom-0 z-20 border-t border-borde bg-white/92 backdrop-blur-md ${className}`}
     >
       <div className="mx-auto grid max-w-[480px] grid-cols-5 items-center px-1.5 pt-1 pb-[max(8px,env(safe-area-inset-bottom))]">
         <Pestana {...inicio} />

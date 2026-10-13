@@ -38,8 +38,8 @@ export function MarcoOnboarding({
   }
 
   return (
-    <div className="min-h-dvh lg:flex lg:items-center lg:justify-center lg:bg-crema-suave lg:p-10">
-      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-5 bg-white px-5 pt-[max(20px,env(safe-area-inset-top))] pb-8 lg:min-h-[720px] lg:rounded-[28px] lg:border lg:border-borde lg:p-10">
+    <div className="min-h-dvh bg-white sm:flex sm:items-center sm:justify-center sm:bg-crema-suave sm:p-8 lg:p-10">
+      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-5 bg-white px-5 pt-[max(20px,env(safe-area-inset-top))] pb-8 sm:min-h-[640px] sm:max-w-[780px] sm:rounded-[28px] sm:border sm:border-borde sm:p-10 sm:shadow-[0_12px_40px_-16px_rgba(120,60,30,0.25)]">
         <div className="flex items-center gap-3.5">
           {typeof volver === 'string' ? (
             <Link to={volver} aria-label="Volver" className={claseVolver}>
@@ -91,7 +91,7 @@ export function MarcoOnboarding({
 
         <form noValidate onSubmit={enviar} className="flex grow flex-col gap-5">
           {children}
-          <div className="mt-auto flex flex-col gap-3 pt-2">{pie}</div>
+          <div className="mt-auto flex flex-col gap-3 pt-2 sm:ml-auto sm:w-full sm:max-w-[340px]">{pie}</div>
         </form>
       </main>
     </div>

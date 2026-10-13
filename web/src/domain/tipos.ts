@@ -8,9 +8,13 @@ export type Habito = 'agua' | 'ejercicio' | 'sueno' | 'comidas'
 
 export type EstadoAnillo = 'vacio' | 'parcial' | 'cumplido' | 'excedido'
 
-export interface CaloriasDia {
+/** Lo que se registró un día de la semana, para la gráfica de Inicio. */
+export interface DiaDeLaSemana {
   fecha: Date
   kcal: number
+  proteinaG: number
+  /** Litros. */
+  aguaL: number
 }
 
 export interface SiguientePaso {
@@ -36,5 +40,5 @@ export interface ResumenInicio {
   comidas: Avance
   siguientePaso: SiguientePaso
   /** Siete días en orden cronológico; el último es hoy. */
-  caloriasSemana: CaloriasDia[]
+  semana: DiaDeLaSemana[]
 }

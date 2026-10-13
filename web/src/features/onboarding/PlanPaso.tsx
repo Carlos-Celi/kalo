@@ -14,6 +14,7 @@ import {
   PASOS,
   resumenDelPlan,
 } from '../../domain/plan'
+import { useConfigIA } from '../ia/config'
 import { usePerfil } from '../perfil/contexto'
 import { aDatos, useOnboarding } from './borrador'
 import { MarcoOnboarding } from './MarcoOnboarding'
@@ -102,12 +103,21 @@ const claseSeccion = 'text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase'
 /** Plan generado, con las metas ajustables (design/Metas.dc.html). */
 export function PlanPaso() {
   useTitulo('Tu plan')
-  const { borrador } = useOnboarding()
-  const { guardarPlan } = usePerfil()
+  const { borrador, rehaciendo } = useOnboarding()
   const navegar = useNavigate()
+  const { config } = useConfigIA()
+  // La primera vez, tras el plan se ofrece conectar la IA; se puede dejar para después.
+  const conectarIA = !rehaciendo && config === null
 
   const base = aDatos(borrador)
-  const [metas, setMetas] = useState<Metas | null>(() => (base ? calcularMetas(base) : null))
+  const { perfil, guardarPlan } = usePerfil()
+  const [metas, setMetas] = useState<Metas | null>(() => {
+    if (!base) return null
+    // Si se llega desde Configuración sin cambiar las respuestas, se parte de las metas ya ajustadas.
+    const guardado = perfil.plan
+    const sinCambios = guardado && JSON.stringify(guardado.datos) === JSON.stringify(base)
+    return sinCambios ? guardado.metas : calcularMetas(base)
+  })
   const [pesoMetaKg, setPesoMetaKg] = useState(base?.pesoMetaKg ?? 0)
   const [guardando, setGuardando] = useState(false)
   const [fallo, setFallo] = useState(false)
@@ -131,7 +141,7 @@ export function PlanPaso() {
     setFallo(false)
     try {
       await guardarPlan({ datos, metas })
-      void navegar(rutas.inicio, { replace: true })
+      void navegar(conectarIA ? rutas.bienvenidaIA : rutas.inicio, { replace: true })
     } catch {
       setFallo(true)
       setGuardando(false)
@@ -154,7 +164,7 @@ export function PlanPaso() {
             </p>
           )}
           <Button type="submit" tamano="xl" disabled={guardando}>
-            {guardando ? 'Guardando…' : 'Guardar y empezar'}
+            {guardando ? 'Guardando…' : conectarIA ? 'Guardar y continuar' : 'Guardar y empezar'}
           </Button>
         </>
       }
@@ -165,13 +175,14 @@ export function PlanPaso() {
           Sugerido para ti
         </div>
         <div className="text-[21px] font-extrabold tracking-[-0.4px]">{resumen.titulo}</div>
-        <div className="text-[13px] font-medium text-kalo-claro">{resumen.detalle}</div>
+        <div className="text-[13px] font-semibold">{resumen.detalle}</div>
       </div>
 
       <section aria-labelledby="metas-principales" className="flex flex-col gap-2.5">
         <h2 id="metas-principales" className={claseSeccion}>
           Metas principales · ajústalas
         </h2>
+        <div className="grid gap-2.5 sm:grid-cols-2">
         <MetaPrincipal
           nombre="Calorías"
           icono="llama"
@@ -190,13 +201,14 @@ export function PlanPaso() {
           onMenos={() => mover('proteinaG', -1, LIMITES.proteinaG)}
           onMas={() => mover('proteinaG', 1, LIMITES.proteinaG)}
         />
+        </div>
       </section>
 
       <section aria-labelledby="otras-metas" className="flex flex-col gap-2.5">
         <h2 id="otras-metas" className={claseSeccion}>
           Otras metas
         </h2>
-        <div className="rounded-tarjeta border border-borde px-3">
+        <div className="grid rounded-tarjeta border border-borde px-3 sm:grid-cols-2 sm:gap-x-8">
           <OtraMeta
             nombre="Agua"
             valor={`${formatoDecimal(metas.aguaL, 2)} L`}

@@ -27,7 +27,7 @@ Definidas en `web/vercel.json` para el despliegue y replicadas en `web/nginx.con
 
 | Cabecera | Valor | Protege de |
 |---|---|---|
-| `Content-Security-Policy` | `default-src 'self'`; estilos y fuentes solo del propio origen; scripts propios y el de Turnstile; conexiones solo al propio origen y a Supabase; marcos solo de Turnstile; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'` | XSS, exfiltración de datos, clickjacking |
+| `Content-Security-Policy` | `default-src 'self'`; estilos y fuentes solo del propio origen; scripts propios y el de Turnstile; conexiones solo al propio origen, a Supabase y a los tres proveedores de IA; marcos solo de Turnstile; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'` | XSS, exfiltración de datos, clickjacking |
 | `Strict-Transport-Security` | dos años, con subdominios | Degradación a http |
 | `X-Content-Type-Options` | `nosniff` | Interpretación errónea de tipos |
 | `X-Frame-Options` | `DENY` | Clickjacking en navegadores antiguos |
@@ -35,7 +35,7 @@ Definidas en `web/vercel.json` para el despliegue y replicadas en `web/nginx.con
 | `Permissions-Policy` | cámara solo para el propio origen; micrófono, ubicación y pagos desactivados | Abuso de APIs del dispositivo |
 | `Cross-Origin-Opener-Policy` | `same-origin` | Ataques entre ventanas |
 
-Para que la CSP no necesite `'unsafe-inline'` ni `data:`: la fuente se autoaloja, el build no incrusta recursos (`assetsInlineLimit: 0`) y no hay scripts ni estilos en línea. `connect-src` solo se amplía de forma explícita: hoy a Supabase; más adelante a los proveedores de IA.
+Para que la CSP no necesite `'unsafe-inline'` ni `data:`: la fuente se autoaloja, el build no incrusta recursos (`assetsInlineLimit: 0`) y no hay scripts ni estilos en línea. `connect-src` solo se amplía de forma explícita: Supabase y los tres proveedores de IA. La foto analizada se pinta en un `<canvas>`, así que `img-src` no necesita `data:`.
 
 ## 3. Código
 
@@ -45,7 +45,7 @@ Para que la CSP no necesite `'unsafe-inline'` ni `data:`: la fuente se autoaloja
 | Sin `dangerouslySetInnerHTML`, `eval` ni HTML construido con texto del usuario (React escapa por defecto) | ✅ |
 | Rutas internas como constantes; ningún redireccionamiento a URLs tomadas de parámetros | ✅ |
 | Sin mapas de código fuente en producción | ✅ |
-| Validación de la entrada en cliente y de nuevo en servidor (restricciones `check` y RLS en la base de datos) | ✅ login, perfil y onboarding |
+| Validación de la entrada en cliente y de nuevo en servidor (restricciones `check` y RLS en la base de datos) | ✅ login, perfil, onboarding y registros |
 | Nada sensible en `console.log`, URLs ni mensajes de error | ✅ norma vigente |
 
 ## 4. Dependencias y contenedores
@@ -76,14 +76,32 @@ Se delega en Supabase Auth; no se implementa criptografía propia ni se guardan 
 
 La seguridad no depende del cliente: la clave pública de Supabase la puede usar cualquiera, por eso las reglas de acceso están en la base de datos.
 
-## 6. API keys de proveedores de IA (⏳ entrega de IA)
+## 6. API keys de proveedores de IA
 
-La especificación exige que la API key del usuario no pase por servidores propios. En un navegador no existe un almacén seguro equivalente al del móvil, así que la política será:
+La especificación exige que la API key del usuario no pase por servidores propios. En un navegador no existe un almacén seguro equivalente al del móvil, así que la política es ([ADR 0005](decisiones/0005-ia-desde-el-navegador.md)):
 
-- La key se guarda solo en el dispositivo, cifrada con WebCrypto usando una clave no extraíble, en IndexedDB. Nunca en `localStorage`, en la URL ni en Supabase.
-- Las llamadas van directas del navegador al proveedor elegido; la CSP solo permite conectar con los dominios de esos proveedores.
-- La key nunca aparece en registros, mensajes de error ni analíticas, y el campo se muestra oculto por defecto.
-- Límite conocido: un XSS en la página podría usar la key mientras la sesión está abierta. Por eso la CSP estricta y la ausencia de scripts de terceros son parte de este control, y se recomendará al usuario una key con límite de gasto.
+| Control | Estado |
+|---|---|
+| La key se guarda solo en el dispositivo, cifrada con AES-GCM usando una `CryptoKey` **no extraíble**, en IndexedDB (`web/src/features/ia/boveda.ts`). Nunca en `localStorage`, en la URL ni en Supabase | ✅ comprobado en el navegador: la clave de cifrado no es extraíble y el valor guardado no contiene el texto en claro |
+| Las llamadas van directas del navegador al proveedor elegido; `connect-src` solo permite `api.anthropic.com`, `api.openai.com` y `generativelanguage.googleapis.com` además de Supabase | ✅ |
+| La key nunca aparece en registros ni en mensajes de error (los clientes devuelven un motivo propio, no el texto del proveedor), y el campo se muestra oculto por defecto | ✅ |
+| Las peticiones a los proveedores van sin credenciales del sitio ni cabecera `Referer`; la key de Google va en una cabecera, no en la URL | ✅ |
+| La respuesta de la IA se trata como datos: se valida contra un esquema, se acota a los límites de un registro y se pinta como texto (React escapa por defecto) | ✅ |
+| La foto se envía solo al proveedor elegido, reducida. Solo si la persona lo deja activado se guarda además una miniatura WebP ultracomprimida en `comidas.foto` (RLS por usuario, formato y tamaño validados por la base de datos); se puede quitar en cualquier momento ([ADR 0008](decisiones/0008-fotos-de-comida-ultracomprimidas.md)) | ✅ probado contra la base local |
+
+Límite conocido: un XSS en la página podría usar la key mientras la sesión está abierta. Por eso la CSP estricta y la ausencia de scripts de terceros son parte de este control; conviene usar una key con límite de gasto.
+
+Los chats del asistente se guardan en `localStorage` por usuario (`kalo:chats:<id>`, los 3 más recientes) y nunca viajan a Supabase; sí se envían al proveedor de IA elegido junto con los registros que el asistente necesita para responder ([ADR 0007](decisiones/0007-asistente-con-datos-completos-y-chats-locales.md)). Cerrar sesión no borra los chats del dispositivo: quien comparta navegador puede verlos, igual que la configuración de IA.
+
+### Recordatorios y correo
+
+| Control | Estado |
+|---|---|
+| Los recordatorios (nombre y horas, sin datos de salud) están en `public.recordatorios` con RLS: cada usuario solo ve y modifica los suyos | ✅ migración `20261014010000` |
+| `avisos_enviados` tiene RLS sin políticas ni permisos: solo la función, con la clave de servicio, la usa | ✅ |
+| La Edge Function se protege con un secreto compartido (`x-cron-secret`, comparado en tiempo constante) porque lleva `verify_jwt = false`; sin él responde 401 | ✅ en código · sin probar desplegada |
+| `RESEND_API_KEY`, `CRON_SECRET` y el remitente son secretos de Supabase, nunca están en git ni en `VITE_*` | ✅ ([guía](recordatorios-por-correo.md)) |
+| El correo no incluye cifras de salud, solo el aviso y un enlace; el texto de los recordatorios propios se escapa en el HTML | ✅ probado |
 
 ## 7. Avisos de producto
 El asistente y las estimaciones de la IA no sustituyen el consejo médico; el aviso forma parte de la interfaz.

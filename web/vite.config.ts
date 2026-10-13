@@ -18,6 +18,11 @@ export default defineConfig({
     port: 4173,
     strictPort: true,
   },
+  // Se preparan al arrancar: el SDK de IA se carga bajo demanda y, si Vite lo
+  // descubriera a mitad de sesión, recargaría la página en plena configuración.
+  optimizeDeps: {
+    include: ['@anthropic-ai/sdk', '@anthropic-ai/sdk/helpers/zod', 'zod'],
+  },
   build: {
     sourcemap: false,
     // Nada incrustado como data: URI, para que la CSP pueda exigir 'self'.
@@ -27,6 +32,9 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: false,
+    // Cada prueba monta la app completa y varias corren a la vez: un margen
+    // evita falsos fallos por carga de la máquina.
+    testTimeout: 20_000,
     // Las pruebas no dependen del .env.local de cada quien: sin Supabase.
     env: {
       VITE_SUPABASE_URL: '',

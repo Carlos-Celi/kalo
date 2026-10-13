@@ -1,8 +1,11 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createMemoryRouter, RouterProvider } from 'react-router'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { definicionRutas } from '../../app/router'
+import { restablecerRegistrosMock } from '../../data/mock'
+
+afterEach(() => restablecerRegistrosMock())
 
 function abrir(ruta = '/') {
   const router = createMemoryRouter(definicionRutas, { initialEntries: [ruta] })
@@ -32,6 +35,22 @@ describe('Inicio', () => {
     expect(within(habitos).getByText('Faltan 25 min')).toBeVisible()
     expect(within(habitos).getByText('Casi: falta 1 h 15')).toBeVisible()
     expect(within(habitos).getByText('Faltan 2 por registrar')).toBeVisible()
+  })
+
+  it('suma un vaso de agua desde Inicio y lo deshace', async () => {
+    abrir()
+    const habitos = await screen.findByRole('region', { name: 'Hábitos de hoy' })
+    expect(within(habitos).queryByRole('button', { name: 'Deshacer' })).not.toBeInTheDocument()
+
+    await userEvent.click(within(habitos).getByRole('button', { name: '+250 ml' }))
+
+    expect(await within(habitos).findByRole('button', { name: 'Deshacer' })).toBeVisible()
+    expect(within(habitos).queryByText('1,6 / 2,5 L')).not.toBeInTheDocument()
+
+    await userEvent.click(within(habitos).getByRole('button', { name: 'Deshacer' }))
+
+    expect(await within(habitos).findByText('1,6 / 2,5 L')).toBeVisible()
+    expect(within(habitos).queryByRole('button', { name: 'Deshacer' })).not.toBeInTheDocument()
   })
 
   it('navega a otra sección desde la navegación principal', async () => {

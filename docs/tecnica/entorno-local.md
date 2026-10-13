@@ -83,6 +83,7 @@ Se cargan al crear la base de datos (`supabase start` la primera vez) y cada vez
 - **Aviso "Modo demostración" y campos deshabilitados:** la web no tiene configurado Supabase. Falta `web/.env.local` o no se reinició el servicio `web` después de crearlo.
 - **"Demasiados intentos":** se superaron los 30 registros o inicios de sesión en 5 minutos desde la misma IP. Espera o usa la cuenta de prueba. (El límite de 2 correos por hora de `config.toml` solo aplica con un SMTP propio; con la bandeja de pruebas no se alcanza.)
 - **"No pudimos completar la operación":** Supabase no está levantado (`supabase status`).
+- **Inicio dice "No pudimos cargar tu resumen" o el asistente "No pudimos completar la petición" tras actualizar el código:** la base local no tiene las migraciones nuevas (la web consulta tablas y columnas que aún no existen). Aplícalas con `supabase migration up` (o `supabase db reset` si no te importan los datos locales) y recarga.
 - **La cuenta se crea pero no deja entrar:** falta confirmar el correo desde la bandeja de pruebas, en el mismo navegador que hizo el registro.
 
 | Necesito… | Comando |

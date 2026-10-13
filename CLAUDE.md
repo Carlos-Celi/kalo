@@ -26,7 +26,7 @@ Eres el desarrollador de Kalo. La carpeta `design/` contiene el diseño de refer
 Registro de comida (foto + IA o manual), agua, ejercicio, sueño y peso. Dos metas principales: **calorías y proteína**. Asistente que actúa como nutriólogo. Recordatorios, gráficas de progreso, ajustes editables.
 
 ## Identidad
-- Nombre: **Kalo**. Mascota/logo: llama con lentes de sol (`assets/kalo-mascot.png`, ícono cuadrado con márgenes blancos; recortar con círculo para avatares).
+- Nombre: **Kalo**. Mascota/logo: llama con lentes de sol. `assets/Kalo.png` es la llama sin fondo (avatares circulares e ilustraciones); `assets/kalo-mascot-b.png` es el ícono cuadrado a sangre con esquinas redondeadas (logotipo, favicon, notificaciones); `assets/kalo-mascot.png` es el ícono original con márgenes blancos (conservado como fuente).
 - Tipografía: Plus Jakarta Sans (400–800).
 - Colores: primario `#D13D0A` (botones, activo) · llama `#F97316` · sol `#FFC933` (proteína) · brasa `#A92408`/`#9A2E06` · crema `#FFF0E3`, `#FFF8F2` · bordes `#F2E4DA` · texto `#2B1810` · texto secundario `#7A6458`/`#5A4337` · agua `#2F80D8` (`#1A5FA8` si lleva texto blanco) · ejercicio `#E8772E`/`#A04B12` · sueño `#7C2D12` · error/exceso `#B42318` · peso (tarjeta) `#FFF4CC`/`#8A5200`.
 - Accesibilidad: objetivos táctiles ≥44 px, texto ≥12 px, foco visible, etiquetas accesibles, no depender solo del color.
