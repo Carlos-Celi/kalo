@@ -1,0 +1,93 @@
+@import 'tailwindcss';
+
+/* Tokens de la identidad de Kalo (design/Main.dc.html y CLAUDE.md). */
+@theme {
+  --font-sans: 'Plus Jakarta Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-kalo: #d13d0a;
+  --color-kalo-oscuro: #9a2e06;
+  --color-kalo-claro: #ffe3cc;
+  --color-llama: #f97316;
+  --color-sol: #ffc933;
+  --color-brasa: #a92408;
+  --color-mascota: #f04a1a;
+
+  --color-crema: #fff0e3;
+  --color-crema-suave: #fff8f2;
+  --color-borde: #f2e4da;
+  --color-barra-suave: #ffd3ae;
+  --color-anillo-pista: #e5663a;
+
+  --color-tinta: #2b1810;
+  --color-tinta-2: #5a4337;
+  --color-tinta-3: #7a6458;
+  --color-marcador: #8c7a6e;
+
+  --color-agua: #2f80d8;
+  --color-agua-fuerte: #1a5fa8;
+  --color-agua-suave: #e6f0fb;
+  --color-ejercicio: #e8772e;
+  --color-ejercicio-fuerte: #a04b12;
+  --color-ejercicio-suave: #fdeee3;
+  --color-sueno: #7c2d12;
+  --color-sueno-suave: #f3e2d9;
+
+  --color-error: #b42318;
+  --color-peso-fondo: #fff4cc;
+  --color-peso-texto: #8a5200;
+  --color-media-fondo: #fff1dc;
+  --color-ia-fondo: #ffe6d2;
+
+  --radius-boton: 14px;
+  --radius-boton-sm: 12px;
+  --radius-tarjeta: 18px;
+  --radius-tarjeta-lg: 22px;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: #ffffff;
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+  }
+
+  a,
+  button {
+    transition:
+      transform 0.12s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  a:active,
+  button:active {
+    transform: scale(0.97);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 3px solid var(--color-llama);
+    outline-offset: 2px;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-marcador);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}

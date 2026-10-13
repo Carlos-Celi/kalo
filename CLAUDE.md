@@ -6,11 +6,19 @@ Eres el desarrollador de Kalo. La carpeta `design/` contiene el diseño de refer
 - `design/` — diseño de referencia (solo lectura). `assets/` — mascota/logo.
 - `mobile/` — app móvil en Flutter (iOS y Android).
 - `web/` — app web en React + Vite + TypeScript.
+- `docs/` — documentación: `avance/` (hoja de ruta y bitácora) y `tecnica/` (arquitectura, entorno local, seguridad, decisiones).
 
 ## Stack
 - Móvil: Flutter (Dart), en `mobile/`.
-- Web: React + Vite + TypeScript, en `web/`. Responsive: el diseño es de 390 px de ancho; en móvil se reproduce tal cual y en laptop se adapta el layout (no se estira la vista móvil).
+- Web: React + Vite + TypeScript + Tailwind, en `web/`. Responsive: el diseño es de 390 px de ancho; en móvil se reproduce tal cual y desde 1024 px se usa barra lateral y varias columnas (no se estira la vista móvil). Detalle en `docs/tecnica/arquitectura.md`.
 - Ambos clientes implementan las mismas pantallas, identidad y reglas de dominio de este documento.
+
+## Forma de trabajo
+- Idioma: español en código de dominio, commits y documentación.
+- Local con Docker: `docker compose up web` (desarrollo, puerto 5173) y `docker compose --profile preview up --build web-preview` (build de producción, puerto 8080). Ver `docs/tecnica/entorno-local.md`.
+- Antes de dar algo por terminado en `web/`: `npm run lint`, `npm run typecheck`, `npm test` y `npm run build`.
+- Cada entrega añade una entrada a `docs/avance/bitacora.md` y actualiza `docs/avance/hoja-de-ruta.md`. Las decisiones técnicas relevantes se registran como ADR en `docs/tecnica/decisiones/`.
+- Seguridad (`docs/tecnica/seguridad.md`): el repositorio es público. Ningún secreto en git ni en variables `VITE_*`; la configuración del despliegue personal (Vercel, Supabase) vive fuera del repositorio.
 
 ## Producto
 Registro de comida (foto + IA o manual), agua, ejercicio, sueño y peso. Dos metas principales: **calorías y proteína**. Asistente que actúa como nutriólogo. Recordatorios, gráficas de progreso, ajustes editables.

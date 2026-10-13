@@ -1,0 +1,38 @@
+# Entorno local de Kalo. Guía: docs/tecnica/entorno-local.md
+#
+#   docker compose up web                             desarrollo  → http://localhost:5173
+#   docker compose --profile preview up web-preview   producción  → http://localhost:8080
+#
+# Los puertos se publican solo en 127.0.0.1: no quedan expuestos en la red local.
+
+name: kalo
+
+services:
+  web:
+    build:
+      context: ./web
+      target: dev
+    ports:
+      - '127.0.0.1:5173:5173'
+    volumes:
+      - ./web:/app
+      # Las dependencias viven en el contenedor (binarios de Linux), no en el host.
+      - web_node_modules:/app/node_modules
+
+  web-preview:
+    profiles: [preview]
+    build:
+      context: ./web
+      target: preview
+    ports:
+      - '127.0.0.1:8080:8080'
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  web_node_modules:

@@ -1,7 +1,22 @@
+# Sistema y editores
 .DS_Store
-.env
-.env.*
-!.env.example
 .idea/
 .vscode/
 *.log
+
+# Secretos y configuración personal: nunca se suben
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+# Despliegue personal
+.vercel/
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+supabase/.env.*
