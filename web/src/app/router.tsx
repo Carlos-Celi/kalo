@@ -1,12 +1,21 @@
-import { createBrowserRouter, type RouteObject } from 'react-router'
+import { createBrowserRouter, Outlet, type RouteObject } from 'react-router'
+import { AjustesPage } from '../features/ajustes/AjustesPage'
+import { AuthProvider } from '../features/auth/AuthProvider'
+import { LoginPage } from '../features/auth/LoginPage'
+import { RestablecerPage } from '../features/auth/RestablecerPage'
+import { RutaProtegida } from '../features/auth/RutaProtegida'
 import { InicioPage } from '../features/inicio/InicioPage'
 import { PantallaPendiente } from '../features/pendiente/PantallaPendiente'
 import { AppShell } from './AppShell'
 import { rutas } from './rutas'
 
-export const definicionRutas: RouteObject[] = [
+const rutasDeLaApp: RouteObject[] = [
   {
-    element: <AppShell />,
+    element: (
+      <RutaProtegida>
+        <AppShell />
+      </RutaProtegida>
+    ),
     children: [
       { path: rutas.inicio, element: <InicioPage /> },
       {
@@ -47,20 +56,23 @@ export const definicionRutas: RouteObject[] = [
         path: rutas.recordatorios,
         element: <PantallaPendiente titulo="Recordatorios" referencia="Recordatorios.dc.html" />,
       },
-      {
-        path: rutas.ajustes,
-        element: <PantallaPendiente titulo="Configuración" referencia="Ajustes.dc.html" />,
-      },
+      { path: rutas.ajustes, element: <AjustesPage /> },
       { path: '*', element: <PantallaPendiente titulo="Página no encontrada" /> },
     ],
   },
+  { path: rutas.login, element: <LoginPage /> },
+  { path: rutas.restablecer, element: <RestablecerPage /> },
+]
+
+/** Todas las rutas cuelgan del proveedor de sesión. */
+export const definicionRutas: RouteObject[] = [
   {
-    path: rutas.login,
     element: (
-      <main className="mx-auto w-full max-w-[480px] px-4 py-10">
-        <PantallaPendiente titulo="Iniciar sesión" referencia="Login.dc.html" />
-      </main>
+      <AuthProvider>
+        <Outlet />
+      </AuthProvider>
     ),
+    children: rutasDeLaApp,
   },
 ]
 

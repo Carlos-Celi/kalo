@@ -7,6 +7,7 @@
 ## Técnica
 - [Arquitectura de la web](tecnica/arquitectura.md): estructura, capas y convenciones.
 - [Entorno local con Docker](tecnica/entorno-local.md): cómo levantar y probar la web.
+- [Despliegue](tecnica/despliegue.md): cómo configurar Vercel y Supabase sin dejar nada en git.
 - [Seguridad](tecnica/seguridad.md): amenazas consideradas y controles aplicados.
 - [Decisiones](tecnica/decisiones/): registro de decisiones de arquitectura (ADR).
 

@@ -51,7 +51,7 @@ export function InicioPage() {
         <MascotAvatar tamano={44} alt="Mascota de Kalo" className="lg:hidden" />
         <div className="flex min-w-0 grow flex-col gap-0.5">
           <h1 className="text-2xl font-extrabold tracking-[-0.5px] lg:text-[32px] lg:tracking-[-0.8px]">
-            Hola, {resumen.nombre}
+            {resumen.nombre ? `Hola, ${resumen.nombre}` : 'Hola'}
           </h1>
           <p className="text-[13px] font-medium text-tinta-3 lg:text-[15px]">
             {formatoFechaLarga(resumen.fecha)} · {mensajeDelDia(resumen.calorias)}

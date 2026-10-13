@@ -9,6 +9,7 @@ App de nutrición y hábitos con IA: registro de comida (foto + IA o manual), ag
 | `web/` | App web en React + Vite + TypeScript (laptop y móvil) |
 | `mobile/` | App móvil en Flutter (iOS y Android) |
 | `docs/` | Documentación de avance y técnica |
+| `supabase/` | Configuración local y migraciones del esquema |
 | `design/` | Diseño de referencia: un HTML por pantalla (`*.dc.html`) |
 | `assets/` | Mascota/logo (`kalo-mascot.png`) |
 | `CLAUDE.md` | Especificación: identidad, pantallas, reglas de dominio, IA |
@@ -38,7 +39,7 @@ flutter run
 ## Documentación
 
 - [Hoja de ruta](docs/avance/hoja-de-ruta.md) y [bitácora](docs/avance/bitacora.md)
-- [Arquitectura](docs/tecnica/arquitectura.md), [entorno local](docs/tecnica/entorno-local.md) y [seguridad](docs/tecnica/seguridad.md)
+- [Arquitectura](docs/tecnica/arquitectura.md), [entorno local](docs/tecnica/entorno-local.md), [despliegue](docs/tecnica/despliegue.md) y [seguridad](docs/tecnica/seguridad.md)
 
 ## Antes del primer commit
 

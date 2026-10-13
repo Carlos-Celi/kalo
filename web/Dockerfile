@@ -17,9 +17,18 @@ RUN npm ci
 FROM deps AS dev
 ENV KALO_DOCKER=1
 EXPOSE 5173
-CMD ["npm", "run", "dev"]
+# Sincroniza dependencias al arrancar: el volumen de node_modules sobrevive
+# a los cambios de package.json hechos desde el host.
+CMD ["sh", "-c", "npm install --no-audit --no-fund && npm run dev"]
 
 FROM deps AS build
+# Valores públicos por diseño (ver .env.example); vacíos = modo demostración.
+ARG VITE_SUPABASE_URL=""
+ARG VITE_SUPABASE_PUBLISHABLE_KEY=""
+ARG VITE_TURNSTILE_SITE_KEY=""
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL \
+    VITE_SUPABASE_PUBLISHABLE_KEY=$VITE_SUPABASE_PUBLISHABLE_KEY \
+    VITE_TURNSTILE_SITE_KEY=$VITE_TURNSTILE_SITE_KEY
 COPY --chown=node:node . .
 RUN npm run build
 

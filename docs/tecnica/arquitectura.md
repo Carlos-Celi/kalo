@@ -1,8 +1,8 @@
 # Arquitectura de la web
 
 ## Stack
-React 19 · Vite 8 · TypeScript 6 (estricto) · React Router · Tailwind CSS 4 · Vitest + Testing Library · oxlint.
-Motivos en [ADR 0001](decisiones/0001-stack-web.md).
+React 19 · Vite 8 · TypeScript 6 (estricto) · React Router · Tailwind CSS 4 · Supabase (Auth + Postgres) · Vitest + Testing Library · oxlint.
+Motivos en [ADR 0001](decisiones/0001-stack-web.md), [0002](decisiones/0002-datos-local-primero.md) y [0003](decisiones/0003-autenticacion.md).
 
 ## Estructura de `web/src`
 
@@ -14,7 +14,8 @@ components/
   nav/         TabBar (móvil) y Sidebar (escritorio)
 features/      una carpeta por pantalla o flujo (inicio/, pendiente/…)
 domain/        tipos, reglas de negocio y formato; sin React ni acceso a datos
-data/          interfaces de repositorio y sus implementaciones
+data/          interfaces de repositorio y sus implementaciones (mock, supabase)
+lib/           configuración y clientes externos (env, supabase)
 test/          configuración de pruebas
 ```
 
@@ -23,7 +24,10 @@ test/          configuración de pruebas
 `domain` no importa React ni `data`: sus reglas son funciones puras y se prueban solas.
 
 ### Datos
-Las pantallas no saben de dónde salen los datos: piden a un repositorio definido en `data/repositorios.ts`. `data/index.ts` es el único sitio donde se elige la implementación. Hoy es `mock.ts` (los datos de ejemplo del diseño); después será Supabase sin tocar las pantallas. Ver [ADR 0002](decisiones/0002-datos-local-primero.md).
+Las pantallas no saben de dónde salen los datos: piden a un repositorio definido en `data/repositorios.ts`. `data/index.ts` es el único sitio donde se elige la implementación: Supabase si está configurado, y si no `mock.ts` (los datos de ejemplo del diseño). Ver [ADR 0002](decisiones/0002-datos-local-primero.md).
+
+### Sesión
+`features/auth/AuthProvider` envuelve todas las rutas y expone el estado con `useAuth()`: `cargando`, `demo` (sin Supabase configurado), `anonimo` o `autenticado`. `RutaProtegida` redirige a `/login` cuando no hay sesión. Es solo navegación: quien protege los datos es RLS en la base de datos. Las llamadas a Supabase Auth están en `features/auth/acciones.ts`, que devuelve motivos de fallo propios en lugar de los mensajes del servidor.
 
 ## Diseño y tema
 - Los valores visuales vienen de `design/*.dc.html` y se expresan como tokens en `theme/global.css` (`bg-kalo`, `text-tinta-3`, `rounded-tarjeta`…). No se escriben colores hexadecimales sueltos en los componentes.

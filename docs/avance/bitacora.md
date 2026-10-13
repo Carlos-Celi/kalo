@@ -2,6 +2,32 @@
 
 Las entradas más recientes van arriba.
 
+## 2026-10-12 · Web, entrega 2: Vercel y Supabase
+
+**Hecho**
+- `web/vercel.json`: fallback de SPA, cabeceras de seguridad (CSP, HSTS y el resto) y caché de `/assets`. La CSP se replica en `web/nginx.conf` para la vista previa local.
+- `supabase/`: configuración local endurecida (confirmación de correo, contraseña mínima de 8, cambio de contraseña seguro) y primera migración: tabla `perfiles` con RLS, sin acceso anónimo, permisos por columna y disparador que crea el perfil al registrarse.
+- Cliente de Supabase con flujo PKCE y validación de la configuración al arrancar: la app se detiene si recibe una clave secreta.
+- **Login** según el diseño: iniciar sesión, crear cuenta y recuperar contraseña (`/login`, `/restablecer`), con rutas protegidas, cierre de sesión en Configuración, mensajes de error genéricos, freno progresivo de reintentos y CAPTCHA opcional con Turnstile.
+- Modo demostración: sin variables de Supabase la app funciona sin cuentas y con datos de ejemplo.
+- Inicio lee el nombre del perfil desde Supabase; el contenedor de desarrollo sincroniza dependencias al arrancar.
+- Documentación: guía de despliegue, ADR 0003 (autenticación) y seguridad actualizada.
+
+**Verificado (contra Supabase local)**
+- Lint, tipos, 37 pruebas y build en verde.
+- RLS con dos usuarios: cada uno ve y edita solo su perfil; insertar, borrar, cambiar el `id`, invocar la función `security definer` y leer como anónimo quedan denegados.
+- En el navegador: registro, correo de confirmación, inicio de sesión, error genérico con contraseña incorrecta, cierre de sesión, recuperación de contraseña y redirección a `/login` sin sesión.
+- Build de producción con Supabase detrás de nginx: sin infracciones de CSP.
+- CAPTCHA con las claves de prueba de Cloudflare: el servidor rechaza peticiones sin token y el inicio de sesión desde la app pasa.
+
+**Sin verificar**
+- El despliegue real: faltan los proyectos de Vercel y Supabase (pasos en `docs/tecnica/despliegue.md`).
+- El CAPTCHA bajo la CSP de producción y la protección de contraseñas filtradas (depende del plan de Supabase).
+
+**Pendiente / siguiente**
+- Crear los proyectos en Vercel y Supabase y comprobar el despliegue.
+- Entrega 3: onboarding (hasta entonces el saludo de Inicio no muestra nombre y los datos del día son de ejemplo).
+
 ## 2026-10-12 · Web, entrega 1: base local e Inicio
 
 **Hecho**

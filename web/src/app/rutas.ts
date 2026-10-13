@@ -11,4 +11,5 @@ export const rutas = {
   recordatorios: '/recordatorios',
   ajustes: '/ajustes',
   login: '/login',
+  restablecer: '/restablecer',
 } as const

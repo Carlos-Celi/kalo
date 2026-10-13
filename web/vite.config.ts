@@ -27,5 +27,11 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],
     css: false,
+    // Las pruebas no dependen del .env.local de cada quien: sin Supabase.
+    env: {
+      VITE_SUPABASE_URL: '',
+      VITE_SUPABASE_PUBLISHABLE_KEY: '',
+      VITE_TURNSTILE_SITE_KEY: '',
+    },
   },
 })

@@ -7,7 +7,7 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 | # | Entrega | Estado |
 |---|---|---|
 | 1 | Base local: Docker, documentación, tema, componentes, navegación e Inicio con datos de ejemplo | ✅ |
-| 2 | Despliegue en Vercel y Supabase: cabeceras, esquema con RLS y login real | ⏳ |
+| 2 | Vercel y Supabase: cabeceras de despliegue, esquema con RLS y login real | ✅ código · ⏳ crear los proyectos en Vercel y Supabase |
 | 3 | Onboarding: Perfil, Medidas, Objetivos, Hábitos, Metas | ⏳ |
 | 4 | Registros (Comida, Agua, Ejercicio, Sueño), Registro rápido y Peso, con persistencia | ⏳ |
 | 5 | Progreso (gráficas con datos reales), Recordatorios y Ajustes | ⏳ |
@@ -19,7 +19,7 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 | Pantalla | Diseño de referencia | Ruta | Estado |
 |---|---|---|---|
 | Inicio | `Inicio.dc.html` | `/` | ✅ datos de ejemplo |
-| Login | `Login.dc.html` | `/login` | ⏳ marcador |
+| Login (iniciar sesión, crear cuenta, recuperar contraseña) | `Login.dc.html` | `/login`, `/restablecer` | ✅ |
 | Perfil, Medidas, Objetivos, Hábitos, Metas | `Perfil`, `Medidas`, `Objetivos`, `Habitos`, `Metas` | — | ⏳ |
 | Registros | `Registros.dc.html` y variantes | `/registros`, `/registros/agua`, `/registros/ejercicio`, `/registros/sueno` | ⏳ marcador |
 | Foto con IA | `Camara.dc.html` | `/registros/comida/foto` | ⏳ marcador |
@@ -30,7 +30,7 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 | Proveedor de IA | `ProveedorIA.dc.html` | — | ⏳ |
 | Progreso | `Progreso.dc.html` | `/progreso` | ⏳ marcador |
 | Recordatorios | `Recordatorios.dc.html` | `/recordatorios` | ⏳ marcador |
-| Configuración | `Ajustes.dc.html` | `/ajustes` | ⏳ marcador |
+| Configuración | `Ajustes.dc.html` | `/ajustes` | 🚧 solo cuenta y cierre de sesión |
 
 "Marcador" significa que la ruta existe y es navegable, pero muestra una pantalla de "en construcción".
 

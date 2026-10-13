@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 import { Link } from 'react-router'
 
-type Variante = 'primario' | 'secundario'
-type Tamano = 'md' | 'lg'
+type Variante = 'primario' | 'secundario' | 'suave'
+type Tamano = 'md' | 'lg' | 'xl'
 
 const base =
   'inline-flex items-center justify-center px-4 font-bold no-underline disabled:opacity-50'
@@ -10,11 +10,13 @@ const base =
 const variantes: Record<Variante, string> = {
   primario: 'bg-kalo text-white hover:bg-kalo-oscuro',
   secundario: 'bg-white text-kalo-oscuro hover:bg-crema-suave',
+  suave: 'bg-crema text-kalo-oscuro hover:bg-kalo-claro',
 }
 
 const tamanos: Record<Tamano, string> = {
   md: 'h-[46px] rounded-boton-sm text-sm',
   lg: 'h-[50px] rounded-boton text-[15px]',
+  xl: 'h-[54px] rounded-boton text-base',
 }
 
 interface Comunes {
