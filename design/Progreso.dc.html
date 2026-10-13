@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Progreso</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 1280px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810;">
+  <div style="padding: 52px 16px 100px; display: flex; flex-direction: column; gap: 14px;">
+    <h1 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Progreso</h1>
+    <div role="group" aria-label="Periodo" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4px; border-radius: 14px; background: #F8F1EB;">
+      <sc-for list="{{periods}}" as="p" hint-placeholder-count="3">
+        <button type="button" aria-pressed="{{p.pressed}}" onClick="{{p.pick}}" style="{{p.style}}">{{p.label}}</button>
+      </sc-for>
+    </div>
+
+    <section aria-label="Calorías por día" style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 800;">Calorías</h2>
+        <span style="font-size: 12px; color: #7A6458; font-weight: 500;">Promedio 1.611 kcal</span>
+      </div>
+      <div style="position: relative; height: 140px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; align-items: end;">
+        <div style="position: absolute; left: 0; right: 0; bottom: 130px; border-top: 1.5px dashed #D13D0A;"></div>
+        <div style="position: absolute; right: 0; bottom: 132px; padding: 0 4px; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #9A2E06;">Meta 1.850</div>
+        <sc-for list="{{kcal}}" as="k" hint-placeholder-count="7">
+          <div style="height: {{k.px}}; border-radius: 6px; background: {{k.color}};"></div>
+        </sc-for>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; text-align: center; font-size: 12px; color: #7A6458; font-weight: 500;">
+        <span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span><span>Do</span><span style="color: #D13D0A; font-weight: 800;">Hoy</span>
+      </div>
+    </section>
+
+    <section aria-label="Proteína por día" style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 800;">Proteína</h2>
+        <span style="font-size: 12px; color: #7A6458; font-weight: 500;">Promedio 119 g</span>
+      </div>
+      <div style="position: relative; height: 140px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; align-items: end;">
+        <div style="position: absolute; left: 0; right: 0; bottom: 122px; border-top: 1.5px dashed #D13D0A;"></div>
+        <div style="position: absolute; right: 0; bottom: 124px; padding: 0 4px; background: #FFFFFF; font-size: 12px; font-weight: 700; color: #9A2E06;">Meta 140 g</div>
+        <div style="height: 103px; border-radius: 6px; background: #F9A15F;"></div>
+        <div style="height: 116px; border-radius: 6px; background: #F9A15F;"></div>
+        <div style="height: 84px; border-radius: 6px; background: #F9A15F;"></div>
+        <div style="height: 123px; border-radius: 6px; background: #D13D0A;"></div>
+        <div style="height: 109px; border-radius: 6px; background: #F9A15F;"></div>
+        <div style="height: 96px; border-radius: 6px; background: #F9A15F;"></div>
+        <div style="height: 46px; border-radius: 6px; background: #FFD3AE;"></div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; text-align: center; font-size: 12px; color: #7A6458; font-weight: 500;">
+        <span>Ma</span><span>Mi</span><span>Ju</span><span>Vi</span><span>Sá</span><span>Do</span><span style="color: #D13D0A; font-weight: 800;">Hoy</span>
+      </div>
+      <div style="font-size: 12px; color: #5A4337; font-weight: 500;">Llegaste a tu meta 1 de los últimos 6 días.</div>
+    </section>
+
+    <section aria-label="Peso" style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline;">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 800;">Peso</h2>
+        <span style="padding: 3px 8px; border-radius: 6px; background: #FFE6D2; color: #9A2E06; font-size: 12px; font-weight: 700;">−1,6 kg en 6 semanas</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 28px; font-weight: 800; letter-spacing: -0.6px; color: #9A2E06;">78,0 kg</span><span style="font-size: 12px; color: #7A6458; font-weight: 500;">meta 72 kg</span></div>
+      <svg width="356" height="100" viewBox="0 0 356 100" role="img" aria-label="Peso semanal: de 79,6 a 78,0 kg">
+        <line x1="0" y1="95" x2="356" y2="95" stroke="#F2E4DA" stroke-width="1"></line>
+        <polyline points="12,24 66,35 120,46 174,53 228,64 282,75 336,82" fill="none" stroke="#F97316" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+        <circle cx="12" cy="24" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="66" cy="35" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="120" cy="46" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="174" cy="53" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="228" cy="64" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="282" cy="75" r="4" fill="#FFFFFF" stroke="#F97316" stroke-width="2"></circle>
+        <circle cx="336" cy="82" r="6" fill="#D13D0A"></circle>
+      </svg>
+    <a href="Peso.dc.html" style="height: 44px; border-radius: 12px; background: #FFF4CC; color: #8A5200; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none;">Registrar peso</a>
+    </section>
+
+    <section aria-label="Promedios de hábitos" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+      <div style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-size: 12px; color: #7A6458; font-weight: 500;">Agua promedio</div>
+        <div style="font-size: 18px; font-weight: 800;">2,1 L</div>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; align-items: end; height: 32px;">
+          <div style="height: 70%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 85%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 60%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 100%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 75%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 90%; background: #2F80D8; border-radius: 3px;"></div><div style="height: 64%; background: #9CC3EE; border-radius: 3px;"></div>
+        </div>
+      </div>
+      <div style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-size: 12px; color: #7A6458; font-weight: 500;">Sueño promedio</div>
+        <div style="font-size: 18px; font-weight: 800;">7 h 02</div>
+        <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 3px; align-items: end; height: 32px;">
+          <div style="height: 72%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 78%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 64%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 69%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 94%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 92%; background: #F9A15F; border-radius: 3px;"></div><div style="height: 75%; background: #7C2D12; border-radius: 3px;"></div>
+        </div>
+      </div>
+      <div style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+        <div style="font-size: 12px; color: #7A6458; font-weight: 500;">Ejercicio</div>
+        <div style="font-size: 18px; font-weight: 800;">245 min</div>
+        <div style="font-size: 12px; color: #A04B12; font-weight: 700;">1.120 kcal quemadas</div>
+      </div>
+      <div style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px;">
+        <div style="font-size: 12px; color: #7A6458; font-weight: 500;">Licor</div>
+        <div style="font-size: 18px; font-weight: 800;">3 bebidas</div>
+        <div style="font-size: 12px; color: #B42318; font-weight: 700;">≈ 450 kcal esta semana</div>
+      </div>
+    </section>
+
+    <section aria-label="Azúcar y grasa" style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="margin: 0; font-size: 15px; font-weight: 800;">Azúcar y grasa · promedio diario</h2>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600;"><span>Azúcar</span><span>31 / 50 g</span></div>
+        <div style="height: 8px; border-radius: 4px; background: #FCEBD2;"><div style="width: 62%; height: 8px; border-radius: 4px; background: #F2A93B;"></div></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 600;"><span>Grasa</span><span>52 / 65 g</span></div>
+        <div style="height: 8px; border-radius: 4px; background: #FBE0CD;"><div style="width: 80%; height: 8px; border-radius: 4px; background: #E8772E;"></div></div>
+      </div>
+    </section>
+  </div>
+
+  <nav aria-label="Navegación principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 84px; box-sizing: border-box; background: #FFFFFF; border-top: 1px solid #F2E4DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; padding: 4px 6px 20px;">
+    <a href="Inicio.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</a>
+    <a href="Registros.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9zM7 5.5H5.5v15h13v-15H17M9 12h6M9 16h4"></path></svg>Registros</a>
+    <a href="Mas.dc.html" aria-label="Registro rápido" style="justify-self: center; width: 58px; height: 58px; margin-top: -26px; border-radius: 50%; background: #D13D0A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; border: 4px solid #FFFFFF; box-sizing: border-box;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    <a href="Asistente.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg>Asistente</a>
+    <a href="Progreso.dc.html" aria-current="page" style="height: 52px; margin: 0 2px; border-radius: 16px; background: #FFF0E3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #D13D0A; font-size: 12px; font-weight: 800;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 20v-6M12 20V8M18 20v-10"></path></svg>Progreso</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1060}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { period: 'Semana' };
+  }
+  renderVals() {
+    const vals = [1620, 1780, 1540, 1960, 1700, 1490, 1190];
+    return {
+      periods: ['Semana', 'Mes', 'Año'].map((l) => {
+        const on = this.state.period === l;
+        return {
+          label: l,
+          pressed: on ? 'true' : 'false',
+          pick: () => this.setState({ period: l }),
+          style: 'height: 40px; border: 0; border-radius: 10px; font: 700 13px \'Plus Jakarta Sans\', sans-serif; background: ' + (on ? '#FFFFFF' : 'transparent') + '; color: ' + (on ? '#9A2E06' : '#7A6458') + ';'
+        };
+      }),
+      kcal: vals.map((v, i) => ({
+        px: Math.round((v / 2000) * 140) + 'px',
+        color: v > 1850 ? '#E8772E' : (i === vals.length - 1 ? '#D13D0A' : '#FFD3AE')
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

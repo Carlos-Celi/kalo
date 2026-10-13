@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Registros</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 1140px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810;">
+  <div style="padding: 52px 16px 100px; display: flex; flex-direction: column; gap: 14px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 style="margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Registros</h1>
+      <span style="height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid #F2E4DA; display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D13D0A" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M4 10h16M8 3v4M16 3v4"></path></svg>Hoy, 12 oct</span>
+    </div>
+
+    <div role="group" aria-label="Sección de registros" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px;">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">
+          <sc-if value="{{t.isFood}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 3c-2 1-3 4-3 7h3v11"></path></svg></sc-if>
+          <sc-if value="{{t.isWater}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"></path></svg></sc-if>
+          <sc-if value="{{t.isEx}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 2 3 4 1-2 1-5 0-8z"></path></svg></sc-if>
+          <sc-if value="{{t.isSleep}}" hint-placeholder-val="{{ false }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg></sc-if>
+          <span>{{t.label}}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 18px; background: #FFF0E3;">
+      <div style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 50%; overflow: hidden; position: relative; background: #F04A1A;"><img src="../assets/kalo-mascot.png" alt="" style="position: absolute; width: 79px; height: 79px; left: -17px; top: -16px;"></div>
+      <div style="flex-grow: 1;"><div style="font-size: 14px; font-weight: 800; color: #9A2E06;">Racha de 3 días encendida</div><div style="font-size: 12px; font-weight: 500; color: #5A4337; line-height: 1.4;">Cumple hoy tu meta para llegar a 4. Toca un día para ver su detalle.</div></div>
+    </div>
+
+    <section aria-label="Progreso de la semana" style="border: 1px solid #F2E4DA; border-radius: 20px; padding: 14px 10px 12px; display: flex; flex-direction: column; gap: 8px;">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 0 6px;">
+        <h2 style="margin: 0; font-size: 15px; font-weight: 800;">{{weekTitle}}</h2>
+        <span style="font-size: 12px; color: #7A6458; font-weight: 700;">{{doneCount}}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px;">
+        <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+          <div style="{{d.col}}">
+            <span style="{{d.labelStyle}}">{{d.letter}}</span>
+            <div style="{{d.ring}}">
+              <sc-if value="{{d.done}}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-label="Meta cumplida" role="img"><path d="M5 12l5 5 9-10"></path></svg></sc-if>
+              <sc-if value="{{d.over}}" hint-placeholder-val="{{ false }}"><span style="color: #FFFFFF; font-size: 17px; font-weight: 800;" aria-label="Te pasaste de la meta">!</span></sc-if>
+              <sc-if value="{{d.partial}}" hint-placeholder-val="{{ false }}"><span style="{{d.hole}}"></span></sc-if>
+            </div>
+            <span style="{{d.pctStyle}}">{{d.pct}}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 4px 14px; padding: 0 6px; font-size: 12px; color: #5A4337; font-weight: 500;">
+        <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: {{accent}};"></span>Cumplido</span>
+        <span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; border: 2px solid #F2E4DA; box-sizing: border-box; border-top-color: {{accent}};"></span>Parcial</span>
+        <sc-if value="{{isFood}}" hint-placeholder-val="{{ true }}"><span style="display: flex; align-items: center; gap: 5px;"><span style="width: 10px; height: 10px; border-radius: 50%; background: #B42318;"></span>Te pasaste</span></sc-if>
+      </div>
+      <div style="padding: 0 6px; font-size: 12px; color: #7A6458; font-weight: 500;">{{goalNote}}</div>
+    </section>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 2px;">
+      <h2 style="margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -0.3px;">{{detailTitle}}</h2>
+      <sc-if value="{{isFood}}" hint-placeholder-val="{{ true }}">
+      <a href="{{cta}}" style="{{ctaStyle}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{ctaLabel}}</a>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{isFood}}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <section aria-label="Metas principales" style="padding: 14px; border-radius: 18px; background: #FFF0E3; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size: 13px; font-weight: 700;">Calorías <span style="color: #7A6458; font-weight: 500;">1.190 / 1.850 kcal</span></span><span style="font-size: 12px; font-weight: 700; color: #9A2E06;">Quedan 660</span></div>
+          <div style="height: 6px; border-radius: 3px; background: #FAD9BF;"><div style="width: 64%; height: 6px; border-radius: 3px; background: #D13D0A;"></div></div>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; padding-top: 2px;"><span style="font-size: 13px; font-weight: 700;">Proteína <span style="color: #7A6458; font-weight: 500;">52 / 140 g</span></span><span style="font-size: 12px; font-weight: 700; color: #9A2E06;">Faltan 88 g</span></div>
+          <div style="height: 6px; border-radius: 3px; background: #FFE9B8;"><div style="width: 37%; height: 6px; border-radius: 3px; background: #F5B301;"></div></div>
+        </section>
+        <sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+          <section style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 0 12px;">
+            <div style="display: flex; align-items: center; gap: 10px; min-height: 52px;">
+              <h3 style="margin: 0; flex-grow: 1; font-size: 14px; font-weight: 800;">{{m.name}}</h3>
+              <span style="font-size: 12px; color: #7A6458; font-weight: 600;">{{m.total}}</span>
+              <a href="{{m.add}}" aria-label="Añadir a {{m.name}}" style="width: 36px; height: 36px; border-radius: 50%; background: #D13D0A; color: #FFFFFF; display: flex; align-items: center; justify-content: center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+            </div>
+            <sc-for list="{{m.items}}" as="it" hint-placeholder-count="1">
+              <a href="Analisis.dc.html" style="display: flex; align-items: center; gap: 8px; min-height: 46px; border-top: 1px solid #F6ECE4; text-decoration: none; color: #2B1810;">
+                <span style="flex-grow: 1; display: flex; flex-direction: column;">
+                  <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700;">{{it.name}}
+                    <sc-if value="{{it.hasBadge}}" hint-placeholder-val="{{ false }}"><span style="padding: 1px 7px; border-radius: 6px; background: {{it.badgeBg}}; color: {{it.badgeFg}}; font-size: 12px; font-weight: 700;">{{it.badge}}</span></sc-if>
+                  </span>
+                  <span style="font-size: 12px; color: #7A6458; font-weight: 500;">{{it.sub}}</span>
+                </span>
+                <span style="font-size: 14px; font-weight: 800;">{{it.kcal}}</span>
+              </a>
+            </sc-for>
+          </section>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isWater}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <section style="padding: 16px; border-radius: 18px; background: #EEF5FD; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: baseline; gap: 8px;"><span style="font-size: 36px; font-weight: 800; letter-spacing: -1px; color: #1A5FA8;">{{wLitros}}</span><span style="font-size: 13px; color: #5A4337; font-weight: 600;">de 2,5 L · {{wPct}}</span></div>
+          <div style="height: 8px; border-radius: 4px; background: #BFD8F4;"><div style="width: {{wFill}}; height: 8px; border-radius: 4px; background: #2F80D8;"></div></div>
+          <div style="font-size: 12px; color: #5A4337; font-weight: 500;">{{wNote}}</div>
+        </section>
+        <div role="group" aria-label="Añadir agua" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+          <button type="button" onClick="{{w250}}" style="height: 48px; border: 0; border-radius: 14px; background: #E6F1FC; color: #1A5FA8; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+250 ml</button>
+          <button type="button" onClick="{{w500}}" style="height: 48px; border: 0; border-radius: 14px; background: #E6F1FC; color: #1A5FA8; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+500 ml</button>
+          <button type="button" onClick="{{w750}}" style="height: 48px; border: 0; border-radius: 14px; background: #E6F1FC; color: #1A5FA8; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+750 ml</button>
+        </div>
+        <button type="button" onClick="{{wUndo}}" style="height: 44px; border: 0; border-radius: 12px; background: #FFF8F2; color: #5A4337; font: 600 13px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Deshacer último</button>
+        <div style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 4px 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #F6ECE4; font-size: 13px;"><span style="color: #7A6458; font-weight: 600;">16:05</span><span style="font-weight: 800;">350 ml</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #F6ECE4; font-size: 13px;"><span style="color: #7A6458; font-weight: 600;">13:40</span><span style="font-weight: 800;">500 ml</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid #F6ECE4; font-size: 13px;"><span style="color: #7A6458; font-weight: 600;">10:15</span><span style="font-weight: 800;">500 ml</span></div>
+          <div style="display: flex; justify-content: space-between; align-items: center; min-height: 44px; font-size: 13px;"><span style="color: #7A6458; font-weight: 600;">07:30</span><span style="font-weight: 800;">250 ml</span></div>
+        </div>
+        <div style="padding: 12px 14px; border-radius: 14px; background: #FFF8F2; font-size: 12px; line-height: 1.5; color: #5A4337; font-weight: 500;">Tomar un vaso de agua antes de cada comida te ayuda a regular el hambre.</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isEx}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <section style="padding: 16px; border-radius: 18px; background: #FDF1E8; display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="display: flex; align-items: baseline; gap: 6px;"><span style="font-size: 36px; font-weight: 800; letter-spacing: -1px; color: #A04B12;">{{eMin}}</span><span style="font-size: 13px; color: #5A4337; font-weight: 600;">/ 60 min</span></span><span style="font-size: 13px; font-weight: 700; color: #A04B12;">{{eKcal}} kcal quemadas</span></div>
+          <div style="height: 8px; border-radius: 4px; background: #F7D9C4;"><div style="width: {{eFill}}; height: 8px; border-radius: 4px; background: #E8772E;"></div></div>
+          <div style="font-size: 12px; color: #5A4337; font-weight: 500;">300 min esta semana · meta cumplida 3 de 7 días</div>
+        </section>
+        <div role="group" aria-label="Añadir minutos de ejercicio" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;">
+          <button type="button" onClick="{{e10}}" style="height: 48px; border: 0; border-radius: 14px; background: #FFE9D6; color: #A04B12; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+10 min</button>
+          <button type="button" onClick="{{e20}}" style="height: 48px; border: 0; border-radius: 14px; background: #FFE9D6; color: #A04B12; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+20 min</button>
+          <button type="button" onClick="{{e30}}" style="height: 48px; border: 0; border-radius: 14px; background: #FFE9D6; color: #A04B12; font: 800 14px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+30 min</button>
+        </div>
+        <button type="button" onClick="{{eUndo}}" style="height: 44px; border: 0; border-radius: 12px; background: #FFF8F2; color: #5A4337; font: 600 13px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Deshacer último</button>
+        <div style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 0 14px;">
+          <div style="display: flex; align-items: center; gap: 10px; min-height: 58px; border-bottom: 1px solid #F6ECE4;"><span style="flex-grow: 1; display: flex; flex-direction: column;"><span style="font-size: 13px; font-weight: 700;">Caminata rápida</span><span style="font-size: 12px; color: #7A6458; font-weight: 500;">07:00 · 20 min</span></span><span style="font-size: 14px; font-weight: 800;">90 kcal</span></div>
+          <div style="display: flex; align-items: center; gap: 10px; min-height: 58px;"><span style="flex-grow: 1; display: flex; flex-direction: column;"><span style="font-size: 13px; font-weight: 700;">Estiramiento</span><span style="font-size: 12px; color: #7A6458; font-weight: 500;">12:30 · 15 min</span></span><span style="font-size: 14px; font-weight: 800;">40 kcal</span></div>
+        </div>
+        <div style="padding: 12px 14px; border-radius: 14px; background: #FFF8F2; font-size: 12px; line-height: 1.5; color: #5A4337; font-weight: 500;">{{eNote}}</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{isSleep}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <section style="padding: 16px; border-radius: 18px; background: #7C2D12; color: #FFFFFF; display: flex; flex-direction: column; gap: 10px;">
+          <div style="font-size: 13px; font-weight: 600; color: #FFE3CC;">Anoche</div>
+          <div style="font-size: 36px; font-weight: 800; letter-spacing: -1px; line-height: 1;">{{sText}}</div>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; font-size: 12px; color: #FFE3CC; font-weight: 500;">
+            <div>Dormiste<div style="font-size: 15px; color: #FFFFFF; font-weight: 800;">23:45</div></div>
+            <div>Despertaste<div style="font-size: 15px; color: #FFFFFF; font-weight: 800;">06:30</div></div>
+            <div>Calidad<div style="font-size: 15px; color: #FFFFFF; font-weight: 800;">Bien</div></div>
+          </div>
+        </section>
+        <div style="display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; gap: 8px; align-items: center;">
+          <button type="button" aria-label="Restar 15 minutos de sueño" onClick="{{sMinus}}" style="height: 48px; border: 0; border-radius: 14px; background: #F3E3DA; color: #7C2D12; font: 800 22px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">−</button>
+          <div style="text-align: center; font-size: 13px; font-weight: 700; color: #5A4337;">Ajustar horas dormidas<br><span style="font-weight: 500; color: #7A6458;">pasos de 15 min</span></div>
+          <button type="button" aria-label="Sumar 15 minutos de sueño" onClick="{{sPlus}}" style="height: 48px; border: 0; border-radius: 14px; background: #F3E3DA; color: #7C2D12; font: 800 22px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+</button>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+          <div style="padding: 14px; border-radius: 16px; border: 1px solid #F2E4DA; display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 12px; color: #7A6458; font-weight: 600;">Promedio semanal</span><span style="font-size: 18px; font-weight: 800;">7 h 00</span></div>
+          <div style="padding: 14px; border-radius: 16px; border: 1px solid #F2E4DA; display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 12px; color: #7A6458; font-weight: 600;">Frente a tu meta</span><span style="font-size: 18px; font-weight: 800; color: #B42318;">−1 h 15</span></div>
+        </div>
+        <div style="padding: 12px 14px; border-radius: 14px; background: #FFF8F2; font-size: 12px; line-height: 1.5; color: #5A4337; font-weight: 500;">Dormir menos de 7 horas puede aumentar el hambre. Hoy intenta acostarte antes de las 22:30.</div>
+      </div>
+    </sc-if>
+  </div>
+
+  <nav aria-label="Navegación principal" style="position: absolute; left: 0; right: 0; bottom: 0; height: 84px; box-sizing: border-box; background: #FFFFFF; border-top: 1px solid #F2E4DA; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; padding: 4px 6px 20px;">
+    <a href="Inicio.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>Inicio</a>
+    <a href="Registros.dc.html" aria-current="page" style="height: 52px; margin: 0 2px; border-radius: 16px; background: #FFF0E3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #D13D0A; font-size: 12px; font-weight: 800;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h6v3H9zM7 5.5H5.5v15h13v-15H17M9 12h6M9 16h4"></path></svg>Registros</a>
+    <a href="Mas.dc.html" aria-label="Registro rápido" style="justify-self: center; width: 58px; height: 58px; margin-top: -26px; border-radius: 50%; background: #D13D0A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; border: 4px solid #FFFFFF; box-sizing: border-box;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></a>
+    <a href="Asistente.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H10l-6 4z"></path></svg>Asistente</a>
+    <a href="Progreso.dc.html" style="height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: #7A6458; font-size: 12px; font-weight: 500;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 20v-6M12 20V8M18 20v-10"></path></svg>Progreso</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tab":{"editor":"enum","default":"comida","options":["comida","agua","ejercicio","sueno"]},"$preview":{"width":390,"height":1140}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: (props && props.tab) || 'comida', ml: 1600, wl: [], em: 35, el: [], sm: 405 };
+  }
+  renderVals() {
+    const tab = this.state.tab;
+    const st = this.state;
+    const fmtL = (ml) => (Math.round(ml / 100) / 10).toFixed(1).replace('.', ',') + ' L';
+    const wLeft = Math.max(0, 2500 - st.ml);
+    const eLeft = Math.max(0, 60 - st.em);
+    const sh = Math.floor(st.sm / 60), smm = st.sm % 60;
+    const sGap = st.sm - 480;
+    const cfg = {
+      comida: { label: 'Comida', ring: '#D13D0A', tabBg: '#D13D0A', vals: [1620, 1780, 1540, 1960, 1700, 1490, 1190], goal: 1850, doneMin: 90, overMax: 105, title: 'Calorías de la semana', note: 'Cumplido = entre 90 % y 105 % de tus 1.850 kcal', detail: 'Comidas de hoy', cta: 'Camara.dc.html', ctaLabel: 'Registrar' },
+      agua: { label: 'Agua', ring: '#2F80D8', tabBg: '#1A5FA8', vals: [2.5, 2.2, 1.8, 2.6, 2.0, 2.5, st.ml / 1000], goal: 2.5, doneMin: 100, overMax: null, title: 'Agua de la semana', note: 'Cumplido = 2,5 L o más', detail: 'Agua de hoy', cta: '#', ctaLabel: 'Registrar' },
+      ejercicio: { label: 'Ejercicio', ring: '#E8772E', tabBg: '#A04B12', vals: [60, 45, 0, 70, 30, 60, st.em], goal: 60, doneMin: 100, overMax: null, title: 'Ejercicio de la semana', note: 'Cumplido = 60 min o más', detail: 'Ejercicio de hoy', cta: '#', ctaLabel: 'Registrar' },
+      sueno: { label: 'Sueño', ring: '#7C2D12', tabBg: '#7C2D12', vals: [6.5, 7, 5.8, 6.2, 8.5, 8.3, st.sm / 60], goal: 8, doneMin: 100, overMax: null, title: 'Sueño de la semana', note: 'Cumplido = 8 h o más', detail: 'Sueño de anoche', cta: '#', ctaLabel: 'Registrar' }
+    };
+    const c = cfg[tab];
+    const letters = ['Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do', 'Hoy'];
+    let doneN = 0;
+    const days = c.vals.map((v, i) => {
+      const today = i === 6;
+      const pct = Math.round((v / c.goal) * 100);
+      const over = c.overMax !== null && pct > c.overMax;
+      const done = !over && pct >= c.doneMin;
+      if (done) doneN += 1;
+      const base = 'width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;';
+      let ring = base + ' background: conic-gradient(' + c.ring + ' ' + Math.min(100, pct) * 3.6 + 'deg, #F2E4DA 0);';
+      if (done) ring = base + ' background: ' + c.ring + ';';
+      if (over) ring = base + ' background: #B42318;';
+      return {
+        letter: letters[i], pct: pct + '%', done, over, partial: !done && !over,
+        col: 'display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 0 6px; border-radius: 14px; background: ' + (today ? '#FFF0E3' : 'transparent') + ';',
+        labelStyle: 'font-size: 12px; font-weight: ' + (today ? 800 : 600) + '; color: ' + (today ? '#D13D0A' : '#7A6458') + ';',
+        ring,
+        hole: 'width: 28px; height: 28px; border-radius: 50%; display: block; background: ' + (today ? '#FFF0E3' : '#FFFFFF') + ';',
+        pctStyle: 'font-size: 12px; font-weight: 700; color: ' + (over ? '#B42318' : (done ? '#2B1810' : '#7A6458')) + ';'
+      };
+    });
+    const ia = { hasBadge: true, badge: 'IA', badgeBg: '#FFE6D2', badgeFg: '#9A2E06' };
+    const licor = { hasBadge: true, badge: 'Licor', badgeBg: '#FDE7E7', badgeFg: '#B42318' };
+    const none = { hasBadge: false, badge: '', badgeBg: '', badgeFg: '' };
+    return {
+      tabs: Object.keys(cfg).map((id) => {
+        const on = tab === id;
+        return {
+          label: cfg[id].label,
+          isFood: id === 'comida', isWater: id === 'agua', isEx: id === 'ejercicio', isSleep: id === 'sueno',
+          pressed: on ? 'true' : 'false',
+          pick: () => this.setState({ tab: id }),
+          style: 'height: 68px; border-radius: 16px; font: 700 12px \'Plus Jakarta Sans\', sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px solid ' + (on ? cfg[id].tabBg : '#F2E4DA') + '; background: ' + (on ? cfg[id].tabBg : '#FFF8F2') + '; color: ' + (on ? '#FFFFFF' : '#5A4337') + ';'
+        };
+      }),
+      days,
+      accent: c.ring,
+      weekTitle: c.title,
+      doneCount: doneN + ' de 7 días cumplidos',
+      goalNote: c.note,
+      detailTitle: c.detail,
+      cta: c.cta,
+      ctaLabel: c.ctaLabel,
+      ctaStyle: 'height: 40px; padding: 0 14px; border-radius: 999px; background: ' + c.tabBg + '; color: #FFFFFF; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; text-decoration: none;',
+      isFood: tab === 'comida', isWater: tab === 'agua', isEx: tab === 'ejercicio', isSleep: tab === 'sueno',
+      wLitros: fmtL(st.ml),
+      wPct: Math.min(100, Math.round(st.ml / 25)) + ' %',
+      wFill: Math.min(100, Math.round(st.ml / 25)) + '%',
+      wNote: wLeft > 0 ? 'Te faltan ' + wLeft + ' ml. Próximo aviso a las 18:00.' : '¡Meta cumplida por hoy!',
+      w250: () => this.setState({ ml: st.ml + 250, wl: [...st.wl, 250] }),
+      w500: () => this.setState({ ml: st.ml + 500, wl: [...st.wl, 500] }),
+      w750: () => this.setState({ ml: st.ml + 750, wl: [...st.wl, 750] }),
+      wUndo: () => { if (st.wl.length) this.setState({ ml: st.ml - st.wl[st.wl.length - 1], wl: st.wl.slice(0, -1) }); },
+      eMin: st.em,
+      eKcal: Math.round(st.em * 3.7),
+      eFill: Math.min(100, Math.round(st.em / 0.6)) + '%',
+      eNote: eLeft > 0 ? 'Te faltan ' + eLeft + ' min para tu meta de hoy. Una caminata corta después de cenar te alcanza.' : '¡Meta de ejercicio cumplida hoy!',
+      e10: () => this.setState({ em: st.em + 10, el: [...st.el, 10] }),
+      e20: () => this.setState({ em: st.em + 20, el: [...st.el, 20] }),
+      e30: () => this.setState({ em: st.em + 30, el: [...st.el, 30] }),
+      eUndo: () => { if (st.el.length) this.setState({ em: st.em - st.el[st.el.length - 1], el: st.el.slice(0, -1) }); },
+      sText: sh + ' h ' + String(smm).padStart(2, '0') + ' min',
+      sMinus: () => this.setState({ sm: Math.max(0, st.sm - 15) }),
+      sPlus: () => this.setState({ sm: Math.min(840, st.sm + 15) }),
+      meals: [
+        { name: 'Desayuno', total: '420 kcal', add: 'Camara.dc.html', items: [
+          { name: 'Avena con plátano', sub: '9 g proteína · 9 g azúcar', kcal: '320', ...none },
+          { name: 'Café con leche', sub: '5 g proteína · 5 g azúcar', kcal: '100', ...none }
+        ] },
+        { name: 'Almuerzo', total: '620 kcal', add: 'Camara.dc.html', items: [
+          { name: 'Arroz con pollo', sub: '38 g proteína · 3 g azúcar', kcal: '620', ...ia }
+        ] },
+        { name: 'Cena', total: 'Sin registrar', add: 'Camara.dc.html', items: [] },
+        { name: 'Snacks y licor', total: '150 kcal', add: 'Manual.dc.html', items: [
+          { name: 'Cerveza artesanal 330 ml', sub: '0 g proteína · 2 g azúcar', kcal: '150', ...licor }
+        ] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

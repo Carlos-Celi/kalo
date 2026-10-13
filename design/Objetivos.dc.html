@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Onboarding: tu objetivo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810; display: flex; flex-direction: column; padding: 52px 20px 32px; gap: 18px;">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <a href="Medidas.dc.html" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; background: #F8F1EB; color: #2B1810; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;">
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #F2E4DA;"></div>
+    </div>
+    <div style="font-size: 12px; font-weight: 600; color: #7A6458;">3/4</div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="margin: 0; font-size: 27px; font-weight: 800; letter-spacing: -0.6px;">¿Cuál es tu objetivo?</h1>
+    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #7A6458;">Elige el principal. Ajustaremos tus calorías y metas.</p>
+  </div>
+  <div role="radiogroup" aria-label="Objetivo principal" style="display: flex; flex-direction: column; gap: 10px;">
+    <sc-for list="{{opts}}" as="o" hint-placeholder-count="4">
+      <button type="button" role="radio" aria-checked="{{o.checked}}" onClick="{{o.pick}}" style="{{o.card}}">
+        <span style="{{o.iconBox}}">
+          <sc-if value="{{o.isFlame}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 2 3 4 1-2 1-5 0-8z"></path></svg></sc-if>
+          <sc-if value="{{o.isPulse}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"></path></svg></sc-if>
+          <sc-if value="{{o.isGym}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M4 8l4-4M16 20l4-4M3 11l8-8M13 21l8-8"></path></svg></sc-if>
+          <sc-if value="{{o.isLeaf}}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c0-9 6-14 15-14 0 9-5 15-14 15"></path><path d="M5 19l8-8"></path></svg></sc-if>
+        </span>
+        <span style="flex-grow: 1; display: flex; flex-direction: column; gap: 2px; text-align: left;">
+          <span style="font-size: 15px; font-weight: 700; color: #2B1810;">{{o.title}}</span>
+          <span style="font-size: 12px; color: #7A6458; font-weight: 500;">{{o.sub}}</span>
+        </span>
+        <span style="{{o.radio}}">
+          <sc-if value="{{o.on}}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg></sc-if>
+        </span>
+      </button>
+    </sc-for>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <label for="meta" style="font-size: 13px; font-weight: 600;">Peso meta</label>
+    <div style="display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; color: #7A6458;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="5"></circle><circle cx="12" cy="12" r="1"></circle></svg>
+      <input id="meta" type="number" value="72" style="border: 0; outline: none; flex-grow: 1; font: 600 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810; background: transparent;">
+      <span style="font-size: 13px; font-weight: 600;">kg</span>
+    </div>
+  </div>
+  <a href="Habitos.dc.html" style="margin-top: auto; height: 54px; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none;">Continuar</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { pick: 'bajar' };
+  }
+  renderVals() {
+    const defs = [
+      { id: 'bajar', icon: 'flame', title: 'Bajar de peso', sub: 'Déficit calórico moderado' },
+      { id: 'mantener', icon: 'pulse', title: 'Mantener mi peso', sub: 'Equilibrar lo que como y gasto' },
+      { id: 'musculo', icon: 'gym', title: 'Ganar masa muscular', sub: 'Más proteína y entrenamiento' },
+      { id: 'sano', icon: 'leaf', title: 'Comer más sano', sub: 'Mejor calidad, menos azúcar y grasa' }
+    ];
+    return {
+      opts: defs.map((d) => {
+        const on = this.state.pick === d.id;
+        return {
+          ...d,
+          on,
+          checked: on ? 'true' : 'false',
+          isFlame: d.icon === 'flame', isPulse: d.icon === 'pulse', isGym: d.icon === 'gym', isLeaf: d.icon === 'leaf',
+          pick: () => this.setState({ pick: d.id }),
+          card: 'display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border-radius: 16px; font-family: inherit; cursor: pointer; border: ' + (on ? '1.5px solid #F97316' : '1px solid #F2E4DA') + '; background: ' + (on ? '#FFF0E3' : '#FFFFFF') + ';',
+          iconBox: 'width: 44px; height: 44px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; background: ' + (on ? '#D13D0A' : '#FFF0E3') + '; color: ' + (on ? '#FFFFFF' : '#D13D0A') + ';',
+          radio: 'width: 22px; height: 22px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-sizing: border-box; background: ' + (on ? '#D13D0A' : '#FFFFFF') + '; border: ' + (on ? '0' : '1.5px solid #DCCFC6') + ';'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

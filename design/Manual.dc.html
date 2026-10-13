@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Agregar manualmente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 920px; box-sizing: border-box; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810; display: flex; flex-direction: column; padding: 48px 16px 28px; gap: 14px;">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <a href="Registros.dc.html" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; background: #F8F1EB; color: #2B1810; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex-grow: 1; text-align: center; font-size: 16px; font-weight: 700; padding-right: 58px;">Agregar manualmente</div>
+  </div>
+
+  <div role="group" aria-label="Tipo de comida" style="display: flex; flex-direction: column; gap: 8px;">
+    <div style="font-size: 13px; font-weight: 600;">Tipo de comida</div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+      <sc-for list="{{types}}" as="t" hint-placeholder-count="5">
+        <button type="button" aria-pressed="{{t.pressed}}" onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <label for="nombre" style="font-size: 13px; font-weight: 600;">Nombre del alimento o bebida</label>
+    <div style="display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 14px; border: 1.5px solid #F97316; border-radius: 14px; color: #D13D0A;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M17 3c-2 1-3 4-3 7h3v11"></path></svg>
+      <input id="nombre" type="text" value="Cerveza artesanal" style="border: 0; outline: none; flex-grow: 1; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;">
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;">
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Porción<input type="text" value="330 ml" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Calorías<input type="text" value="150 kcal" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Proteína<input type="text" value="0 g" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Carbohidratos<input type="text" value="14 g" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Azúcar<input type="text" value="2 g" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+    <label style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600;">Grasa<input type="text" value="0 g" style="height: 50px; box-sizing: border-box; padding: 0 14px; border: 1px solid #F2E4DA; border-radius: 14px; background: #FFF8F2; font: 500 15px 'Plus Jakarta Sans', sans-serif; color: #2B1810;"></label>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: #FFF0E3;">
+    <span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: #FFFFFF; color: #D13D0A; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h10l-1 8a4 4 0 0 1-8 0z"></path><path d="M12 15v6M8 21h8"></path></svg></span>
+    <div style="flex-grow: 1;"><div style="font-size: 14px; font-weight: 700;">Es una bebida con alcohol</div><div style="font-size: 12px; color: #7A6458; font-weight: 500;">Se registra como licor en tu resumen</div></div>
+    <button type="button" role="switch" aria-checked="{{alcChecked}}" aria-label="Es una bebida con alcohol" onClick="{{toggleAlc}}" style="{{alcTrack}}"><span style="width: 24px; height: 24px; border-radius: 50%; background: #FFFFFF; display: block;"></span></button>
+  </div>
+  <sc-if value="{{alc}}" hint-placeholder-val="{{ true }}">
+    <label style="display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 600;">Grados de alcohol (% vol)<input type="text" value="5,5 %" style="width: 110px; height: 44px; box-sizing: border-box; padding: 0 12px; border: 1px solid #F2E4DA; border-radius: 12px; background: #FFF8F2; font: 500 14px 'Plus Jakarta Sans', sans-serif; color: #2B1810; text-align: right;"></label>
+  </sc-if>
+
+  <a href="Camara.dc.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; border: 1px solid #F2E4DA; text-decoration: none; color: #2B1810;">
+    <span style="width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; background: #FFF0E3; color: #D13D0A; display: flex; align-items: center; justify-content: center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg></span>
+    <span style="flex-grow: 1;"><span style="display: block; font-size: 14px; font-weight: 700;">¿No tienes los datos?</span><span style="display: block; font-size: 12px; color: #7A6458; font-weight: 500;">Toma una foto y la IA los completa</span></span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7A6458" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+  </a>
+
+  <a href="Registros.dc.html" style="margin-top: auto; height: 54px; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"></path></svg>{{saveLabel}}</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { type: 'Licor', alc: true };
+  }
+  renderVals() {
+    const dest = { Desayuno: 'Desayuno', Almuerzo: 'Almuerzo', Cena: 'Cena', Snack: 'Snacks y licor', Licor: 'Snacks y licor' };
+    const on = this.state.alc;
+    return {
+      types: ['Desayuno', 'Almuerzo', 'Cena', 'Snack', 'Licor'].map((l) => {
+        const sel = this.state.type === l;
+        return {
+          label: sel ? '✓ ' + l : l,
+          pressed: sel ? 'true' : 'false',
+          pick: () => this.setState({ type: l, alc: l === 'Licor' ? true : this.state.alc }),
+          style: 'height: 42px; padding: 0 16px; border-radius: 999px; font: 600 13px \'Plus Jakarta Sans\', sans-serif; border: 1px solid ' + (sel ? '#D13D0A' : '#F2E4DA') + '; background: ' + (sel ? '#D13D0A' : '#FFF8F2') + '; color: ' + (sel ? '#FFFFFF' : '#2B1810') + ';'
+        };
+      }),
+      alc: on,
+      alcChecked: on ? 'true' : 'false',
+      toggleAlc: () => this.setState({ alc: !on }),
+      alcTrack: 'width: 50px; height: 30px; flex-shrink: 0; border-radius: 999px; border: 0; padding: 3px; display: flex; justify-content: ' + (on ? 'flex-end' : 'flex-start') + '; background: ' + (on ? '#D13D0A' : '#DCCFC6') + ';',
+      saveLabel: 'Guardar en ' + dest[this.state.type]
+    };
+  }
+}
+</script>
+</body>
+</html>

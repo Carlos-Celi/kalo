@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Registrar peso</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{text-decoration:none}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; position: relative; overflow: hidden; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810; padding: 52px 16px 24px; display: flex; flex-direction: column; gap: 16px;">
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <a href="Mas.dc.html" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; background: #FFF0E3; color: #9A2E06; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></a>
+    <h1 style="margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.4px;">Registrar peso</h1>
+  </div>
+  <div style="border-radius: 24px; background: #FFF4CC; padding: 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+    <span style="font-size: 13px; font-weight: 700; color: #8A5200;">Hoy, 12 oct</span>
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <button type="button" aria-label="Restar 0,1 kg" onClick="{{minus}}" style="width: 52px; height: 52px; border-radius: 50%; border: 0; background: #FFFFFF; color: #8A5200; font: 800 26px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">−</button>
+      <div style="text-align: center; min-width: 140px;"><span style="font-size: 54px; font-weight: 800; letter-spacing: -2px; line-height: 1;">{{kg}}</span><span style="font-size: 18px; font-weight: 700; color: #8A5200;"> kg</span></div>
+      <button type="button" aria-label="Sumar 0,1 kg" onClick="{{plus}}" style="width: 52px; height: 52px; border-radius: 50%; border: 0; background: #FFFFFF; color: #8A5200; font: 800 26px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">+</button>
+    </div>
+    <span style="font-size: 13px; font-weight: 700; color: #5A4337;">{{diff}}</span>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;">
+    <div style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 12px; text-align: center;"><div style="font-size: 12px; color: #7A6458; font-weight: 600;">Meta</div><div style="font-size: 18px; font-weight: 800;">72 kg</div></div>
+    <div style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 12px; text-align: center;"><div style="font-size: 12px; color: #7A6458; font-weight: 600;">IMC</div><div style="font-size: 18px; font-weight: 800;">{{imc}}</div></div>
+    <div style="border: 1px solid #F2E4DA; border-radius: 16px; padding: 12px; text-align: center;"><div style="font-size: 12px; color: #7A6458; font-weight: 600;">Falta</div><div style="font-size: 18px; font-weight: 800;">{{falta}}</div></div>
+  </div>
+  <div style="border: 1px solid #F2E4DA; border-radius: 20px; padding: 14px;">
+    <div style="font-size: 14px; font-weight: 800; margin-bottom: 8px;">Últimas 6 semanas</div>
+    <svg viewBox="0 0 320 100" width="100%" height="100" role="img" aria-label="Peso de 80,2 a 78,0 kg en seis semanas">
+      <line x1="0" y1="90" x2="320" y2="90" stroke="#F2E4DA"></line>
+      <polyline points="10,14 70,26 130,38 190,44 250,58 310,66" fill="none" stroke="#D13D0A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <circle cx="310" cy="66" r="6" fill="#F97316" stroke="#FFFFFF" stroke-width="3"></circle>
+    </svg>
+    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #7A6458; font-weight: 600;"><span>80,2 kg</span><span>78,0 kg</span></div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <label for="nota" style="font-size: 13px; font-weight: 600;">Nota (opcional)</label>
+    <input id="nota" type="text" placeholder="En ayunas, después de entrenar..." style="height: 48px; border: 1px solid #F2E4DA; border-radius: 14px; padding: 0 14px; background: #FFF8F2; font: 500 14px 'Plus Jakarta Sans', sans-serif; color: #2B1810; outline: none;">
+  </div>
+  <div role="status" aria-live="polite" style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
+    <sc-if value="{{saved}}" hint-placeholder-val="{{ false }}">
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: #FFF0E3;">
+        <div style="width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; overflow: hidden; position: relative; background: #F04A1A;"><img src="../assets/kalo-mascot.png" alt="" style="position: absolute; width: 72px; height: 72px; left: -15px; top: -15px;"></div>
+        <div style="flex-grow: 1; font-size: 14px; font-weight: 700; color: #9A2E06; line-height: 1.35;">¡Peso guardado! Tu gráfica ya está al día.</div>
+      </div>
+      <a href="Progreso.dc.html" style="height: 54px; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none;">Ver mi progreso</a>
+    </sc-if>
+    <sc-if value="{{notSaved}}" hint-placeholder-val="{{ true }}">
+      <button type="button" onClick="{{save}}" style="height: 54px; border: 0; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font: 700 16px 'Plus Jakarta Sans', sans-serif; cursor: pointer;">Guardar peso</button>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { dg: 780, saved: false };
+  }
+  renderVals() {
+    const f = (n) => (n / 10).toFixed(1).replace('.', ',');
+    const d = this.state.dg - 780;
+    const h = 1.72;
+    const imc = (this.state.dg / 10 / (h * h)).toFixed(1).replace('.', ',');
+    const left = Math.max(0, this.state.dg - 720);
+    return {
+      kg: f(this.state.dg),
+      diff: d === 0 ? 'Igual que tu último registro' : (d < 0 ? 'Bajas ' : 'Subes ') + f(Math.abs(d)) + ' kg vs. último registro',
+      imc,
+      falta: f(left) + ' kg',
+      saved: this.state.saved,
+      notSaved: !this.state.saved,
+      save: () => this.setState({ saved: true }),
+      plus: () => this.setState({ dg: this.state.dg + 1, saved: false }),
+      minus: () => this.setState({ dg: this.state.dg - 1, saved: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

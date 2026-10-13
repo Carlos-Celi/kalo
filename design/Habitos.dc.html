@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Onboarding: tus hábitos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810; display: flex; flex-direction: column; padding: 52px 20px 32px; gap: 20px;">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <a href="Objetivos.dc.html" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; background: #F8F1EB; color: #2B1810; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;">
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+      <div style="height: 5px; border-radius: 3px; background: #D13D0A;"></div>
+    </div>
+    <div style="font-size: 12px; font-weight: 600; color: #7A6458;">4/4</div>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="margin: 0; font-size: 27px; font-weight: 800; letter-spacing: -0.6px;">Cuéntanos tus hábitos</h1>
+    <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #7A6458;">Con esto la IA arma tu plan de agua, ejercicio y sueño.</p>
+  </div>
+  <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+    <div role="group" aria-label="{{g.q}}" style="display: flex; flex-direction: column; gap: 10px;">
+      <div style="font-size: 14px; font-weight: 700;">{{g.q}}</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <sc-for list="{{g.opts}}" as="o" hint-placeholder-count="4">
+          <button type="button" aria-pressed="{{o.pressed}}" onClick="{{o.pick}}" style="{{o.style}}">{{o.label}}</button>
+        </sc-for>
+      </div>
+    </div>
+  </sc-for>
+  <a href="Metas.dc.html" style="margin-top: auto; height: 54px; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+    Generar mi plan con IA
+  </a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { act: 'Ligero 1–2 días', sue: '5–7 h', alc: 'Fines de semana', res: ['Sin lactosa'] };
+  }
+  chip(on) {
+    return 'height: 42px; padding: 0 14px; border-radius: 999px; font: 600 13px \'Plus Jakarta Sans\', sans-serif; border: 1px solid ' + (on ? '#D13D0A' : '#F2E4DA') + '; background: ' + (on ? '#D13D0A' : '#FFF8F2') + '; color: ' + (on ? '#FFFFFF' : '#2B1810') + ';';
+  }
+  single(key, q, labels) {
+    return { q, opts: labels.map((l) => { const on = this.state[key] === l; return { label: on ? '✓ ' + l : l, pressed: on ? 'true' : 'false', style: this.chip(on), pick: () => this.setState({ [key]: l }) }; }) };
+  }
+  renderVals() {
+    const res = this.state.res;
+    return {
+      groups: [
+        this.single('act', '¿Qué tan activo eres?', ['Sedentario', 'Ligero 1–2 días', 'Moderado 3–4 días', 'Intenso 5+ días']),
+        this.single('sue', '¿Cuántas horas duermes?', ['Menos de 5 h', '5–7 h', '7–9 h', 'Más de 9 h']),
+        this.single('alc', '¿Con qué frecuencia tomas alcohol?', ['Nunca', 'Fines de semana', 'Varias veces por semana']),
+        { q: 'Restricciones o condiciones', opts: ['Vegetariano', 'Sin lactosa', 'Sin gluten', 'Diabetes', 'Hipertensión'].map((l) => {
+          const on = res.indexOf(l) >= 0;
+          return { label: on ? '✓ ' + l : l, pressed: on ? 'true' : 'false', style: this.chip(on), pick: () => this.setState({ res: on ? res.filter((x) => x !== l) : [...res, l] }) };
+        }) }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

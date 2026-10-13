@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Kalo · Tu plan</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+body{-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+a,button{transition:transform .12s ease,background-color .15s ease,box-shadow .15s ease}
+a:active,button:active{transform:scale(.97)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #F97316;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8C7A6E}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+a{color:#D13D0A}a:hover{color:#9A2E06}
+</style>
+</helmet>
+<div style="width: 390px; height: 900px; box-sizing: border-box; background: #FFFFFF; font-family: 'Plus Jakarta Sans', sans-serif; color: #2B1810; display: flex; flex-direction: column; padding: 52px 20px 32px; gap: 16px;">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <a href="Habitos.dc.html" aria-label="Volver" style="width: 44px; height: 44px; border-radius: 50%; background: #F8F1EB; color: #2B1810; display: flex; align-items: center; justify-content: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></a>
+    <div style="flex-grow: 1; text-align: center; font-size: 16px; font-weight: 700; padding-right: 58px;">Tu plan</div>
+  </div>
+  <div style="padding: 16px 18px; border-radius: 20px; background: #D13D0A; color: #FFFFFF; display: flex; flex-direction: column; gap: 6px;">
+    <div style="display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: #FFFFFF; color: #9A2E06; font-size: 12px; font-weight: 700;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+      Sugerido por la IA
+    </div>
+    <div style="font-size: 21px; font-weight: 800; letter-spacing: -0.4px;">Bajar de 78 a 72 kg</div>
+    <div style="font-size: 13px; color: #FFE3CC; font-weight: 500;">0,5 kg por semana · ≈ 12 semanas</div>
+  </div>
+
+  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.8px; color: #7A6458;">METAS PRINCIPALES · AJÚSTALAS</div>
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+    <sc-for list="{{main}}" as="g" hint-placeholder-count="2">
+      <div style="padding: 14px 14px 12px; border-radius: 20px; background: #FFF0E3; border: 1.5px solid #F97316; display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="width: 32px; height: 32px; border-radius: 50%; background: #D13D0A; color: #FFFFFF; display: flex; align-items: center; justify-content: center;">
+            <sc-if value="{{g.isFlame}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 2 3 4 1-2 1-5 0-8z"></path></svg></sc-if>
+            <sc-if value="{{g.isProt}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4.5a4.5 4.5 0 1 1 5 5l-6.2 6.2a2.6 2.6 0 1 1-3.7-3.7z"></path><path d="M10 14l-3.5 3.5"></path></svg></sc-if>
+          </span>
+          <span style="flex-grow: 1; font-size: 15px; font-weight: 800;">{{g.label}}</span>
+          <span style="padding: 3px 8px; border-radius: 999px; background: #FFFFFF; color: #9A2E06; font-size: 12px; font-weight: 700;">Principal</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <button type="button" aria-label="Disminuir {{g.label}}" onClick="{{g.dec}}" style="width: 48px; height: 48px; border-radius: 14px; border: 1px solid #FFD3B0; background: #FFFFFF; color: #D13D0A; font: 700 22px 'Plus Jakarta Sans', sans-serif;">−</button>
+          <div style="text-align: center;"><span style="font-size: 36px; font-weight: 800; letter-spacing: -1px; color: #9A2E06;">{{g.num}}</span> <span style="font-size: 14px; font-weight: 600; color: #7A6458;">{{g.unit}}</span></div>
+          <button type="button" aria-label="Aumentar {{g.label}}" onClick="{{g.inc}}" style="width: 48px; height: 48px; border-radius: 14px; border: 0; background: #D13D0A; color: #FFFFFF; font: 700 22px 'Plus Jakarta Sans', sans-serif;">+</button>
+        </div>
+        <div style="font-size: 12px; color: #5A4337; font-weight: 500; text-align: center;">{{g.hint}}</div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.8px; color: #7A6458;">OTRAS METAS</div>
+  <div style="border: 1px solid #F2E4DA; border-radius: 18px; padding: 0 12px;">
+    <sc-for list="{{others}}" as="g" hint-placeholder-count="4">
+      <div style="{{g.row}}">
+        <span style="flex-grow: 1; font-size: 13px; color: #7A6458; font-weight: 600;">{{g.label}}</span>
+        <span style="font-size: 15px; font-weight: 800; min-width: 74px; text-align: right;">{{g.display}}</span>
+        <button type="button" aria-label="Disminuir {{g.label}}" onClick="{{g.dec}}" style="width: 44px; height: 44px; border-radius: 12px; border: 1px solid #F2E4DA; background: #FFFFFF; color: #D13D0A; font: 700 20px 'Plus Jakarta Sans', sans-serif;">−</button>
+        <button type="button" aria-label="Aumentar {{g.label}}" onClick="{{g.inc}}" style="width: 44px; height: 44px; border-radius: 12px; border: 0; background: #FFF0E3; color: #D13D0A; font: 700 20px 'Plus Jakarta Sans', sans-serif;">+</button>
+      </div>
+    </sc-for>
+  </div>
+  <a href="Inicio.dc.html" style="margin-top: auto; height: 54px; border-radius: 14px; background: #D13D0A; color: #FFFFFF; font-size: 16px; font-weight: 700; display: flex; align-items: center; justify-content: center; text-decoration: none;">Guardar y empezar</a>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { kcal: 1850, prot: 140, agua: 2.5, ejer: 60, sueno: 8, peso: 72 };
+  }
+  bump(key, delta, min) {
+    this.setState({ [key]: Math.max(min || 0, Math.round((this.state[key] + delta) * 100) / 100) });
+  }
+  renderVals() {
+    const s = this.state;
+    const c = (v) => String(v).replace('.', ',');
+    const main = [
+      { key: 'kcal', label: 'Calorías', unit: 'kcal', step: 50, num: s.kcal.toLocaleString('es-PE'), hint: 'Déficit moderado calculado con tu perfil', isFlame: true, isProt: false },
+      { key: 'prot', label: 'Proteína', unit: 'g', step: 5, num: String(s.prot), hint: '≈ ' + c((s.prot / 78).toFixed(1)) + ' g por kg para conservar tu masa muscular', isFlame: false, isProt: true }
+    ];
+    const others = [
+      { key: 'agua', label: 'Agua', step: 0.25, fmt: (v) => c(v) + ' L' },
+      { key: 'ejer', label: 'Ejercicio', step: 5, fmt: (v) => v + ' min' },
+      { key: 'sueno', label: 'Sueño', step: 0.5, fmt: (v) => c(v) + ' h' },
+      { key: 'peso', label: 'Peso meta', step: 0.5, fmt: (v) => c(v) + ' kg' }
+    ];
+    return {
+      main: main.map((g) => ({ ...g, inc: () => this.bump(g.key, g.step), dec: () => this.bump(g.key, -g.step) })),
+      others: others.map((g, i) => ({
+        ...g,
+        display: g.fmt(s[g.key]),
+        row: 'display: flex; align-items: center; gap: 10px; padding: 8px 0;' + (i < others.length - 1 ? ' border-bottom: 1px solid #F6ECE4;' : ''),
+        inc: () => this.bump(g.key, g.step),
+        dec: () => this.bump(g.key, -g.step)
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

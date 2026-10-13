@@ -1,0 +1,270 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Ajustes.dc.html": {
+      "h": 980,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Configuración",
+      "w": 390,
+      "x": 1880,
+      "y": 3840
+    },
+    "Analisis.dc.html": {
+      "h": 920,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Resultado de la IA",
+      "w": 390,
+      "x": 1410,
+      "y": 1300
+    },
+    "Asistente.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Asistente nutricional",
+      "w": 390,
+      "x": 0,
+      "y": 3840
+    },
+    "Camara.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Foto con IA",
+      "w": 390,
+      "x": 940,
+      "y": 1300
+    },
+    "Habitos.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding 4 · Hábitos",
+      "w": 390,
+      "x": 2840,
+      "y": 0
+    },
+    "Inicio.dc.html": {
+      "h": 1040,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Inicio",
+      "w": 390,
+      "x": 0,
+      "y": 1300
+    },
+    "Login.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Login",
+      "w": 390,
+      "x": 960,
+      "y": 0
+    },
+    "Main.dc.html": {
+      "h": 844,
+      "title": "Identidad de marca",
+      "w": 880,
+      "x": 0,
+      "y": 0
+    },
+    "Manual.dc.html": {
+      "h": 920,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Agregar manualmente",
+      "w": 390,
+      "x": 1880,
+      "y": 1300
+    },
+    "Medidas.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding 2 · Estatura y peso",
+      "w": 390,
+      "x": 1900,
+      "y": 0
+    },
+    "Metas.dc.html": {
+      "h": 900,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Tu plan · calorías y proteína",
+      "w": 390,
+      "x": 3310,
+      "y": 0
+    },
+    "Objetivos.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding 3 · Objetivo",
+      "w": 390,
+      "x": 2370,
+      "y": 0
+    },
+    "Perfil.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Onboarding 1 · Nombre, edad, sexo",
+      "w": 390,
+      "x": 1430,
+      "y": 0
+    },
+    "Progreso.dc.html": {
+      "h": 1280,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Progreso y gráficas",
+      "w": 390,
+      "x": 1410,
+      "y": 3840
+    },
+    "ProveedorIA.dc.html": {
+      "h": 960,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Proveedor de IA · API key y modelo",
+      "w": 390,
+      "x": 470,
+      "y": 3840
+    },
+    "Recordatorios.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Recordatorios",
+      "w": 390,
+      "x": 940,
+      "y": 3840
+    },
+    "Registros.dc.html": {
+      "h": 1140,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Registros por sección",
+      "w": 390,
+      "x": 470,
+      "y": 1300
+    },
+    "Mas.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Acceso rápido (+)",
+      "w": 390,
+      "x": 0,
+      "y": 2800
+    },
+    "Peso.dc.html": {
+      "h": 844,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Registrar peso",
+      "w": 390,
+      "x": 470,
+      "y": 2800
+    },
+    "RegistrosAgua.dc.html": {
+      "h": 1140,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Registros · Agua",
+      "w": 390,
+      "x": 2350,
+      "y": 1300
+    },
+    "RegistrosEjercicio.dc.html": {
+      "h": 1140,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Registros · Ejercicio",
+      "w": 390,
+      "x": 2820,
+      "y": 1300
+    },
+    "RegistrosSueno.dc.html": {
+      "h": 1140,
+      "is_interactive": true,
+      "radius": 40,
+      "title": "Registros · Sueño",
+      "w": 390,
+      "x": 3290,
+      "y": 1300
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-10-12T15:00:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "t1": {
+      "kind": "title1",
+      "maxW": 3700,
+      "text": "1 · Identidad, acceso y onboarding",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    },
+    "t2": {
+      "kind": "title1",
+      "maxW": 3680,
+      "text": "2 · Registro diario y registros por sección",
+      "w": 240,
+      "x": 0,
+      "y": 1000
+    },
+    "t3": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "3 · Acceso rápido (+) y peso",
+      "w": 240,
+      "x": 0,
+      "y": 2500
+    },
+    "t4": {
+      "kind": "title1",
+      "maxW": 2270,
+      "text": "4 · Asistente, proveedor de IA, gráficas y configuración",
+      "w": 240,
+      "x": 0,
+      "y": 3540
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Login.dc.html",
+    "Perfil.dc.html",
+    "Medidas.dc.html",
+    "Objetivos.dc.html",
+    "Habitos.dc.html",
+    "Metas.dc.html",
+    "Inicio.dc.html",
+    "Registros.dc.html",
+    "Camara.dc.html",
+    "Analisis.dc.html",
+    "Manual.dc.html",
+    "RegistrosSueno.dc.html",
+    "RegistrosEjercicio.dc.html",
+    "RegistrosAgua.dc.html",
+    "Mas.dc.html",
+    "Peso.dc.html",
+    "Asistente.dc.html",
+    "ProveedorIA.dc.html",
+    "Recordatorios.dc.html",
+    "Progreso.dc.html",
+    "Ajustes.dc.html"
+  ],
+  "pages": [],
+  "title": "Kalo · App de nutrición y hábitos"
+}
