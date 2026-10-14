@@ -8,13 +8,14 @@ import { formatoDecimal, formatoDuracion, formatoEntero } from '../../domain/for
 import { proveedores } from '../../domain/ia'
 import { cerrarSesion } from '../auth/acciones'
 import { useAuth } from '../auth/contexto'
+import { CuentaYPrivacidad } from '../cuenta/CuentaYPrivacidad'
 import { useConfigIA } from '../ia/config'
 import { usePerfil } from '../perfil/contexto'
 import { useAvisosPorCorreo, useRecordatorios } from '../recordatorios/almacen'
 import { FilaRecordatorio } from '../recordatorios/FilaRecordatorio'
 
-const claseSeccion = 'text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase'
-const claseTarjeta = 'sombra-suave rounded-tarjeta border border-borde bg-white px-3.5'
+const claseSeccion = 'text-xs font-bold tracking-[0.8px] text-ceniza uppercase'
+const claseTarjeta = 'rounded-tarjeta border border-filo bg-muro px-3.5'
 
 interface FilaProps {
   ruta: string
@@ -29,14 +30,14 @@ function Fila({ ruta, icono, nombre, valor }: FilaProps) {
     <li className="border-b border-divisor last:border-b-0">
       <Link
         to={ruta}
-        className="flex min-h-[52px] items-center gap-3 rounded-xl text-tinta no-underline hover:bg-crema-suave"
+        className="flex min-h-[52px] items-center gap-3 rounded-xl text-hueso no-underline hover:bg-muro"
       >
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-crema text-kalo">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-banco text-llama">
           <Icon nombre={icono} tamano={18} />
         </span>
         <span className="grow text-sm font-semibold">{nombre}</span>
         {valor && <span className="text-sm font-extrabold">{valor}</span>}
-        <Icon nombre="flechaAdelante" tamano={16} grosor={2} className="text-tinta-3" />
+        <Icon nombre="flechaAdelante" tamano={16} grosor={2} className="text-ceniza" />
       </Link>
     </li>
   )
@@ -65,31 +66,31 @@ export function AjustesPage() {
 
   return (
     <div className="flex flex-col gap-5 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8 lg:gap-y-6">
-      <h1 className="text-2xl font-extrabold tracking-[-0.5px] lg:col-span-2 lg:text-[32px] lg:tracking-[-0.8px]">
+      <h1 className="num-marcador text-[40px] leading-[0.9] font-extrabold uppercase lg:col-span-2 lg:text-[48px]">
         Configuración
       </h1>
 
       <div className="flex flex-col gap-4">
-        <div className="flex items-center gap-3.5 rounded-tarjeta-lg bg-linear-to-br from-crema to-white p-4 ring-1 ring-borde">
+        <div className="flex items-center gap-3.5 rounded-tarjeta-lg bg-muro p-4">
           <div
             aria-hidden="true"
-            className="flex size-14 shrink-0 items-center justify-center rounded-full bg-kalo text-2xl font-extrabold text-white"
+            className="flex size-14 shrink-0 items-center justify-center rounded-full bg-brasa text-2xl font-extrabold text-white"
           >
             {datos.nombre.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0 grow">
             <div className="truncate text-lg font-extrabold">{datos.nombre}</div>
-            <div className="text-[13px] font-medium text-tinta-2">
+            <div className="text-[13px] font-medium text-ceniza">
               {datos.edad} años · {datos.estaturaCm} cm · {formatoDecimal(datos.pesoKg)} kg
             </div>
             {auth.fase === 'autenticado' && (
-              <div className="truncate text-xs font-medium text-tinta-3">{auth.usuario.correo}</div>
+              <div className="truncate text-xs font-medium text-ceniza">{auth.usuario.correo}</div>
             )}
           </div>
           <Link
             to={rutas.ajustesPerfil}
             aria-label="Editar perfil"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-white text-kalo-oscuro ring-1 ring-borde hover:bg-crema-suave"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-muro text-llama ring-1 ring-filo hover:bg-muro"
           >
             <Icon nombre="lapiz" tamano={18} />
           </Link>
@@ -125,27 +126,27 @@ export function AjustesPage() {
         <h2 className={claseSeccion}>Inteligencia artificial</h2>
         <Link
           to={rutas.proveedorIA}
-          className={`flex min-h-[62px] items-center gap-3 py-2 text-tinta no-underline hover:bg-crema-suave ${claseTarjeta}`}
+          className={`flex min-h-[62px] items-center gap-3 py-2 text-hueso no-underline hover:bg-muro ${claseTarjeta}`}
         >
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-crema text-kalo">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-banco text-llama">
             <Icon nombre="destello" tamano={18} grosor={2} />
           </span>
           <span className="flex min-w-0 grow flex-col">
             <span className="text-sm font-bold">Proveedor, API key y modelo</span>
-            <span className="truncate text-xs font-medium text-tinta-3">
+            <span className="truncate text-xs font-medium text-ceniza">
               {config ? `${proveedores[config.proveedor].nombre} · ${config.nombreModelo}` : 'Sin configurar'}
             </span>
           </span>
           {config && (
             <span
               className={`shrink-0 rounded-md px-2 py-[3px] text-xs font-bold ${
-                config.verificada ? 'bg-ia-fondo text-kalo-oscuro' : 'bg-media-fondo text-peso-texto'
+                config.verificada ? 'bg-llama/15 text-llama' : 'bg-peso-luz/15 text-peso-luz'
               }`}
             >
               {config.verificada ? 'Conectado' : 'Sin verificar'}
             </span>
           )}
-          <Icon nombre="flechaAdelante" tamano={16} grosor={2} className="shrink-0 text-tinta-3" />
+          <Icon nombre="flechaAdelante" tamano={16} grosor={2} className="shrink-0 text-ceniza" />
         </Link>
 
         <h2 id="ajustes-recordatorios" className={claseSeccion}>
@@ -160,7 +161,7 @@ export function AjustesPage() {
             />
           ))}
         </ul>
-        <p className="flex items-center gap-2 text-xs font-medium text-tinta-3">
+        <p className="flex items-center gap-2 text-xs font-medium text-ceniza">
           <Icon nombre="sobre" tamano={16} className="shrink-0" />
           {correo.disponible
             ? correoActivo
@@ -169,22 +170,25 @@ export function AjustesPage() {
             : 'Por correo: disponible con una cuenta.'}
         </p>
 
+        <Button variante="suave" tamano="lg" to={rutas.recordatorios}>
+          Ver todos los recordatorios
+        </Button>
+
+        <CuentaYPrivacidad />
+
         <div className="flex flex-col gap-2.5">
-          <Button variante="suave" tamano="lg" to={rutas.recordatorios}>
-            Ver todos los recordatorios
-          </Button>
           {auth.fase === 'autenticado' ? (
             <button
               type="button"
               disabled={saliendo}
               onClick={() => void salir()}
-              className="flex h-[50px] items-center justify-center gap-2 rounded-boton border border-borde bg-white text-[15px] font-bold text-error disabled:opacity-50"
+              className="flex h-[50px] items-center justify-center gap-2 rounded-boton border border-filo bg-muro text-[15px] font-bold text-exceso disabled:opacity-50"
             >
               <Icon nombre="salir" tamano={18} />
               {saliendo ? 'Cerrando sesión…' : 'Cerrar sesión'}
             </button>
           ) : (
-            <p className="text-center text-xs font-medium text-tinta-3">
+            <p className="text-center text-xs font-medium text-ceniza">
               Modo demostración: no hay ninguna cuenta iniciada.
             </p>
           )}

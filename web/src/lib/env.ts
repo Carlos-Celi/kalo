@@ -70,3 +70,12 @@ export function leerConfigSupabase(env: Entorno = import.meta.env): ConfigSupaba
 export function leerClaveTurnstile(env: Entorno = import.meta.env): string {
   return texto(env.VITE_TURNSTILE_SITE_KEY)
 }
+
+/**
+ * Correo de contacto para privacidad (opcional, público por diseño: aparece en
+ * la política). Solo se acepta si parece un correo.
+ */
+export function leerContactoPrivacidad(env: Entorno = import.meta.env): string | null {
+  const valor = texto(env.VITE_CONTACTO_PRIVACIDAD)
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor) ? valor : null
+}

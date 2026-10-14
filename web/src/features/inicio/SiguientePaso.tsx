@@ -1,6 +1,6 @@
+import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { Button } from '../../components/ui/Button'
-import { MascotAvatar } from '../../components/ui/MascotAvatar'
 import { formatoEntero } from '../../domain/formato'
 import { restante } from '../../domain/reglas'
 import type { Avance, SiguientePaso as Paso } from '../../domain/tipos'
@@ -11,33 +11,30 @@ interface Props {
   className?: string
 }
 
-/** Recomendación de la mascota para la próxima comida. */
+/** Banda clara con la próxima comida y la acción principal de Inicio. */
 export function SiguientePaso({ paso, proteina, className = '' }: Props) {
   const faltan = restante(proteina)
   return (
     <section
       aria-label="Siguiente paso"
-      className={`flex flex-col gap-3 rounded-tarjeta bg-crema p-3.5 lg:justify-between lg:gap-5 lg:rounded-tarjeta-lg lg:p-6 ${className}`}
+      className={`flex items-center gap-3 rounded-tarjeta bg-hueso p-3 pl-4 text-tinta ${className}`}
     >
-      <div className="flex items-center gap-3 lg:flex-col lg:items-start lg:gap-4">
-        <MascotAvatar tamano={40} className="lg:hidden" />
-        <MascotAvatar tamano={64} className="hidden lg:block" />
-        <div className="grow">
-          <h2 className="text-xs font-bold text-kalo-oscuro lg:text-[13px]">
-            Siguiente: {paso.comida}
-          </h2>
-          <p className="text-sm leading-[1.35] font-bold lg:mt-1 lg:text-lg">
-            {faltan > 0 && `Te faltan ${formatoEntero(faltan)} g de proteína. `}
-            {paso.mensaje}
-          </p>
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        <Button to={rutas.camara}>Registrar {paso.comida}</Button>
-        <Button to={rutas.asistente} variante="secundario">
+      <div className="min-w-0 grow">
+        <h2 className="text-[15px] leading-tight font-bold">Siguiente: {paso.comida}</h2>
+        <p className="mt-0.5 text-[13px] leading-snug text-tinta-2">
+          {faltan > 0 && `Te faltan ${formatoEntero(faltan)} g de proteína. `}
+          {paso.mensaje}
+        </p>
+        <Link
+          to={rutas.asistente}
+          className="-mb-2 mt-1 inline-flex min-h-11 items-center text-[13px] font-bold text-brasa underline"
+        >
           Pedir una idea
-        </Button>
+        </Link>
       </div>
+      <Button to={rutas.camara} tamano="lg" className="shrink-0">
+        Registrar<span className="sr-only"> {paso.comida}</span>
+      </Button>
     </section>
   )
 }

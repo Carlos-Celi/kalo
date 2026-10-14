@@ -10,7 +10,7 @@ Motivos en [ADR 0001](decisiones/0001-stack-web.md), [0002](decisiones/0002-dato
 app/           arranque: rutas, router, AppShell (marco con navegación)
 theme/         global.css: tokens de la marca y estilos base
 components/
-  ui/          piezas visuales sin conocimiento del dominio (Button, ProgressRing…)
+  ui/          piezas visuales sin conocimiento del dominio (Button, PanelMeta, LineaAvance…)
   nav/         TabBar (móvil) y Sidebar (escritorio)
 features/      una carpeta por pantalla o flujo (inicio/, registros/, progreso/, ia/…)
 domain/        tipos, reglas de negocio y formato; sin React ni acceso a datos
@@ -50,8 +50,10 @@ Una ruta con `handle: { pantallaCompleta: true }` (el asistente) hace que `AppSh
 `features/auth/AuthProvider` envuelve todas las rutas y expone el estado con `useAuth()`: `cargando`, `demo` (sin Supabase configurado), `anonimo` o `autenticado`. `RutaProtegida` redirige a `/login` cuando no hay sesión. Es solo navegación: quien protege los datos es RLS en la base de datos. Las llamadas a Supabase Auth están en `features/auth/acciones.ts`, que devuelve motivos de fallo propios en lugar de los mensajes del servidor.
 
 ## Diseño y tema
-- Los valores visuales vienen de `design/*.dc.html` y se expresan como tokens en `theme/global.css` (`bg-kalo`, `text-tinta-3`, `rounded-tarjeta`…). No se escriben colores hexadecimales sueltos en los componentes.
-- La tipografía se sirve desde el propio sitio (`@fontsource-variable/plus-jakarta-sans`): sin peticiones a terceros.
+- Los valores visuales vienen de la guía `docs/rediseno/guia.md` y se expresan como tokens en `theme/global.css` (`bg-muro`, `text-hueso`, `text-ceniza`, `bg-brasa`, `rounded-tarjeta`…). No se escriben colores hexadecimales sueltos en los componentes.
+- La tipografía se sirve desde el propio sitio (`@fontsource-variable/onest` y `@fontsource/saira-condensed`): sin peticiones a terceros. Los números de marcador usan la utilidad `num-marcador`.
+- `LuzSala` y `LineaAvance` dibujan el avance y el estado por forma; los valores dinámicos pasan por la prop `style` (la CSP no admite estilos en línea en el HTML).
+- `data/ultimoRegistro.ts` guarda en memoria el último hábito registrado para resaltarlo como «Nuevo» en Inicio.
 - Los iconos son los SVG del diseño, centralizados en `components/ui/Icon.tsx`.
 
 ## Responsive

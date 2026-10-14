@@ -41,7 +41,7 @@ export function MetasAjustePage() {
           <span id="metas-principales">Principales</span>
         </TituloSeccion>
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-[20px] border-[1.5px] border-llama bg-crema p-4">
+          <div className="rounded-[20px] border-[1.5px] border-llama bg-banco p-4">
             <CampoNumero
               id="meta-kcal"
               etiqueta="Calorías"
@@ -54,7 +54,7 @@ export function MetasAjustePage() {
               ayuda={NOTA_CALORIAS[datos.objetivo]}
             />
           </div>
-          <div className="rounded-[20px] border-[1.5px] border-llama bg-crema p-4">
+          <div className="rounded-[20px] border-[1.5px] border-llama bg-banco p-4">
             <CampoNumero
               id="meta-proteina"
               etiqueta="Proteína"
@@ -110,9 +110,9 @@ export function MetasAjustePage() {
         </div>
       </section>
 
-      <div className="flex flex-col gap-3 rounded-boton bg-crema-suave p-3.5 sm:flex-row sm:items-center">
-        <Icon nombre="destello" tamano={18} grosor={2} className="shrink-0 text-kalo" />
-        <p className="grow text-[13px] leading-normal font-medium text-tinta-2">
+      <div className="flex flex-col gap-3 rounded-boton bg-muro p-3.5 sm:flex-row sm:items-center">
+        <Icon nombre="destello" tamano={18} grosor={2} className="shrink-0 text-llama" />
+        <p className="grow text-[13px] leading-normal font-medium text-ceniza">
           Según tu perfil actual te sugerimos{' '}
           <strong className="font-extrabold">{formatoEntero(sugeridas.kcal)} kcal</strong> y{' '}
           <strong className="font-extrabold">{formatoEntero(sugeridas.proteinaG)} g de proteína</strong>.
@@ -123,7 +123,7 @@ export function MetasAjustePage() {
             setMetas(sugeridas)
             editar()
           }}
-          className="h-11 shrink-0 rounded-full bg-white px-4 text-[13px] font-bold text-kalo-oscuro hover:bg-kalo-claro"
+          className="h-11 shrink-0 rounded-full bg-muro px-4 text-[13px] font-bold text-llama hover:bg-banco"
         >
           Usar las sugeridas
         </button>

@@ -27,26 +27,29 @@ Registro de comida (foto + IA o manual), agua, ejercicio, sueño y peso. Dos met
 
 ## Identidad
 - Nombre: **Kalo**. Mascota/logo: llama con lentes de sol. `assets/Kalo.png` es la llama sin fondo (avatares circulares e ilustraciones); `assets/kalo-mascot-b.png` es el ícono cuadrado a sangre con esquinas redondeadas (logotipo, favicon, notificaciones); `assets/kalo-mascot.png` es el ícono original con márgenes blancos (conservado como fuente).
-- Tipografía: Plus Jakarta Sans (400–800).
-- Colores: primario `#D13D0A` (botones, activo) · llama `#F97316` · sol `#FFC933` (proteína) · brasa `#A92408`/`#9A2E06` · crema `#FFF0E3`, `#FFF8F2` · bordes `#F2E4DA` · texto `#2B1810` · texto secundario `#7A6458`/`#5A4337` · agua `#2F80D8` (`#1A5FA8` si lleva texto blanco) · ejercicio `#E8772E`/`#A04B12` · sueño `#7C2D12` · error/exceso `#B42318` · peso (tarjeta) `#FFF4CC`/`#8A5200`.
+- **La guía visual vigente es `docs/rediseno/guia.md`** («Sala de estudio»). `design/` conserva la estructura y el contenido de las pantallas, pero no su estilo (color, tipografía, componentes).
+- Tipografía: Saira Condensed (600–800) para números de marcador y títulos; Onest para la interfaz.
+- Colores (app oscura, sin modo claro): `sala` `#110C0A` (fondo) · `muro` `#1E1512`/`banco` `#2A1E19` (superficies) · `hueso` `#F3EEE8` (texto) · `ceniza` `#B8ABA2` (texto secundario) · `brasa` `#D13D0A` (solo acciones) · llama `#F97316` (calorías) · sol `#FFC933` (proteína) · agua `#6AAEF0` · ejercicio `#F0904A` · sueño `#D99A7C` · peso `#F2C46B` · exceso `#FF6A55`. Detalle y contrastes en la guía.
+- La luz de sala (resplandor detrás de calorías y proteína) y la línea de avance son datos: el estado se lee por forma (sólida, discontinua, doble) y símbolo (✓, ½, !), no solo por color.
 - Accesibilidad: objetivos táctiles ≥44 px, texto ≥12 px, foco visible, etiquetas accesibles, no depender solo del color.
 
 ## Navegación
-Tab bar: Inicio · Registros · (+) acceso rápido · Asistente · Progreso. Ajustes y Recordatorios se abren desde Inicio.
+Tab bar: Inicio · Registros · (+) acceso rápido · Asistente · Progreso. Ajustes y Recordatorios se abren desde Inicio. En escritorio, barra lateral con las mismas secciones y el botón "Registro rápido" justo debajo de Progreso.
 
 ## Mapa de pantallas (archivo → qué es)
 - Marca/acceso/onboarding: `Main` (guía de marca, no es pantalla), `Login`, `Perfil` (nombre, edad, sexo), `Medidas` (estatura, peso), `Objetivos`, `Habitos`, `Metas` (plan generado con calorías y proteína).
-- `Inicio`: saludo, dos anillos (calorías y proteína), tarjeta "Siguiente paso", 4 mosaicos de hábitos, barras de 7 días.
-- `Registros` (hub): selector de 4 secciones (Comida, Agua, Ejercicio, Sueño); anillos semanales por día (cumplido / parcial / excedido); detalle y registro inline por sección. `RegistrosAgua/Ejercicio/Sueno` son solo variantes con otra pestaña activa: no son pantallas aparte.
+- `Inicio`: saludo con Kalo, dos paneles de meta (calorías y proteína) con su luz y línea de avance, banda "Siguiente paso", resumen "Registros de hoy" (4 mosaicos que enlazan a su sección, sin botones de registro) y gráfica de 7 días. No lista las comidas del día.
+- `Registros` (hub): selector de 4 secciones (Comida, Agua, Ejercicio, Sueño); semana con un anillo de progreso por día y símbolo (cumplido ✓ / parcial ½ / excedido !); detalle y registro inline por sección. `RegistrosAgua/Ejercicio/Sueno` son solo variantes con otra pestaña activa: no son pantallas aparte.
   - Comida: abre `Camara` (foto) → `Analisis` (resultado IA editable, guardar) o `Manual`.
   - Agua: +250/+500/+750 ml, deshacer. Ejercicio: +10/+20/+30 min, deshacer. Sueño: ajuste ±15 min.
 - `Mas`: hoja "Registro rápido": Comida, Agua, Ejercicio, Sueño, Peso. `Peso`: stepper ±0,1 kg, IMC, meta, gráfica, nota, guardado con confirmación.
 - `Asistente`: chat nutriólogo con sugerencias de comidas y botón "Registrar".
 - `ProveedorIA`: proveedor (Anthropic/OpenAI/Google), API key (oculta/mostrar, guardar en almacenamiento seguro del dispositivo), modelo, probar conexión.
-- `Progreso`: gráficas de calorías, proteína y peso. `Recordatorios`. `Ajustes`.
+- `Progreso`: gráficas de calorías, proteína y peso. `Recordatorios`. `Ajustes` (incluye "Tu cuenta y tus datos": descargar mis datos, documentos legales y eliminar la cuenta).
+- Legales (públicas, sin diseño en `design/`): `/privacidad`, `/terminos`, `/cookies`. Crear cuenta exige aceptar términos, privacidad y el tratamiento de datos de salud (ADR 0011).
 
 ## Reglas de dominio
-- Anillo diario: cumplido = ≥ meta (comida: entre 90 % y 105 % de la meta); excedido solo aplica a calorías (> 105 %, color de error con "!").
+- Estado diario (línea de avance): cumplido = ≥ meta (comida: entre 90 % y 105 % de la meta); excedido solo aplica a calorías (> 105 %, color de error con "!").
 - Metas por defecto de ejemplo: 1.850 kcal, 140 g proteína, 2,5 L agua, 60 min ejercicio, 8 h sueño, peso meta 72 kg, estatura 172 cm. IMC = kg / m².
 - Todos los números del diseño son datos de ejemplo: sustituir por datos reales del usuario.
 

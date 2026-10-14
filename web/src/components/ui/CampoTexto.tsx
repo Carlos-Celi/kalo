@@ -38,8 +38,8 @@ export function CampoTexto({
         {etiqueta}
       </label>
       <div
-        className={`flex h-[52px] items-center gap-2.5 rounded-boton border bg-crema-suave pl-3.5 text-tinta-3 focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-white focus-within:text-kalo ${
-          error ? 'border-error' : 'border-borde'
+        className={`flex h-[52px] items-center gap-2.5 rounded-boton border bg-muro pl-3.5 text-ceniza focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-muro focus-within:text-llama ${
+          error ? 'border-exceso' : 'border-filo'
         } ${esContrasena ? 'pr-1.5' : 'pr-3.5'}`}
       >
         <Icon nombre={icono} tamano={20} className="shrink-0" />
@@ -50,7 +50,7 @@ export function CampoTexto({
           onChange={(evento) => onCambio(evento.target.value)}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? idError : undefined}
-          className="min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-tinta outline-none"
+          className="min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-hueso outline-none"
           {...resto}
         />
         {sufijo && <span className="text-[13px] font-semibold">{sufijo}</span>}
@@ -60,14 +60,14 @@ export function CampoTexto({
             aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
             aria-pressed={visible}
             onClick={() => setVisible((actual) => !actual)}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full text-tinta-3"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-ceniza"
           >
             <Icon nombre={visible ? 'ojoTachado' : 'ojo'} tamano={20} />
           </button>
         )}
       </div>
       {error && (
-        <p id={idError} className="text-xs font-semibold text-error">
+        <p id={idError} className="text-xs font-semibold text-exceso">
           {error}
         </p>
       )}

@@ -2,6 +2,67 @@
 
 Las entradas más recientes van arriba.
 
+## 2026-10-13 · Auditoría: diseño completo, seguridad, políticas y control de datos
+
+**Hecho** ([ADR 0011](../tecnica/decisiones/0011-politicas-y-control-de-datos.md))
+- **Diseño**: revisadas todas las pantallas a 390 px y 1280 px. Registros vuelve a anillos de progreso (completo ✓, arco discontinuo ½, doble anillo rojo !). Inicio sin el botón «+250 ml». «Registro rápido» debajo de Progreso en escritorio. Steppers y deslizadores con el estilo de la sala y una sola acción `brasa` por pantalla. Página 404 y de error rediseñadas.
+- **Errores**: componente `Alerta` único (icono, qué pasó, qué hacer, acción opcional) en las 23 alertas de la app, con textos revisados.
+- **Políticas**: `/privacidad`, `/terminos` y `/cookies`, públicas y enlazadas desde el acceso y Configuración. Consentimiento explícito (términos, privacidad y datos de salud) al crear la cuenta, guardado con su versión.
+- **Control de datos**: «Descargar mis datos» (JSON) y «Eliminar mi cuenta» (migración `20261015000000_eliminar_cuenta.sql` + borrado de lo local).
+- **Seguridad**: nuevas cabeceras (`Cross-Origin-Resource-Policy`, `X-Permitted-Cross-Domain-Policies`, `Origin-Agent-Cluster`, `Permissions-Policy` ampliada, `manifest-src` y `worker-src` en la CSP, `no-cache` en el HTML), `robots.txt`, `security.txt`, `SECURITY.md` y contraseñas con letras y números.
+- **Favicon y app instalable**: `favicon.ico`, iconos de 192 y 512 px, icono *maskable* sobre la sala, `site.webmanifest` y `color-scheme` oscuro.
+
+**Verificado**
+- Lint, tipos y build en verde; 154 pruebas (nuevas: anillos, documentos legales, consentimiento, regla de contraseña, exportación, borrado local).
+- `npm audit`: 0 vulnerabilidades. gitleaks: historial limpio (solo la clave pública de Supabase en archivos ignorados).
+- Vista previa de producción (nginx): todas las cabeceras presentes, manifiesto con su tipo, sin errores de CSP en la consola; la app se niega a cargarse dentro de un iframe.
+- Borrado de cuenta contra el Supabase local: el anónimo recibe 401, la cuenta y sus registros desaparecen y otra cuenta queda intacta.
+
+**Sin verificar**
+- En producción: aplicar la migración y fijar *Password requirements* en el panel de Supabase ([despliegue](../tecnica/despliegue.md)).
+- Turnstile y correo de confirmación con cuentas reales; dispositivos reales y lector de pantalla.
+- `mobile/` sigue sin estas funciones.
+
+## 2026-10-13 · Rediseño «Sala de estudio» en la web
+
+**Hecho** ([ADR 0010](../tecnica/decisiones/0010-rediseno-sala-de-estudio.md), [guía](../rediseno/guia.md))
+- **Tema**: app oscura con tokens `sala`, `muro`, `banco`, `hueso`, `ceniza`, `brasa`, llama y sol; colores de hábito aclarados; Saira Condensed (números y títulos) y Onest (interfaz) autoalojadas; se retira Plus Jakarta Sans.
+- **Componentes nuevos**: `PanelMeta` (número de marcador, línea de avance y luz), `LineaAvance` (sólida, discontinua, doble o punteada) y `LuzSala` (resplandor proporcional al avance; con exceso se atenúa). Sustituyen a `ProgressRing` y `ProgressBar`, que se eliminan.
+- **Inicio**: dos paneles de meta, banda «Siguiente», «Registros de hoy» (agua con atajo «+250 ml», ejercicio, sueño y comidas) y gráfica de 7 días con estado por barra (✓, ½, «!»). Ya no lista las comidas del día. Kalo brilla según el avance.
+- **«Nuevo»**: lo último que se registra queda resaltado en Inicio hasta que se mira (`data/ultimoRegistro.ts`, avisado desde la capa de datos).
+- **Registros**: título de marcador, control segmentado y semana con línea corta y símbolo por día, con leyenda.
+- **Resto de pantallas**: acceso con Kalo encendido, onboarding, Progreso, Asistente, Peso, Configuración, Recordatorios y Proveedor de IA con los tokens nuevos; texto oscuro sobre los tonos de hábito claros para el contraste.
+- `CLAUDE.md` y `docs/tecnica/arquitectura.md` actualizados con la nueva identidad.
+
+**Verificado**
+- Lint, tipos y build en verde; 143 pruebas (nuevas: `LineaAvance`, `PanelMeta`, Inicio sin lista de comidas, gráfica con texto por día y «Nuevo»).
+- En el navegador a 390 px y 1280 px: Inicio, Registros (Comida, Agua, Ejercicio, Sueño), Progreso, Peso, Configuración, Registro rápido, Manual, Cámara sin IA, Recordatorios, Proveedor de IA, acceso, onboarding y plan.
+- El build empaqueta las fuentes en `dist/assets` y `index.html` no pide nada a terceros.
+
+**Sin verificar**
+- Resultado de la IA y Asistente con una respuesta real (solo revisado el código y los estilos), dispositivos reales y lector de pantalla.
+- Docker: el volumen `node_modules` del contenedor no tiene las fuentes nuevas; hay que reconstruir (`docker compose build web`).
+- `mobile/` no recibió el rediseño; sus tokens salen de la guía.
+- Las poses extra de la mascota (con pesas, con vaso, dormido) siguen por encargar.
+
+## 2026-10-13 · Propuesta de rediseño «Sala de estudio»
+
+**Qué pasaba**
+- El diseño se parecía a cualquier app de conteo (tarjetas blancas, anillos, acento naranja), las dos metas principales se perdían entre mosaicos y la mascota solo aparecía como avatar. El público objetivo pasa a ser gym y fitness.
+
+**Hecho** ([ADR 0010](../tecnica/decisiones/0010-rediseno-sala-de-estudio.md))
+- Crítica del diseño actual y tres rondas de direcciones visuales. Se eligió «Sala de estudio»: sala oscura cálida, números de marcador y una luz detrás de calorías y proteína que crece con el avance.
+- Carpeta [`docs/rediseno/`](../rediseno/): guía del sistema visual, instrucciones de implementación (web y Flutter), propuesta completa en HTML y capturas de Inicio, Registros, Resultado de la IA, Asistente, Progreso, Acceso y Escritorio.
+- Ajuste pedido en la revisión: Inicio muestra el resumen de registros y la gráfica de 7 días en lugar de la lista de comidas.
+- `PRODUCT.md` con el contexto de producto (público, propósito, compromisos de marca).
+
+**Verificado**
+- Capturas a 390 px y 1440 px de la propuesta, sin desbordamiento horizontal. Contraste de cada color de la paleta medido sobre los fondos donde se usa.
+
+**Sin verificar**
+- Nada implementado aún en `web/` ni en `mobile/`.
+- Las poses adicionales de la mascota están por encargar.
+
 ## 2026-10-13 · Revisión de UI/UX y nuevas imágenes de la mascota
 
 **Qué pasaba**

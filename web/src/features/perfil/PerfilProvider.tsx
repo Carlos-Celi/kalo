@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Button } from '../../components/ui/Button'
+import { Alerta } from '../../components/ui/Alerta'
 import { repositorios } from '../../data'
 import type { Perfil, Plan } from '../../domain/perfil'
 import { PerfilContext, type PerfilContexto } from './contexto'
@@ -42,7 +42,7 @@ export function PerfilProvider({ children }: { children: ReactNode }) {
 
   if (estado.fase === 'cargando') {
     return (
-      <p role="status" className="py-16 text-center text-sm font-medium text-tinta-3">
+      <p role="status" className="py-16 text-center text-sm font-medium text-ceniza">
         Cargando…
       </p>
     )
@@ -50,20 +50,20 @@ export function PerfilProvider({ children }: { children: ReactNode }) {
 
   if (!contexto) {
     return (
-      <div className="flex flex-col items-center gap-4 px-5 py-16 text-center">
-        <p role="alert" className="text-sm font-semibold text-error">
-          No pudimos cargar tu perfil.
-        </p>
-        <Button
-          variante="suave"
-          onClick={() => {
-            setEstado({ fase: 'cargando' })
-            setIntento((actual) => actual + 1)
+      <main className="mx-auto flex min-h-dvh max-w-[480px] flex-col justify-center px-5">
+        <Alerta
+          titulo="No pudimos cargar tu perfil"
+          accion={{
+            texto: 'Reintentar',
+            onClick: () => {
+              setEstado({ fase: 'cargando' })
+              setIntento((actual) => actual + 1)
+            },
           }}
         >
-          Reintentar
-        </Button>
-      </div>
+          Suele ser la conexión o el servidor que tarda en responder. Tus datos están a salvo.
+        </Alerta>
+      </main>
     )
   }
 

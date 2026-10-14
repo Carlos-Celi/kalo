@@ -20,7 +20,6 @@ import { ObjetivosPaso } from '../features/onboarding/ObjetivosPaso'
 import { OnboardingLayout } from '../features/onboarding/OnboardingLayout'
 import { PerfilPaso } from '../features/onboarding/PerfilPaso'
 import { PlanPaso } from '../features/onboarding/PlanPaso'
-import { PantallaPendiente } from '../features/pendiente/PantallaPendiente'
 import { PerfilProvider } from '../features/perfil/PerfilProvider'
 import { PesoPage } from '../features/peso/PesoPage'
 import { ProgresoPage } from '../features/progreso/ProgresoPage'
@@ -31,6 +30,10 @@ import { RegistroRapidoPage } from '../features/registros/RegistroRapidoPage'
 import { RegistrosPage } from '../features/registros/RegistrosPage'
 import { RequierePlan } from '../features/perfil/RequierePlan'
 import { AppShell, type ManejadorDeRuta } from './AppShell'
+import { CookiesPage } from '../features/legal/CookiesPage'
+import { PrivacidadPage } from '../features/legal/PrivacidadPage'
+import { TerminosPage } from '../features/legal/TerminosPage'
+import { PaginaNoEncontrada } from './PaginaNoEncontrada'
 import { PantallaError } from './PantallaError'
 import { rutas } from './rutas'
 
@@ -69,7 +72,7 @@ const pantallasConNavegacion: RouteObject[] = [
       { path: rutas.ajustesMedidas, element: <MedidasAjustePage /> },
       { path: rutas.ajustesObjetivo, element: <ObjetivoAjustePage /> },
       { path: rutas.ajustesMetas, element: <MetasAjustePage /> },
-      { path: '*', element: <PantallaPendiente titulo="Página no encontrada" /> },
+      { path: '*', element: <PaginaNoEncontrada /> },
     ],
   },
 ]
@@ -119,6 +122,10 @@ const rutasDeLaApp: RouteObject[] = [
   },
   { path: rutas.login, element: <LoginPage /> },
   { path: rutas.restablecer, element: <RestablecerPage /> },
+  // Públicas: se pueden leer antes de crear la cuenta.
+  { path: rutas.privacidad, element: <PrivacidadPage /> },
+  { path: rutas.terminos, element: <TerminosPage /> },
+  { path: rutas.cookies, element: <CookiesPage /> },
 ]
 
 /** Todas las rutas cuelgan del proveedor de sesión. */

@@ -1,0 +1,5 @@
+# Cómo informar de una vulnerabilidad en Kalo (RFC 9116).
+Contact: https://github.com/Carlos-Celi/kalo/security/advisories/new
+Policy: https://github.com/Carlos-Celi/kalo/blob/main/SECURITY.md
+Preferred-Languages: es, en
+Expires: 2027-10-13T00:00:00.000Z

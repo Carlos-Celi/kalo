@@ -90,13 +90,13 @@ export function MedidasAjustePage() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="flex items-center gap-3 rounded-boton bg-crema p-3.5 text-[13px] font-semibold text-kalo-oscuro">
+        <div className="flex items-center gap-3 rounded-boton bg-banco p-3.5 text-[13px] font-semibold text-llama">
           <Icon nombre="pulso" tamano={18} className="shrink-0" />
           {indice !== null
             ? `Tu IMC estimado es ${formatoDecimal(indice)}. Lo usamos solo como referencia.`
             : 'Completa tus medidas para ver tu IMC.'}
         </div>
-        <div className="flex items-center gap-3 rounded-boton bg-peso-fondo p-3.5 text-[13px] font-semibold text-peso-texto">
+        <div className="flex items-center gap-3 rounded-boton bg-peso-luz/15 p-3.5 text-[13px] font-semibold text-peso-luz">
           <Icon nombre="diana" tamano={18} className="shrink-0" />
           {diferencia === 0
             ? 'Estás en tu peso meta.'

@@ -19,10 +19,10 @@ export function AppShell() {
   )
 
   return (
-    <div className="min-h-dvh bg-white lg:grid lg:grid-cols-[264px_minmax(0,1fr)]">
+    <div className="min-h-dvh bg-sala lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
       <a
         href="#contenido"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-30 focus:rounded-boton-sm focus:bg-white focus:px-4 focus:py-3 focus:font-bold"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-30 focus:rounded-boton-sm focus:bg-hueso focus:px-4 focus:py-3 focus:font-bold focus:text-tinta"
       >
         Saltar al contenido
       </a>

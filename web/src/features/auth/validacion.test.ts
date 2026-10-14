@@ -21,7 +21,9 @@ describe('validación de acceso', () => {
 
   it('exige al menos 8 caracteres en contraseñas nuevas', () => {
     expect(validarContrasenaNueva('1234567')).toMatch(/al menos 8/)
-    expect(validarContrasenaNueva('12345678')).toBeNull()
+    expect(validarContrasenaNueva('12345678')).toMatch(/letras y números/)
+    expect(validarContrasenaNueva('solo-letras')).toMatch(/letras y números/)
+    expect(validarContrasenaNueva('kalo2026')).toBeNull()
   })
 
   it('rechaza contraseñas de más de 72 bytes', () => {

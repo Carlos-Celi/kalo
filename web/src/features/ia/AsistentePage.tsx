@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 
 import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Icon } from '../../components/ui/Icon'
 import { MascotAvatar } from '../../components/ui/MascotAvatar'
 import { Markdown } from '../../components/ui/Markdown'
@@ -221,8 +222,8 @@ export function AsistentePage() {
 
   const burbuja = (rol: TurnoChat['rol']) =>
     rol === 'usuario'
-      ? 'rounded-[20px_20px_6px_20px] bg-kalo text-white'
-      : 'rounded-[20px_20px_20px_6px] border border-borde bg-crema-suave text-tinta'
+      ? 'rounded-[20px_20px_6px_20px] bg-brasa text-white'
+      : 'rounded-[20px_20px_20px_6px] border border-filo bg-muro text-hueso'
 
   const historialProps = {
     chats,
@@ -235,23 +236,23 @@ export function AsistentePage() {
   }
 
   return (
-    <div className="flex h-full min-h-0 bg-white">
+    <div className="flex h-full min-h-0 bg-muro">
       <aside
         aria-label="Historial de chats"
-        className="hidden w-[300px] shrink-0 border-r border-borde bg-white lg:block"
+        className="hidden w-[300px] shrink-0 border-r border-filo bg-muro lg:block"
       >
         <HistorialChats {...historialProps} />
       </aside>
 
       <section aria-label="Asistente Kalo" className="relative flex min-w-0 grow flex-col">
-        <header className="flex items-center gap-3 border-b border-borde bg-white px-4 py-3 lg:px-8">
+        <header className="flex items-center gap-3 border-b border-filo bg-muro px-4 py-3 lg:px-8">
           <MascotAvatar tamano={44} alt="Mascota de Kalo" />
           <div className="min-w-0 grow">
             <h1 className="truncate text-xl font-extrabold tracking-[-0.4px]">Asistente Kalo</h1>
-            <div className="flex items-center gap-1.5 truncate text-xs font-semibold text-tinta-3">
+            <div className="flex items-center gap-1.5 truncate text-xs font-semibold text-ceniza">
               <span
                 aria-hidden="true"
-                className={`size-2 shrink-0 rounded-full ${config ? 'bg-llama' : 'bg-borde-fuerte'}`}
+                className={`size-2 shrink-0 rounded-full ${config ? 'bg-llama' : 'bg-filo'}`}
               />
               {config ? `Nutriólogo IA · ${config.nombreModelo}` : 'Nutriólogo IA · sin conectar'}
             </div>
@@ -261,7 +262,7 @@ export function AsistentePage() {
             aria-label="Chat nuevo"
             disabled={ocupado || (activo === null && turnos.length === 0)}
             onClick={nuevoChat}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-kalo text-white hover:bg-kalo-oscuro disabled:opacity-50 lg:hidden"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-brasa text-white hover:bg-brasa-hover disabled:opacity-50 lg:hidden"
           >
             <Icon nombre="mas" tamano={20} grosor={2.4} />
           </button>
@@ -270,7 +271,7 @@ export function AsistentePage() {
             aria-label="Historial de chats"
             aria-expanded={verHistorial}
             onClick={() => setVerHistorial((actual) => !actual)}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full border border-borde text-tinta hover:bg-crema-suave lg:hidden"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full border border-filo text-hueso hover:bg-muro lg:hidden"
           >
             <Icon nombre="reloj" tamano={20} />
           </button>
@@ -278,7 +279,7 @@ export function AsistentePage() {
           <Link
             to={rutas.proveedorIA}
             aria-label="Configurar proveedor de IA"
-            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-borde text-tinta hover:bg-crema-suave lg:flex"
+            className="hidden size-11 shrink-0 items-center justify-center rounded-full border border-filo text-hueso hover:bg-muro lg:flex"
           >
             <Icon nombre="ajustes" tamano={20} />
           </Link>
@@ -286,13 +287,13 @@ export function AsistentePage() {
 
         <div className="relative flex min-h-0 grow flex-col">
         {verHistorial && (
-          <div className="absolute inset-0 z-10 flex flex-col overflow-y-auto bg-white lg:hidden">
+          <div className="absolute inset-0 z-10 flex flex-col overflow-y-auto bg-muro lg:hidden">
             <div className="min-h-0 grow">
               <HistorialChats {...historialProps} />
             </div>
             <Link
               to={rutas.proveedorIA}
-              className="mx-4 mb-4 flex h-12 shrink-0 items-center justify-center gap-2 rounded-boton border border-borde text-sm font-bold text-tinta no-underline hover:bg-crema-suave"
+              className="mx-4 mb-4 flex h-12 shrink-0 items-center justify-center gap-2 rounded-boton border border-filo text-sm font-bold text-hueso no-underline hover:bg-muro"
             >
               <Icon nombre="ajustes" tamano={18} />
               Configurar proveedor de IA
@@ -305,19 +306,19 @@ export function AsistentePage() {
           role="region"
           aria-label="Conversación"
           tabIndex={0}
-          className="min-h-0 grow overflow-y-auto bg-linear-to-b from-white to-crema-suave px-4 py-5 lg:px-8"
+          className="min-h-0 grow overflow-y-auto bg-sala px-4 py-5 lg:px-8"
         >
           <p role="status" className="sr-only">
             {anuncio}
           </p>
           <div className="mx-auto flex w-full max-w-[820px] flex-col gap-3.5">
-            <p className="flex items-center gap-2 self-center rounded-full bg-crema px-3.5 py-2 text-center text-xs leading-normal font-semibold text-kalo-oscuro">
+            <p className="flex items-center gap-2 self-center rounded-full bg-banco px-3.5 py-2 text-center text-xs leading-normal font-semibold text-llama">
               <Icon nombre="escudo" tamano={16} className="shrink-0" />
               {AVISO_MEDICO}
             </p>
 
             {totales && (
-              <div className="self-center rounded-full bg-arena px-3 py-1 text-xs font-semibold text-tinta-2">
+              <div className="self-center rounded-full bg-banco px-3 py-1 text-xs font-semibold text-ceniza">
                 Hoy: {formatoEntero(totales.kcal)} kcal · {formatoEntero(totales.proteinaG)} g de proteína
               </div>
             )}
@@ -328,11 +329,11 @@ export function AsistentePage() {
             )}
 
             {!config && (
-              <div className="flex flex-col items-start gap-2.5 rounded-2xl bg-peso-fondo p-4 text-[13px] leading-normal font-semibold text-peso-texto">
+              <div className="flex flex-col items-start gap-2.5 rounded-2xl bg-peso-luz/15 p-4 text-[13px] leading-normal font-semibold text-peso-luz">
                 Para conversar con el asistente, conecta tu proveedor de IA con tu propia API key.
                 <Link
                   to={rutas.proveedorIA}
-                  className="flex h-11 items-center rounded-full bg-kalo px-4 text-[13px] font-bold text-white no-underline hover:bg-kalo-oscuro hover:text-white"
+                  className="flex h-11 items-center rounded-full bg-brasa px-4 text-[13px] font-bold text-white no-underline hover:bg-brasa-hover hover:text-white"
                 >
                   Configurar la IA
                 </Link>
@@ -347,9 +348,9 @@ export function AsistentePage() {
                     type="button"
                     disabled={!puedeEnviar}
                     onClick={() => void preguntar(consulta)}
-                    className="flex min-h-12 items-center gap-2 rounded-2xl border border-borde bg-white px-3.5 py-2 text-left text-[13px] font-bold text-tinta hover:border-llama hover:bg-crema-suave disabled:opacity-50"
+                    className="flex min-h-12 items-center gap-2 rounded-2xl border border-filo bg-muro px-3.5 py-2 text-left text-[13px] font-bold text-hueso hover:border-llama hover:bg-muro disabled:opacity-50"
                   >
-                    <Icon nombre="destello" tamano={16} grosor={2} className="shrink-0 text-kalo" />
+                    <Icon nombre="destello" tamano={16} grosor={2} className="shrink-0 text-llama" />
                     {consulta}
                   </button>
                 ))}
@@ -372,11 +373,11 @@ export function AsistentePage() {
                 {turno.sugerencias.map((sugerencia) => (
                   <div
                     key={sugerencia.nombre}
-                    className="flex items-center gap-2.5 rounded-2xl border border-borde bg-white px-3.5 py-2.5"
+                    className="flex items-center gap-2.5 rounded-2xl border border-filo bg-muro px-3.5 py-2.5"
                   >
                     <span className="flex min-w-0 grow flex-col">
                       <span className="text-[13px] font-bold">{sugerencia.nombre}</span>
-                      <span className="text-xs font-medium text-tinta-3">
+                      <span className="text-xs font-medium text-ceniza">
                         {formatoEntero(sugerencia.kcal)} kcal · {formatoEntero(sugerencia.proteina_g)} g de proteína
                       </span>
                     </span>
@@ -384,7 +385,7 @@ export function AsistentePage() {
                       to={`${rutas.comidaManual}?fecha=${hoy}`}
                       state={{ prefill: prefill(sugerencia) }}
                       aria-label={`Registrar ${sugerencia.nombre}`}
-                      className="flex h-11 shrink-0 items-center rounded-full bg-crema px-4 text-xs font-bold text-kalo-oscuro no-underline hover:bg-kalo-claro"
+                      className="flex h-11 shrink-0 items-center rounded-full bg-banco px-4 text-xs font-bold text-llama no-underline hover:bg-banco"
                     >
                       Registrar
                     </Link>
@@ -417,21 +418,19 @@ export function AsistentePage() {
             )}
 
             {fallo && (
-              <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-                {fallo}
-              </p>
+              <Alerta titulo="El asistente no pudo responder">{fallo}</Alerta>
             )}
             {lleno && (
               <div
                 role="status"
-                className="flex flex-col items-start gap-2.5 rounded-2xl bg-media-fondo p-4 text-[13px] leading-normal font-semibold text-peso-texto"
+                className="flex flex-col items-start gap-2.5 rounded-2xl bg-peso-luz/15 p-4 text-[13px] leading-normal font-semibold text-peso-luz"
               >
                 Este chat llegó al límite de {LIMITE_MENSAJES_POR_CHAT} mensajes. Abre uno nuevo para
                 seguir: el asistente volverá a leer tus registros al día.
                 <button
                   type="button"
                   onClick={nuevoChat}
-                  className="flex h-11 items-center gap-2 rounded-full bg-kalo px-4 text-[13px] font-bold text-white"
+                  className="flex h-11 items-center gap-2 rounded-full bg-brasa px-4 text-[13px] font-bold text-white"
                 >
                   <Icon nombre="mas" tamano={16} grosor={2.4} />
                   Abrir un chat nuevo
@@ -442,7 +441,7 @@ export function AsistentePage() {
           </div>
         </div>
 
-        <div className="border-t border-borde bg-white px-4 pt-3 pb-3 lg:px-8">
+        <div className="border-t border-filo bg-muro px-4 pt-3 pb-3 lg:px-8">
           <div className="mx-auto flex w-full max-w-[820px] flex-col gap-2.5">
             {turnos.length > 0 && !lleno && (
               <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-0.5">
@@ -452,7 +451,7 @@ export function AsistentePage() {
                     type="button"
                     disabled={!puedeEnviar}
                     onClick={() => void preguntar(consulta)}
-                    className="h-11 shrink-0 rounded-full border border-borde bg-white px-3.5 text-xs font-semibold whitespace-nowrap text-tinta hover:bg-crema-suave disabled:opacity-50"
+                    className="h-11 shrink-0 rounded-full border border-filo bg-muro px-3.5 text-xs font-semibold whitespace-nowrap text-hueso hover:bg-muro disabled:opacity-50"
                   >
                     {consulta}
                   </button>
@@ -462,7 +461,7 @@ export function AsistentePage() {
 
             <form
               onSubmit={enviar}
-              className="flex items-end gap-2 rounded-[26px] border border-borde bg-crema-suave py-1.5 pr-1.5 pl-4 focus-within:border-llama focus-within:bg-white"
+              className="flex items-end gap-2 rounded-[26px] border border-filo bg-muro py-1.5 pr-1.5 pl-4 focus-within:border-llama focus-within:bg-muro"
             >
               <label htmlFor="consulta" className="sr-only">
                 Escribe tu consulta
@@ -480,19 +479,19 @@ export function AsistentePage() {
                 disabled={!config || lleno}
                 onChange={(evento) => setBorrador(evento.target.value)}
                 onKeyDown={alTeclear}
-                className="max-h-40 min-h-[44px] min-w-0 grow resize-none border-0 bg-transparent py-[11px] text-[15px] leading-snug font-medium text-tinta outline-none"
+                className="max-h-40 min-h-[44px] min-w-0 grow resize-none border-0 bg-transparent py-[11px] text-[15px] leading-snug font-medium text-hueso outline-none"
               />
               <button
                 type="submit"
                 aria-label="Enviar"
                 disabled={!puedeEnviar || !borrador.trim()}
-                className="flex size-11 shrink-0 items-center justify-center rounded-full bg-kalo text-white hover:bg-kalo-oscuro disabled:opacity-50"
+                className="flex size-11 shrink-0 items-center justify-center rounded-full bg-brasa text-white hover:bg-brasa-hover disabled:opacity-50"
               >
                 <Icon nombre="enviar" tamano={20} grosor={2.2} />
               </button>
             </form>
 
-            <div className="flex items-center gap-3 px-1 text-xs font-medium text-tinta-3">
+            <div className="flex items-center gap-3 px-1 text-xs font-medium text-ceniza">
               <span aria-hidden="true" className="hidden sm:inline">
                 Intro envía · Mayús + Intro, nueva línea
               </span>

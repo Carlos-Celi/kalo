@@ -266,6 +266,11 @@ export function crearRepositoriosSupabase(cliente: SupabaseClient): Repositorios
           'No se pudo guardar el plan.',
         )
       },
+      async eliminarCuenta() {
+        // La función borra a quien llama; por cascada caen su perfil y todos sus registros.
+        const { error } = await cliente.rpc('eliminar_mi_cuenta')
+        if (error) throw new Error('No se pudo eliminar la cuenta.')
+      },
     },
     registros: {
       async obtenerRango(desde, hasta) {

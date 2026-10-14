@@ -38,7 +38,7 @@ export function LineaPeso({ valores, meta, alto = 100, conPuntos = false }: Prop
           : `Peso de ${formatoPeso(valores[0])} a ${formatoPeso(valores[ultimo])} kg en ${valores.length} registros`
       }
     >
-      <line x1="0" y1={base} x2={ANCHO} y2={base} className="stroke-borde" />
+      <line x1="0" y1={base} x2={ANCHO} y2={base} className="stroke-filo" />
       {meta !== undefined && (
         <line
           x1="0"
@@ -56,7 +56,7 @@ export function LineaPeso({ valores, meta, alto = 100, conPuntos = false }: Prop
         strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={conPuntos ? 'stroke-llama' : 'stroke-kalo'}
+        className={conPuntos ? 'stroke-llama' : 'stroke-llama'}
       />
       {conPuntos &&
         valores
@@ -69,7 +69,7 @@ export function LineaPeso({ valores, meta, alto = 100, conPuntos = false }: Prop
         cy={y(valores[ultimo])}
         r="6"
         strokeWidth={conPuntos ? 0 : 3}
-        className={conPuntos ? 'fill-kalo' : 'fill-llama stroke-white'}
+        className={conPuntos ? 'fill-llama' : 'fill-llama stroke-white'}
       />
     </svg>
   )

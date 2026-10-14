@@ -62,10 +62,10 @@ function GraficaMeta({
   const lineaMeta = Math.round((meta / escala) * ALTO_GRAFICA)
 
   return (
-    <section aria-label={etiqueta} className="flex flex-col gap-3 rounded-tarjeta border border-borde p-4">
+    <section aria-label={etiqueta} className="flex flex-col gap-3 rounded-tarjeta border border-filo p-4">
       <div className="flex items-baseline justify-between">
         <h2 className="text-[15px] font-extrabold">{titulo}</h2>
-        <span className="text-xs font-medium text-tinta-3">{promedio}</span>
+        <span className="text-xs font-medium text-ceniza">{promedio}</span>
       </div>
       <div
         aria-hidden="true"
@@ -73,11 +73,11 @@ function GraficaMeta({
         style={columnas}
       >
         <div
-          className="absolute inset-x-0 border-t-[1.5px] border-dashed border-kalo"
+          className="absolute inset-x-0 border-t-[1.5px] border-dashed border-brasa"
           style={{ bottom: lineaMeta }}
         />
         <div
-          className="absolute right-0 bg-white px-1 text-xs font-bold text-kalo-oscuro"
+          className="absolute right-0 bg-muro px-1 text-xs font-bold text-llama"
           style={{ bottom: lineaMeta + 2 }}
         >
           {textoMeta}
@@ -95,13 +95,13 @@ function GraficaMeta({
       </div>
       <div
         aria-hidden="true"
-        className={`grid text-center text-xs font-medium text-tinta-3 ${separacion}`}
+        className={`grid text-center text-xs font-medium text-ceniza ${separacion}`}
         style={columnas}
       >
         {tramos.map((tramo, i) => (
           <span
             key={tramo.nombre}
-            className={`truncate ${tramo.actual ? 'font-extrabold text-kalo' : ''} ${
+            className={`truncate ${tramo.actual ? 'font-extrabold text-llama' : ''} ${
               tramos.length > 8 && i % 2 === 1 ? 'invisible' : ''
             }`}
           >
@@ -116,7 +116,7 @@ function GraficaMeta({
           </li>
         ))}
       </ul>
-      {nota && <p className="text-xs font-medium text-tinta-2">{nota}</p>}
+      {nota && <p className="text-xs font-medium text-ceniza">{nota}</p>}
     </section>
   )
 }
@@ -133,8 +133,8 @@ interface MiniProps {
 function MiniBarras({ titulo, valor, tramos, cantidad, claseBarra, claseActual }: MiniProps) {
   const maximo = Math.max(...tramos.map(cantidad), 1)
   return (
-    <div className="flex flex-col gap-1.5 rounded-tarjeta border border-borde p-3.5">
-      <div className="text-xs font-medium text-tinta-3">{titulo}</div>
+    <div className="flex flex-col gap-1.5 rounded-tarjeta border border-filo p-3.5">
+      <div className="text-xs font-medium text-ceniza">{titulo}</div>
       <div className="text-lg font-extrabold">{valor}</div>
       <div
         aria-hidden="true"
@@ -158,13 +158,13 @@ function Limite({ nombre, valor, referencia, pista, relleno }: { nombre: string;
     <div className="flex flex-col gap-1.5">
       <div className="flex justify-between text-xs font-semibold">
         <span>{nombre}</span>
-        <span className={valor > referencia ? 'text-error' : ''}>
+        <span className={valor > referencia ? 'text-exceso' : ''}>
           {formatoEntero(valor)} / {referencia} g{valor > referencia ? ' !' : ''}
         </span>
       </div>
       <div aria-hidden="true" className={`h-2 rounded-full ${pista}`}>
         <div
-          className={`h-2 rounded-full ${valor > referencia ? 'bg-error' : relleno}`}
+          className={`h-2 rounded-full ${valor > referencia ? 'bg-exceso' : relleno}`}
           style={{ width: `${Math.min(Math.round((valor / referencia) * 100), 100)}%` }}
         />
       </div>
@@ -205,10 +205,10 @@ export function ProgresoPage() {
 
   const selector = (
     <>
-      <h1 className="text-2xl font-extrabold tracking-[-0.5px] lg:text-[32px] lg:tracking-[-0.8px]">
+      <h1 className="num-marcador text-[40px] leading-[0.9] font-extrabold uppercase lg:text-[48px]">
         Progreso
       </h1>
-      <div role="group" aria-label="Periodo" className="grid grid-cols-3 rounded-boton bg-arena p-1 lg:max-w-[420px]">
+      <div role="group" aria-label="Periodo" className="grid grid-cols-3 rounded-boton bg-banco p-1 lg:max-w-[420px]">
         {PERIODOS.map((otro) => (
           <button
             key={otro}
@@ -220,7 +220,7 @@ export function ProgresoPage() {
               setPeriodo(otro)
             }}
             className={`h-11 rounded-[10px] text-[13px] font-bold ${
-              otro === periodo ? 'bg-white text-kalo-oscuro' : 'text-tinta-3'
+              otro === periodo ? 'bg-muro text-llama' : 'text-ceniza'
             }`}
           >
             {periodos[otro].etiqueta}
@@ -235,7 +235,7 @@ export function ProgresoPage() {
       <div className="flex flex-col gap-3.5">
         {selector}
         {carga.fase === 'cargando' ? (
-          <p role="status" className="py-10 text-center text-sm font-medium text-tinta-3">
+          <p role="status" className="py-10 text-center text-sm font-medium text-ceniza">
             Cargando tu progreso…
           </p>
         ) : (
@@ -257,7 +257,7 @@ export function ProgresoPage() {
       <div className="flex flex-col gap-3.5 lg:col-span-12">{selector}</div>
 
       {sinDatos && (
-        <p className="rounded-boton bg-crema px-3.5 py-3 text-[13px] font-semibold text-kalo-oscuro lg:col-span-12">
+        <p className="rounded-boton bg-banco px-3.5 py-3 text-[13px] font-semibold text-llama lg:col-span-12">
           Todavía no hay registros en este periodo. Empieza registrando tu próxima comida.
         </p>
       )}
@@ -274,10 +274,10 @@ export function ProgresoPage() {
           unidad="kcal"
           claseBarra={(tramo, kcal) =>
             kcal > metas.kcal * CALORIAS_MAXIMO
-              ? 'bg-ejercicio'
+              ? 'bg-ejercicio-luz'
               : tramo.actual
-                ? 'bg-kalo'
-                : 'bg-barra-suave'
+                ? 'bg-llama'
+                : 'bg-llama/40'
           }
         />
       </div>
@@ -293,7 +293,7 @@ export function ProgresoPage() {
           textoMeta={`Meta ${formatoEntero(metas.proteinaG)} g`}
           unidad="gramos"
           claseBarra={(tramo, gramos) =>
-            gramos >= metas.proteinaG ? 'bg-kalo' : tramo.actual ? 'bg-barra-suave' : 'bg-llama-suave'
+            gramos >= metas.proteinaG ? 'bg-sol' : tramo.actual ? 'bg-sol/40' : 'bg-sol/70'
           }
           nota={
             resumen.diasConComida > 0
@@ -305,35 +305,35 @@ export function ProgresoPage() {
 
       <section
         aria-label="Peso"
-        className="flex flex-col gap-2 rounded-tarjeta border border-borde p-4 lg:col-span-6"
+        className="flex flex-col gap-2 rounded-tarjeta border border-filo p-4 lg:col-span-6"
       >
         <div className="flex items-baseline justify-between">
           <h2 className="text-[15px] font-extrabold">Peso</h2>
           {cambio !== null && (
-            <span className="rounded-md bg-ia-fondo px-2 py-[3px] text-xs font-bold text-kalo-oscuro">
+            <span className="rounded-md bg-llama/15 px-2 py-[3px] text-xs font-bold text-llama">
               {cambio > 0 ? '+' : cambio < 0 ? '−' : ''}
               {formatoPeso(Math.abs(cambio))} kg en {config.tramoDePeso}
             </span>
           )}
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-[28px] font-extrabold tracking-[-0.6px] text-kalo-oscuro">
+          <span className="text-[28px] font-extrabold tracking-[-0.6px] text-llama">
             {formatoPeso(ultimoPeso?.kg ?? datos.pesoKg)} kg
           </span>
-          <span className="text-xs font-medium text-tinta-3">
+          <span className="text-xs font-medium text-ceniza">
             meta {formatoDecimal(datos.pesoMetaKg)} kg
           </span>
         </div>
         {pesos.length > 0 ? (
           <LineaPeso valores={pesos.map((peso) => peso.kg)} conPuntos={pesos.length <= 14} />
         ) : (
-          <p className="py-4 text-xs font-medium text-tinta-3">
+          <p className="py-4 text-xs font-medium text-ceniza">
             Aún no has registrado tu peso en este periodo.
           </p>
         )}
         <Link
           to={rutas.peso}
-          className="flex h-11 items-center justify-center rounded-boton-sm bg-peso-fondo text-[13px] font-bold text-peso-texto no-underline hover:text-peso-texto"
+          className="flex h-11 items-center justify-center rounded-boton-sm bg-peso-luz/15 text-[13px] font-bold text-peso-luz no-underline hover:text-peso-luz"
         >
           Registrar peso
         </Link>
@@ -346,30 +346,30 @@ export function ProgresoPage() {
             valor={`${formatoDecimal(resumen.aguaMlPromedio / 1000)} L`}
             tramos={tramos}
             cantidad={(tramo) => tramo.aguaMl}
-            claseBarra="bg-agua"
-            claseActual="bg-agua-claro"
+            claseBarra="bg-agua-luz"
+            claseActual="bg-agua-luz"
           />
           <MiniBarras
             titulo="Sueño promedio"
             valor={resumen.suenoMinPromedio > 0 ? formatoDuracion(resumen.suenoMinPromedio) : '—'}
             tramos={tramos}
             cantidad={(tramo) => tramo.suenoMin}
-            claseBarra="bg-llama-suave"
-            claseActual="bg-sueno"
+            claseBarra="bg-llama/70"
+            claseActual="bg-sueno-luz"
           />
-          <div className="flex flex-col gap-1 rounded-tarjeta border border-borde p-3.5">
-            <div className="text-xs font-medium text-tinta-3">Ejercicio</div>
+          <div className="flex flex-col gap-1 rounded-tarjeta border border-filo p-3.5">
+            <div className="text-xs font-medium text-ceniza">Ejercicio</div>
             <div className="text-lg font-extrabold">{formatoEntero(resumen.ejercicioMin)} min</div>
-            <div className="text-xs font-bold text-ejercicio-fuerte">
+            <div className="text-xs font-bold text-ejercicio-luz">
               {formatoEntero(resumen.ejercicioKcal)} kcal quemadas
             </div>
           </div>
-          <div className="flex flex-col gap-1 rounded-tarjeta border border-borde p-3.5">
-            <div className="text-xs font-medium text-tinta-3">Licor</div>
+          <div className="flex flex-col gap-1 rounded-tarjeta border border-filo p-3.5">
+            <div className="text-xs font-medium text-ceniza">Licor</div>
             <div className="text-lg font-extrabold">
               {resumen.bebidasAlcohol === 1 ? '1 bebida' : `${formatoEntero(resumen.bebidasAlcohol)} bebidas`}
             </div>
-            <div className="text-xs font-bold text-error">
+            <div className="text-xs font-bold text-exceso">
               ≈ {formatoEntero(resumen.kcalAlcohol)} kcal {config.esteTramo}
             </div>
           </div>
@@ -377,22 +377,22 @@ export function ProgresoPage() {
 
         <section
           aria-label="Azúcar y grasa"
-          className="flex flex-col gap-3 rounded-tarjeta border border-borde p-4"
+          className="flex flex-col gap-3 rounded-tarjeta border border-filo p-4"
         >
           <h2 className="text-[15px] font-extrabold">Azúcar y grasa · promedio diario</h2>
           <Limite
             nombre="Azúcar"
             valor={resumen.azucarPromedio}
             referencia={REFERENCIA_AZUCAR_G}
-            pista="bg-azucar-pista"
+            pista="bg-filo"
             relleno="bg-azucar"
           />
           <Limite
             nombre="Grasa"
             valor={resumen.grasaPromedio}
             referencia={REFERENCIA_GRASA_G}
-            pista="bg-grasa-pista"
-            relleno="bg-ejercicio"
+            pista="bg-filo"
+            relleno="bg-ejercicio-luz"
           />
         </section>
       </div>

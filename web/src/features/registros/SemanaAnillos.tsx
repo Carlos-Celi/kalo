@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Icon } from '../../components/ui/Icon'
+import { AnilloDia } from '../../components/ui/AnilloDia'
 import { MascotAvatar } from '../../components/ui/MascotAvatar'
 import { formatoDiaCorto } from '../../domain/formato'
 import { deClave, formatoDiaMes, type ClaveDia } from '../../domain/fechas'
@@ -45,19 +45,19 @@ export function SemanaAnillos({ seccion, dias, hoy, seleccionado, onSeleccionar,
   return (
     <section
       aria-label="Progreso de la semana"
-      className="flex flex-col gap-2 rounded-[20px] border border-borde px-2.5 pt-2.5 pb-1.5"
+      className="flex flex-col gap-2 rounded-[20px] border border-filo px-2.5 pt-2.5 pb-1.5"
     >
-      <div className="flex items-center gap-2.5 rounded-boton bg-crema px-2.5 py-2">
+      <div className="flex items-center gap-2.5 rounded-boton bg-banco px-2.5 py-2">
         <MascotAvatar tamano={36} />
         <div className="min-w-0 grow">
-          <div className="text-[13px] font-extrabold text-kalo-oscuro">{racha.titulo}</div>
-          <div className="text-xs leading-[1.35] font-medium text-tinta-2">{racha.detalle}</div>
+          <div className="text-[13px] font-extrabold text-llama">{racha.titulo}</div>
+          <div className="text-xs leading-[1.35] font-medium text-ceniza">{racha.detalle}</div>
         </div>
       </div>
 
       <div className="flex items-baseline justify-between px-1.5 pt-1">
         <h2 className="text-[15px] font-extrabold">{estilo.tituloSemana}</h2>
-        <span className="text-xs font-bold text-tinta-3">{cumplidos} de 7 días cumplidos</span>
+        <span className="text-xs font-bold text-ceniza">{cumplidos} de 7 días cumplidos</span>
       </div>
       <div className="grid grid-cols-7 gap-0.5">
         {dias.map((dia) => {
@@ -73,34 +73,22 @@ export function SemanaAnillos({ seccion, dias, hoy, seleccionado, onSeleccionar,
               aria-pressed={elegido}
               aria-label={`${esHoy ? 'Hoy' : formatoDiaMes(dia.fecha)}: ${dia.porcentaje} %, ${textoEstado[dia.estado]}`}
               onClick={() => onSeleccionar(dia.fecha)}
-              className={`flex flex-col items-center gap-1.5 rounded-boton pt-2 pb-1.5 ${elegido ? 'bg-crema' : ''}`}
+              className={`flex flex-col items-center gap-1.5 rounded-boton-sm px-0.5 pt-2 pb-1.5 ${elegido ? 'bg-muro' : ''}`}
             >
               <span
-                className={`text-xs ${elegido ? 'font-extrabold text-kalo-oscuro' : 'font-semibold text-tinta-3'}`}
+                className={`text-xs ${elegido ? 'font-extrabold text-hueso' : 'font-semibold text-ceniza'}`}
               >
                 {etiqueta}
               </span>
-              <span
-                className={`flex size-[38px] items-center justify-center rounded-full text-white ${
-                  excedido ? 'bg-error' : cumplido ? estilo.claseAnillo : ''
-                }`}
-                style={
-                  excedido || cumplido
-                    ? undefined
-                    : {
-                        background: `conic-gradient(${estilo.colorAnillo} ${Math.min(dia.porcentaje, 100) * 3.6}deg, var(--color-borde) 0)`,
-                      }
-                }
-              >
-                {cumplido && <Icon nombre="check" tamano={18} grosor={3} />}
-                {excedido && <span className="text-[17px] font-extrabold">!</span>}
-                {!cumplido && !excedido && (
-                  <span className={`size-7 rounded-full ${elegido ? 'bg-crema' : 'bg-white'}`} />
-                )}
-              </span>
+              <AnilloDia
+                razon={dia.porcentaje / 100}
+                estado={dia.estado}
+                tono={estilo.tono}
+                pasado={!esHoy && dia.estado === 'parcial'}
+              />
               <span
                 className={`text-xs font-bold ${
-                  excedido ? 'text-error' : cumplido ? 'text-tinta' : 'text-tinta-3'
+                  excedido ? 'text-exceso' : cumplido ? 'text-hueso' : 'text-ceniza'
                 }`}
               >
                 {dia.porcentaje}%
@@ -115,11 +103,11 @@ export function SemanaAnillos({ seccion, dias, hoy, seleccionado, onSeleccionar,
         aria-expanded={verAyuda}
         aria-controls="semana-ayuda"
         onClick={() => setVerAyuda((actual) => !actual)}
-        className="mx-1.5 flex min-h-11 items-center gap-1.5 self-start text-xs font-bold text-kalo-oscuro lg:hidden"
+        className="mx-1.5 flex min-h-11 items-center gap-1.5 self-start text-xs font-bold text-llama lg:hidden"
       >
         <span
           aria-hidden="true"
-          className="flex size-5 items-center justify-center rounded-full border border-kalo-oscuro text-[11px]"
+          className="flex size-5 items-center justify-center rounded-full border border-llama text-[11px]"
         >
           i
         </span>
@@ -129,26 +117,24 @@ export function SemanaAnillos({ seccion, dias, hoy, seleccionado, onSeleccionar,
         id="semana-ayuda"
         className={`${verAyuda ? 'flex' : 'hidden'} flex-col gap-2 pb-1.5 lg:flex`}
       >
-        <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 px-1.5 text-xs font-medium text-tinta-2">
+        <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 px-1.5 text-xs font-medium text-ceniza">
           <span className="flex items-center gap-1.5">
-            <span className={`size-2.5 rounded-full ${estilo.claseAnillo}`} />
-            Cumplido
+            <span aria-hidden="true" className={`size-3 rounded-full border-[3px] ${estilo.claseBorde}`} />✓ Cumplido
           </span>
           <span className="flex items-center gap-1.5">
             <span
-              className="size-2.5 rounded-full border-2 border-borde"
-              style={{ borderTopColor: estilo.colorAnillo }}
+              aria-hidden="true"
+              className={`size-3 rounded-full border-[3px] border-dashed ${estilo.claseBorde}`}
             />
-            Parcial
+            ½ Parcial
           </span>
           {seccion === 'comida' && (
             <span className="flex items-center gap-1.5">
-              <span className="size-2.5 rounded-full bg-error" />
-              Te pasaste
+              <span aria-hidden="true" className="size-3 rounded-full border-2 border-double border-exceso" />! Te pasaste
             </span>
           )}
         </div>
-        <p className="px-1.5 text-xs font-medium text-tinta-3">{estilo.notaMeta(metas)}</p>
+        <p className="px-1.5 text-xs font-medium text-ceniza">{estilo.notaMeta(metas)}</p>
       </div>
     </section>
   )

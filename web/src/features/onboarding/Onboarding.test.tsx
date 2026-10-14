@@ -106,7 +106,7 @@ describe('Onboarding', () => {
 
     expect(await screen.findByRole('heading', { level: 1, name: 'Hola, Lucía' })).toBeVisible()
     expect(router.state.location.pathname).toBe('/')
-    expect(screen.getByRole('link', { name: 'Calorías: 1.190 de 1.900' })).toBeVisible()
+    expect(screen.getByRole('link', { name: /^Calorías: 1\.190 de 1\.900 kcal/ })).toBeVisible()
 
     const { plan } = await repositorios.perfil.obtener()
     expect(plan?.datos).toMatchObject({

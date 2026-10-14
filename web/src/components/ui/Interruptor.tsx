@@ -18,10 +18,10 @@ export function Interruptor({ etiqueta, activo, onCambio }: Props) {
     >
       <span
         className={`flex h-[30px] w-[50px] rounded-full p-[3px] ${
-          activo ? 'justify-end bg-kalo' : 'justify-start bg-borde-fuerte'
+          activo ? 'justify-end bg-brasa' : 'justify-start bg-filo'
         }`}
       >
-        <span className="size-6 rounded-full bg-white" />
+        <span className="size-6 rounded-full bg-muro" />
       </span>
     </button>
   )

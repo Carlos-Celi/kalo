@@ -8,9 +8,11 @@ const base =
   'inline-flex items-center justify-center px-4 font-bold no-underline disabled:opacity-50'
 
 const variantes: Record<Variante, string> = {
-  primario: 'bg-kalo text-white hover:bg-kalo-oscuro',
-  secundario: 'bg-white text-kalo-oscuro hover:bg-crema-suave',
-  suave: 'bg-crema text-kalo-oscuro hover:bg-kalo-claro',
+  primario: 'bg-brasa text-white hover:bg-brasa-hover',
+  /** Botón claro: la segunda acción cuando la primera ya es `brasa`. */
+  secundario: 'bg-hueso text-tinta hover:bg-kalo-claro',
+  /** Fantasma: borde fino sobre cualquier superficie. */
+  suave: 'border border-filo bg-transparent text-hueso hover:bg-muro',
 }
 
 const tamanos: Record<Tamano, string> = {

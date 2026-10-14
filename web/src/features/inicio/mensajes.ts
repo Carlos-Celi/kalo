@@ -40,6 +40,23 @@ export function valorHabito(habito: Habito, { valor, meta }: Avance): string {
   }
 }
 
+/** Las partes del valor de un hábito, para dibujarlas a tamaño de marcador: "1,6" + "L". */
+export function partesHabito(
+  habito: Habito,
+  { valor, meta }: Avance,
+): { valor: string; unidad: string; meta: string } {
+  switch (habito) {
+    case 'agua':
+      return { valor: formatoDecimal(valor), unidad: 'L', meta: `${formatoDecimal(meta, 2)} L` }
+    case 'ejercicio':
+      return { valor: formatoEntero(valor), unidad: 'min', meta: `${formatoEntero(meta)} min` }
+    case 'sueno':
+      return { valor: formatoDuracion(valor), unidad: '', meta: formatoDuracion(meta) }
+    case 'comidas':
+      return { valor: formatoEntero(valor), unidad: `/ ${formatoEntero(meta)}`, meta: formatoEntero(meta) }
+  }
+}
+
 export function mensajeHabito(habito: Habito, avance: Avance): string {
   const faltan = restante(avance)
   if (faltan === 0) return META_CUMPLIDA

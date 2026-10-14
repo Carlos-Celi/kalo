@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Navigate, useNavigate } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { Icon, type NombreIcono } from '../../components/ui/Icon'
 import { formatoDecimal, formatoEntero } from '../../domain/formato'
@@ -34,13 +35,13 @@ interface PrincipalProps extends AjusteProps {
 
 function MetaPrincipal({ nombre, icono, valor, unidad, nota, onMenos, onMas }: PrincipalProps) {
   return (
-    <div className="flex flex-col gap-2 rounded-[20px] border-[1.5px] border-llama bg-crema px-3.5 pt-3.5 pb-3">
+    <div className="flex flex-col gap-2 rounded-[20px] border-[1.5px] border-llama bg-banco px-3.5 pt-3.5 pb-3">
       <div className="flex items-center gap-2.5">
-        <span className="flex size-8 items-center justify-center rounded-full bg-kalo text-white">
+        <span className="flex size-8 items-center justify-center rounded-full bg-brasa text-white">
           <Icon nombre={icono} tamano={16} />
         </span>
         <span className="grow text-[15px] font-extrabold">{nombre}</span>
-        <span className="rounded-full bg-white px-2 py-[3px] text-xs font-bold text-kalo-oscuro">
+        <span className="rounded-full bg-muro px-2 py-[3px] text-xs font-bold text-llama">
           Principal
         </span>
       </div>
@@ -49,32 +50,32 @@ function MetaPrincipal({ nombre, icono, valor, unidad, nota, onMenos, onMas }: P
           type="button"
           aria-label={`Disminuir ${nombre}`}
           onClick={onMenos}
-          className="size-12 rounded-boton border border-barra-suave bg-white text-[22px] font-bold text-kalo"
+          className="size-12 rounded-boton-sm border border-filo bg-banco text-[22px] font-bold text-hueso hover:bg-filo"
         >
           −
         </button>
         <div aria-live="polite" className="text-center">
-          <span className="text-4xl font-extrabold tracking-[-1px] text-kalo-oscuro">{valor}</span>{' '}
-          <span className="text-sm font-semibold text-tinta-3">{unidad}</span>
+          <span className="num-marcador text-[48px] leading-none font-extrabold text-hueso">{valor}</span>{' '}
+          <span className="text-sm font-semibold text-ceniza">{unidad}</span>
         </div>
         <button
           type="button"
           aria-label={`Aumentar ${nombre}`}
           onClick={onMas}
-          className="size-12 rounded-boton bg-kalo text-[22px] font-bold text-white"
+          className="size-12 rounded-boton-sm border border-filo bg-banco text-[22px] font-bold text-hueso hover:bg-filo"
         >
           +
         </button>
       </div>
-      <p className="text-center text-xs font-medium text-tinta-2">{nota}</p>
+      <p className="text-center text-xs font-medium text-ceniza">{nota}</p>
     </div>
   )
 }
 
 function OtraMeta({ nombre, valor, onMenos, onMas }: AjusteProps & { valor: string }) {
   return (
-    <div className="flex items-center gap-2.5 border-b border-borde py-2 last:border-b-0">
-      <span className="grow text-[13px] font-semibold text-tinta-3">{nombre}</span>
+    <div className="flex items-center gap-2.5 border-b border-filo py-2 last:border-b-0">
+      <span className="grow text-[13px] font-semibold text-ceniza">{nombre}</span>
       <span aria-live="polite" className="min-w-[74px] text-right text-[15px] font-extrabold">
         {valor}
       </span>
@@ -82,7 +83,7 @@ function OtraMeta({ nombre, valor, onMenos, onMas }: AjusteProps & { valor: stri
         type="button"
         aria-label={`Disminuir ${nombre}`}
         onClick={onMenos}
-        className="size-11 rounded-boton-sm border border-borde bg-white text-xl font-bold text-kalo"
+        className="size-11 rounded-boton-sm border border-filo bg-muro text-xl font-bold text-llama"
       >
         −
       </button>
@@ -90,7 +91,7 @@ function OtraMeta({ nombre, valor, onMenos, onMas }: AjusteProps & { valor: stri
         type="button"
         aria-label={`Aumentar ${nombre}`}
         onClick={onMas}
-        className="size-11 rounded-boton-sm bg-crema text-xl font-bold text-kalo"
+        className="size-11 rounded-boton-sm bg-banco text-xl font-bold text-llama"
       >
         +
       </button>
@@ -98,7 +99,7 @@ function OtraMeta({ nombre, valor, onMenos, onMas }: AjusteProps & { valor: stri
   )
 }
 
-const claseSeccion = 'text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase'
+const claseSeccion = 'text-xs font-bold tracking-[0.8px] text-ceniza uppercase'
 
 /** Plan generado, con las metas ajustables (design/Metas.dc.html). */
 export function PlanPaso() {
@@ -156,12 +157,9 @@ export function PlanPaso() {
       pie={
         <>
           {fallo && (
-            <p
-              role="alert"
-              className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error"
-            >
-              No pudimos guardar tu plan. Inténtalo de nuevo.
-            </p>
+            <Alerta titulo="No pudimos guardar tu plan">
+              Tus respuestas y tus ajustes siguen aquí. Revisa tu conexión y pulsa de nuevo.
+            </Alerta>
           )}
           <Button type="submit" tamano="xl" disabled={guardando}>
             {guardando ? 'Guardando…' : conectarIA ? 'Guardar y continuar' : 'Guardar y empezar'}
@@ -169,13 +167,13 @@ export function PlanPaso() {
         </>
       }
     >
-      <div className="flex flex-col gap-1.5 rounded-[20px] bg-kalo px-[18px] py-4 text-white">
-        <div className="inline-flex items-center gap-1.5 self-start rounded-full bg-white px-2.5 py-[5px] text-xs font-bold text-kalo-oscuro">
+      <div className="flex flex-col gap-1.5 rounded-tarjeta bg-muro px-[18px] py-4 text-hueso">
+        <div className="inline-flex items-center gap-1.5 self-start rounded-full bg-llama/15 px-2.5 py-[5px] text-xs font-bold text-llama">
           <Icon nombre="destello" tamano={12} grosor={2.2} />
           Sugerido para ti
         </div>
-        <div className="text-[21px] font-extrabold tracking-[-0.4px]">{resumen.titulo}</div>
-        <div className="text-[13px] font-semibold">{resumen.detalle}</div>
+        <div className="num-marcador text-[34px] leading-none font-extrabold uppercase">{resumen.titulo}</div>
+        <div className="text-[13px] font-semibold text-ceniza">{resumen.detalle}</div>
       </div>
 
       <section aria-labelledby="metas-principales" className="flex flex-col gap-2.5">
@@ -208,7 +206,7 @@ export function PlanPaso() {
         <h2 id="otras-metas" className={claseSeccion}>
           Otras metas
         </h2>
-        <div className="grid rounded-tarjeta border border-borde px-3 sm:grid-cols-2 sm:gap-x-8">
+        <div className="grid rounded-tarjeta border border-filo px-3 sm:grid-cols-2 sm:gap-x-8">
           <OtraMeta
             nombre="Agua"
             valor={`${formatoDecimal(metas.aguaL, 2)} L`}

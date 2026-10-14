@@ -27,15 +27,23 @@ Definidas en `web/vercel.json` para el despliegue y replicadas en `web/nginx.con
 
 | Cabecera | Valor | Protege de |
 |---|---|---|
-| `Content-Security-Policy` | `default-src 'self'`; estilos y fuentes solo del propio origen; scripts propios y el de Turnstile; conexiones solo al propio origen, a Supabase y a los tres proveedores de IA; marcos solo de Turnstile; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'` | XSS, exfiltración de datos, clickjacking |
+| `Content-Security-Policy` | `default-src 'self'`; estilos y fuentes solo del propio origen; scripts propios y el de Turnstile; conexiones solo al propio origen, a Supabase y a los tres proveedores de IA; marcos solo de Turnstile; manifiesto y workers solo del propio origen; `object-src 'none'`; `base-uri 'self'`; `form-action 'self'`; `frame-ancestors 'none'` | XSS, exfiltración de datos, clickjacking |
 | `Strict-Transport-Security` | dos años, con subdominios | Degradación a http |
 | `X-Content-Type-Options` | `nosniff` | Interpretación errónea de tipos |
 | `X-Frame-Options` | `DENY` | Clickjacking en navegadores antiguos |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Fuga de rutas a terceros |
-| `Permissions-Policy` | cámara solo para el propio origen; micrófono, ubicación y pagos desactivados | Abuso de APIs del dispositivo |
+| `Permissions-Policy` | cámara solo para el propio origen; micrófono, ubicación, pagos, USB, serie, HID, Bluetooth, MIDI, sensores de movimiento, captura de pantalla, bloqueo de pantalla y Topics desactivados | Abuso de APIs del dispositivo y rastreo |
 | `Cross-Origin-Opener-Policy` | `same-origin` | Ataques entre ventanas |
+| `Cross-Origin-Resource-Policy` | `same-origin` | Que otros sitios incrusten o lean los recursos (Spectre y fugas entre orígenes) |
+| `X-Permitted-Cross-Domain-Policies` | `none` | Políticas cruzadas de clientes antiguos (Flash, PDF) |
+| `Origin-Agent-Cluster` | `?1` | Aísla el origen en su propio proceso cuando el navegador lo permite |
+| `Cache-Control` | `no-cache` en el HTML; un año e inmutable en `/assets` (con hash) | Que una corrección de seguridad tarde en llegar |
 
 Para que la CSP no necesite `'unsafe-inline'` ni `data:`: la fuente se autoaloja, el build no incrusta recursos (`assetsInlineLimit: 0`) y no hay scripts ni estilos en línea. `connect-src` solo se amplía de forma explícita: Supabase y los tres proveedores de IA. La foto analizada se pinta en un `<canvas>`, así que `img-src` no necesita `data:`.
+
+Además: `robots.txt` solo deja indexar el acceso y los documentos legales, `/.well-known/security.txt` (RFC 9116) indica cómo informar de vulnerabilidades y [`SECURITY.md`](../../SECURITY.md) es la política de divulgación responsable. El manifiesto web se sirve con su tipo exacto porque `nosniff` está activo.
+
+Considerado y descartado por ahora: *Trusted Types* (`require-trusted-types-for 'script'`). React no usa `innerHTML`, pero no se ha podido verificar el script de Turnstile y la página de acceso con cuentas reales; activarlo sin probarlo podría romper el inicio de sesión en producción.
 
 ## 3. Código
 
@@ -65,7 +73,7 @@ Se delega en Supabase Auth; no se implementa criptografía propia ni se guardan 
 | Amenaza | Control |
 |---|---|
 | Fuerza bruta y relleno de credenciales | Límites de intentos de Supabase; freno progresivo en el cliente (bloqueo de 30 s al quinto fallo, que se duplica hasta 15 min); CAPTCHA con Turnstile si se configura |
-| Contraseñas débiles o filtradas | Mínimo 8 caracteres, máximo 72 bytes; comprobación contra filtraciones si el plan de Supabase la ofrece |
+| Contraseñas débiles o filtradas | Mínimo 8 caracteres con letras y números (`password_requirements = "letters_digits"`, validado igual en el cliente), máximo 72 bytes; comprobación contra filtraciones si el plan de Supabase la ofrece |
 | Enumeración de usuarios | Registro y recuperación responden igual exista o no la cuenta; el inicio de sesión no distingue correo de contraseña; nunca se muestra el texto de error del servidor |
 | Robo del código de autorización | Flujo PKCE |
 | Cuentas con correo ajeno | Confirmación de correo obligatoria |
@@ -103,5 +111,20 @@ Los chats del asistente se guardan en `localStorage` por usuario (`kalo:chats:<i
 | `RESEND_API_KEY`, `CRON_SECRET` y el remitente son secretos de Supabase, nunca están en git ni en `VITE_*` | ✅ ([guía](recordatorios-por-correo.md)) |
 | El correo no incluye cifras de salud, solo el aviso y un enlace; el texto de los recordatorios propios se escapa en el HTML | ✅ probado |
 
-## 7. Avisos de producto
+## 7. Privacidad y control de los datos
+
+Decisión en [ADR 0011](decisiones/0011-politicas-y-control-de-datos.md).
+
+| Control | Estado |
+|---|---|
+| Política de privacidad (`/privacidad`), términos de uso (`/terminos`) y política de cookies y almacenamiento (`/cookies`), públicas y enlazadas desde el acceso y desde Configuración | ✅ |
+| Consentimiento explícito al crear la cuenta (términos, privacidad y datos de salud); sin él no se envía el registro. Se guarda la versión aceptada y la fecha en los metadatos de la cuenta | ✅ |
+| Sin cookies, analítica ni publicidad; el almacenamiento local es estrictamente necesario y está detallado en `/cookies`, por eso no hay banner | ✅ |
+| **Descargar mis datos**: JSON con perfil, plan, registros, pesos y recordatorios (sin fotos ni API key) | ✅ |
+| **Eliminar mi cuenta**: confirmación escribiendo «ELIMINAR»; la función `eliminar_mi_cuenta()` (`security definer`, `search_path` vacío, solo para `authenticated`) borra `auth.users` del que llama y, en cascada, todo lo suyo; después se borran la API key, los chats y lo local de este dispositivo y se cierra la sesión | ✅ probado contra la base local: el rol anónimo recibe 401, la cuenta y sus registros desaparecen y otra cuenta queda intacta |
+| Mensajes de error con el mismo componente (`Alerta`): dicen qué pasó y qué hacer, sin el texto interno del servidor ni del proveedor | ✅ |
+
+Límite conocido: un token de acceso emitido antes de borrar la cuenta sigue siendo válido hasta que caduca (una hora), pero ya no ve filas (RLS) ni puede crear nada (la cuenta no existe).
+
+## 8. Avisos de producto
 El asistente y las estimaciones de la IA no sustituyen el consejo médico; el aviso forma parte de la interfaz.

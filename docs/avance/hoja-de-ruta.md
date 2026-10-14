@@ -16,6 +16,8 @@ Estados: ✅ hecho · 🚧 en curso · ⏳ pendiente
 | 8 | Correcciones de la primera revisión: asistente completo con chats, Configuración con pantallas propias, sueño con siestas, ejercicio con calorías manuales, IA al empezar, formularios en horizontal | ✅ |
 | 9 | Recordatorios por correo (Edge Function + Resend) | ✅ código · ⏳ desplegar la función y probar con Resend ([guía](../tecnica/recordatorios-por-correo.md)) |
 | 10 | Revisión de UI/UX: hoja de registro rápido anclada a la ventana, Registros móvil más compacto, asistente sin IA, atajo de agua en Inicio, peso con mantener pulsado y escritura, contraste y nuevas imágenes de la mascota ([ADR 0009](../tecnica/decisiones/0009-revision-ui-ux.md)) | ✅ web · ⏳ replicar en `mobile/` |
+| 11 | Rediseño visual «Sala de estudio»: tema oscuro, números de marcador, luz de avance, estado por forma e Inicio con resumen y gráfica de 7 días ([guía](../rediseno/guia.md), [ADR 0010](../tecnica/decisiones/0010-rediseno-sala-de-estudio.md)) | ✅ web · ⏳ replicar en `mobile/` |
+| 12 | Auditoría: anillos en Registros, alertas unificadas, políticas (privacidad, términos, cookies), consentimiento, descargar y eliminar la cuenta, cabeceras de seguridad ampliadas, favicon y manifiesto ([ADR 0011](../tecnica/decisiones/0011-politicas-y-control-de-datos.md)) | ✅ web · ⏳ migración en producción · ⏳ `mobile/` |
 
 ### Pantallas
 

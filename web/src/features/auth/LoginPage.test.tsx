@@ -65,7 +65,7 @@ describe('Login', () => {
     await rellenar(' Ana@Ejemplo.com', 'incorrecta')
     await userEvent.click(screen.getByRole('button', { name: 'Iniciar sesión' }))
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Correo o contraseña incorrectos.')
+    expect(await screen.findByRole('alert')).toHaveTextContent('El correo o la contraseña no coinciden.')
     expect(auth.signInWithPassword).toHaveBeenCalledWith(
       expect.objectContaining({ email: 'ana@ejemplo.com', password: 'incorrecta' }),
     )
@@ -90,10 +90,35 @@ describe('Login', () => {
     auth.signUp.mockResolvedValue({ data: { user: null, session: null }, error: null })
     abrir()
     await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta nueva' }))
-    await rellenar('ana@ejemplo.com', 'una-clave-larga')
+    await rellenar('ana@ejemplo.com', 'una-clave-larga-2026')
+    await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta' }))
+
+    // Sin aceptar términos, privacidad y datos de salud no se crea la cuenta.
+    expect(await screen.findByText('Para crear la cuenta tienes que aceptarlo.')).toBeVisible()
+    expect(auth.signUp).not.toHaveBeenCalled()
+
+    await userEvent.click(screen.getByRole('checkbox', { name: /Acepto los términos de uso/ }))
     await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta' }))
 
     expect(await screen.findByRole('status')).toHaveTextContent(/Si el correo es válido/)
+    // Queda constancia de la versión aceptada en los metadatos de la cuenta.
+    expect(auth.signUp).toHaveBeenCalledWith(
+      expect.objectContaining({
+        options: expect.objectContaining({
+          data: expect.objectContaining({ politicas_version: expect.any(String) }),
+        }),
+      }),
+    )
+  })
+
+  it('exige letras y números en la contraseña de una cuenta nueva', async () => {
+    abrir()
+    await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta nueva' }))
+    await rellenar('ana@ejemplo.com', 'solo-letras-largas')
+    await userEvent.click(screen.getByRole('button', { name: 'Crear cuenta' }))
+
+    expect(await screen.findByText('Combina letras y números.')).toBeVisible()
+    expect(auth.signUp).not.toHaveBeenCalled()
   })
 
   it('no muestra al usuario el mensaje interno del servidor', async () => {

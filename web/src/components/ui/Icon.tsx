@@ -5,6 +5,14 @@ const trazos = {
   casa: <path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" />,
   portapapeles: <path d="M9 4h6v3H9zM7 5.5H5.5v15h13v-15H17M9 12h6M9 16h4" />,
   mas: <path d="M12 5v14M5 12h14" />,
+  alerta: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7.5v5.5M12 16.5v.01" />
+    </>
+  ),
+  descargar: <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />,
+  documento: <path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5" />,
   chat: <path d="M4 5h16v11H10l-6 4z" />,
   barras: <path d="M6 20v-6M12 20V8M18 20v-10" />,
   campana: (

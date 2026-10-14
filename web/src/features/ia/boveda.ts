@@ -86,6 +86,11 @@ export async function leerSecreto(id: string): Promise<string | null> {
   }
 }
 
+/** Olvida las claves guardadas solo en memoria (la base de IndexedDB la borra `borrarDatosLocales`). */
+export function olvidarSecretosEnMemoria(): void {
+  enMemoria.clear()
+}
+
 export async function borrarSecreto(id: string): Promise<void> {
   enMemoria.delete(id)
   if (!hayBoveda()) return

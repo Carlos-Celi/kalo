@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import { useNavigate } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
@@ -19,13 +20,13 @@ interface DeslizadorProps {
 
 function Deslizador({ id, etiqueta, unidad, rango, valor, onCambio }: DeslizadorProps) {
   return (
-    <div className="flex flex-col gap-2.5 rounded-[20px] border border-borde bg-crema-suave p-[18px]">
-      <label htmlFor={id} className="text-[13px] font-semibold text-tinta-3">
+    <div className="flex flex-col gap-2.5 rounded-[20px] border border-filo bg-muro p-[18px]">
+      <label htmlFor={id} className="text-[13px] font-semibold text-ceniza">
         {etiqueta}
       </label>
-      <div aria-hidden="true" className="flex items-baseline gap-1.5 text-kalo-oscuro">
-        <span className="text-[46px] leading-none font-extrabold tracking-[-1px]">{valor}</span>
-        <span className="text-base font-semibold text-tinta-3">{unidad}</span>
+      <div aria-hidden="true" className="flex items-baseline gap-1.5 text-llama">
+        <span className="num-marcador text-[56px] leading-none font-extrabold">{valor}</span>
+        <span className="text-base font-semibold text-ceniza">{unidad}</span>
       </div>
       <input
         id={id}
@@ -36,9 +37,10 @@ function Deslizador({ id, etiqueta, unidad, rango, valor, onCambio }: Deslizador
         value={valor}
         aria-valuetext={`${valor} ${unidad}`}
         onChange={(evento) => onCambio(Number(evento.target.value))}
-        className="h-7 w-full accent-kalo"
+        className="deslizador h-7 w-full"
+        style={{ '--relleno': `${((valor - rango.min) / (rango.max - rango.min)) * 100}%` } as CSSProperties}
       />
-      <div aria-hidden="true" className="flex justify-between text-xs font-semibold text-tinta-3">
+      <div aria-hidden="true" className="flex justify-between text-xs font-semibold text-ceniza">
         <span>
           {rango.min} {unidad}
         </span>

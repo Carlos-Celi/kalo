@@ -19,7 +19,7 @@ export function RutaProtegida({ children }: { children: ReactNode }) {
 
   if (estado.fase === 'cargando') {
     return (
-      <p role="status" className="py-16 text-center text-sm font-medium text-tinta-3">
+      <p role="status" className="py-16 text-center text-sm font-medium text-ceniza">
         Cargando…
       </p>
     )

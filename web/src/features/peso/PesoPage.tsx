@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { LineaPeso } from '../../components/ui/LineaPeso'
 import { MascotAvatar } from '../../components/ui/MascotAvatar'
@@ -65,8 +66,8 @@ function useSostener(accion: () => void) {
 
 function Dato({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
-    <div className="rounded-2xl border border-borde p-3 text-center">
-      <div className="text-xs font-semibold text-tinta-3">{etiqueta}</div>
+    <div className="rounded-2xl border border-filo p-3 text-center">
+      <div className="text-xs font-semibold text-ceniza">{etiqueta}</div>
       <div className="text-lg font-extrabold">{valor}</div>
     </div>
   )
@@ -143,14 +144,14 @@ export function PesoPage() {
     setKg(Math.min(Math.max(ajustado, LIMITES.pesoKg.min), LIMITES.pesoKg.max))
   }
 
-  const claseAjuste = 'size-[52px] rounded-full bg-white text-[26px] font-extrabold text-peso-texto'
+  const claseAjuste = 'size-[52px] rounded-full border border-filo bg-banco text-[26px] font-extrabold text-hueso hover:bg-filo'
 
   return (
     <PantallaFlujo titulo="Registrar peso" volver={rutas.registroRapido} variante="destacado" ancha>
       <div className="grid gap-4 md:grid-cols-2 md:items-start md:gap-6">
       <div className="flex flex-col gap-4">
-      <div className="flex flex-col items-center gap-3 rounded-3xl bg-peso-fondo px-4 py-5">
-        <span className="text-[13px] font-bold text-peso-texto">{formatoDiaRelativo(hoy, hoy)}</span>
+      <div className="flex flex-col items-center gap-3 rounded-3xl bg-peso-luz/15 px-4 py-5">
+        <span className="text-[13px] font-bold text-peso-luz">{formatoDiaRelativo(hoy, hoy)}</span>
         <div className="flex items-center gap-[18px]">
           <button type="button" aria-label="Restar 0,1 kg" {...restar} className={claseAjuste}>
             −
@@ -173,9 +174,9 @@ export function PesoPage() {
                   evento.currentTarget.blur()
                 }
               }}
-              className="w-[5ch] min-w-0 rounded-boton-sm bg-transparent text-center text-[54px] leading-none font-extrabold tracking-[-2px] text-tinta"
+              className="w-[5ch] min-w-0 rounded-boton-sm bg-transparent num-marcador text-center text-[72px] leading-none font-extrabold text-hueso"
             />
-            <span aria-hidden="true" className="text-lg font-bold text-peso-texto">
+            <span aria-hidden="true" className="text-lg font-bold text-peso-luz">
               {' '}
               kg
             </span>
@@ -184,7 +185,7 @@ export function PesoPage() {
             +
           </button>
         </div>
-        <span aria-live="polite" className="text-[13px] font-bold text-tinta-2">
+        <span aria-live="polite" className="text-[13px] font-bold text-ceniza">
           {cambio === null
             ? 'Tu primer registro de peso'
             : cambio === 0
@@ -213,16 +214,16 @@ export function PesoPage() {
             setNota(evento.target.value)
             setFase('editando')
           }}
-          className="h-12 rounded-boton border border-borde bg-crema-suave px-3.5 text-sm font-medium text-tinta"
+          className="h-12 rounded-boton border border-filo bg-muro px-3.5 text-sm font-medium text-hueso"
         />
       </div>
 
       <div role="status" aria-live="polite" className="mt-auto flex flex-col gap-2.5">
         {fase === 'guardado' ? (
           <>
-            <div className="flex items-center gap-3 rounded-2xl bg-crema px-3.5 py-3">
+            <div className="flex items-center gap-3 rounded-2xl bg-banco px-3.5 py-3">
               <MascotAvatar tamano={40} />
-              <div className="grow text-sm leading-[1.35] font-bold text-kalo-oscuro">
+              <div className="grow text-sm leading-[1.35] font-bold text-llama">
                 ¡Peso guardado! Tu gráfica ya está al día.
               </div>
             </div>
@@ -233,9 +234,9 @@ export function PesoPage() {
         ) : (
           <>
             {fase === 'fallo' && (
-              <p className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-                No pudimos guardar tu peso. Inténtalo de nuevo.
-              </p>
+              <Alerta titulo="No pudimos guardar tu peso">
+                El valor sigue en pantalla. Revisa tu conexión y pulsa «Guardar peso» de nuevo.
+              </Alerta>
             )}
             <Button tamano="xl" disabled={fase === 'guardando'} onClick={() => void guardar()}>
               {fase === 'guardando' ? 'Guardando…' : 'Guardar peso'}
@@ -244,20 +245,21 @@ export function PesoPage() {
         )}
       </div>
       </div>
-      <section aria-labelledby="peso-semanas" className="rounded-[20px] border border-borde p-3.5">
+      <section aria-labelledby="peso-semanas" className="rounded-[20px] border border-filo p-3.5">
         <h2 id="peso-semanas" className="mb-2 text-sm font-extrabold">
           Últimas {SEMANAS} semanas
         </h2>
         {carga.fase === 'error' ? (
-          <p role="alert" className="py-6 text-center text-xs font-semibold text-error">
-            No pudimos cargar tu historial.
-          </p>
+          <Alerta titulo="No pudimos cargar tu historial de peso">
+            Suele ser la conexión. Puedes guardar el peso de hoy igualmente; la gráfica volverá a
+            aparecer al recargar.
+          </Alerta>
         ) : (
           <>
             <LineaPeso valores={serie} meta={datos.pesoMetaKg} />
-            <div className="flex justify-between gap-2 text-xs font-semibold text-tinta-3">
+            <div className="flex justify-between gap-2 text-xs font-semibold text-ceniza">
               <span>{formatoPeso(serie[0])} kg</span>
-              <span className="flex items-center gap-1.5 text-peso-texto">
+              <span className="flex items-center gap-1.5 text-peso-luz">
                 <span aria-hidden="true" className="w-4 border-t-2 border-dashed border-sol" />
                 Meta {formatoDecimal(datos.pesoMetaKg)} kg
               </span>

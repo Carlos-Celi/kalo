@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Navigate, useNavigate } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { CampoTexto } from '../../components/ui/CampoTexto'
 import { cambiarContrasena } from './acciones'
@@ -50,17 +51,17 @@ export function RestablecerPage() {
       <h1 className="sr-only">Nueva contraseña</h1>
 
       {auth.fase === 'cargando' && (
-        <p role="status" className="text-center text-sm font-medium text-tinta-3">
+        <p role="status" className="text-center text-sm font-medium text-ceniza">
           Comprobando el enlace…
         </p>
       )}
 
       {auth.fase === 'anonimo' && (
         <>
-          <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] leading-normal font-semibold text-error">
-            El enlace no es válido o ya caducó. Pide uno nuevo y ábrelo en el mismo navegador en
-            el que lo solicitaste.
-          </p>
+          <Alerta titulo="El enlace no es válido o ya caducó">
+            Los enlaces sirven una sola vez y durante poco tiempo. Pide uno nuevo desde «¿Olvidaste
+            tu contraseña?» y ábrelo en el mismo navegador en el que lo solicitaste.
+          </Alerta>
           <Button to={rutas.login} tamano="xl">
             Volver a iniciar sesión
           </Button>
@@ -75,16 +76,14 @@ export function RestablecerPage() {
             icono="candado"
             type="password"
             autoComplete="new-password"
-            placeholder={`Mínimo ${CONTRASENA_MINIMO} caracteres`}
+            placeholder={`Mínimo ${CONTRASENA_MINIMO}, con letras y números`}
             maxLength={128}
             valor={contrasena}
             onCambio={setContrasena}
             error={error}
           />
           {fallo && (
-            <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] leading-normal font-semibold text-error">
-              {fallo}
-            </p>
+            <Alerta titulo="No pudimos cambiar la contraseña">{fallo}</Alerta>
           )}
           <Button type="submit" tamano="xl" disabled={enviando}>
             {enviando ? 'Un momento…' : 'Guardar contraseña'}

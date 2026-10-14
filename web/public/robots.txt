@@ -1,0 +1,7 @@
+# Kalo es una app privada: solo se indexan el acceso y los documentos legales.
+User-agent: *
+Allow: /login
+Allow: /privacidad
+Allow: /terminos
+Allow: /cookies
+Disallow: /

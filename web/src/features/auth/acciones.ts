@@ -1,6 +1,7 @@
 import { isAuthError } from '@supabase/supabase-js'
 import { rutas } from '../../app/rutas'
 import { supabase } from '../../lib/supabase'
+import { VERSION_POLITICAS } from '../legal/PaginaLegal'
 import { normalizarCorreo } from './validacion'
 
 export type MotivoFallo =
@@ -73,7 +74,12 @@ export async function crearCuenta(
   const { error } = await supabase.auth.signUp({
     email: normalizarCorreo(correo),
     password: contrasena,
-    options: { captchaToken, emailRedirectTo: window.location.origin + rutas.inicio },
+    options: {
+      captchaToken,
+      emailRedirectTo: window.location.origin + rutas.inicio,
+      // Constancia del consentimiento (términos, privacidad y datos de salud) y de su versión.
+      data: { politicas_version: VERSION_POLITICAS, politicas_aceptadas_en: new Date().toISOString() },
+    },
   })
   return error ? fallo(error) : EXITO
 }

@@ -23,6 +23,8 @@ export interface PerfilRepositorio {
   obtener(): Promise<Perfil>
   /** Guarda el resultado del onboarding y lo da por completado. */
   guardarPlan(plan: Plan): Promise<void>
+  /** Borra la cuenta y todos sus datos del servidor. No se puede deshacer. */
+  eliminarCuenta(): Promise<void>
 }
 
 export interface RegistrosRepositorio {

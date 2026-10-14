@@ -26,7 +26,7 @@ export function GrupoChips<T extends string>({ pregunta, opciones, elegidas, onE
           </Chip>
         ))}
       </div>
-      {falta && <p className="text-xs font-semibold text-error">Elige una opción.</p>}
+      {falta && <p className="text-xs font-semibold text-exceso">Elige una opción.</p>}
     </div>
   )
 }

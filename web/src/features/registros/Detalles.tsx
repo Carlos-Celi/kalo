@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { rutaDeComida, rutas } from '../../app/rutas'
+import { Alerta } from '../../components/ui/Alerta'
 import { AvisoGuardado, CampoMedida } from '../../components/ui/CamposNumericos'
 import { Chip } from '../../components/ui/Chip'
 import { Icon } from '../../components/ui/Icon'
@@ -46,14 +47,14 @@ function Barra({ avance, alto, pista, relleno }: { avance: number; alto: string;
 
 function Consejo({ children }: { children: ReactNode }) {
   return (
-    <p className="rounded-boton bg-crema-suave px-3.5 py-3 text-xs leading-normal font-medium text-tinta-2">
+    <p className="rounded-boton bg-muro px-3.5 py-3 text-xs leading-normal font-medium text-ceniza">
       {children}
     </p>
   )
 }
 
 const claseDeshacer =
-  'h-11 rounded-boton-sm bg-crema-suave text-[13px] font-semibold text-tinta-2 disabled:opacity-50'
+  'h-11 rounded-boton-sm bg-muro text-[13px] font-semibold text-ceniza disabled:opacity-50'
 
 const porHoraDescendente = <T extends { creadoEn: string }>(lista: T[]) =>
   [...lista].sort((a, b) => b.creadoEn.localeCompare(a.creadoEn))
@@ -71,29 +72,29 @@ function FilaComida({ comida }: { comida: Comida }) {
   return (
     <Link
       to={rutaDeComida(comida.id)}
-      className="flex min-h-[46px] items-center gap-2 border-t border-divisor py-1 text-tinta no-underline"
+      className="flex min-h-[46px] items-center gap-2 border-t border-divisor py-1 text-hueso no-underline"
     >
       <span className="flex grow flex-col">
         <span className="flex flex-wrap items-center gap-1.5 text-[13px] font-bold">
           {comida.nombre}
           {comida.origen === 'ia' && (
-            <span className="rounded-md bg-ia-fondo px-[7px] py-px text-xs font-bold text-kalo-oscuro">
+            <span className="rounded-md bg-llama/15 px-[7px] py-px text-xs font-bold text-llama">
               IA
             </span>
           )}
           {comida.esAlcohol && (
-            <span className="rounded-md bg-error-fondo px-[7px] py-px text-xs font-bold text-error">
+            <span className="rounded-md bg-exceso/15 px-[7px] py-px text-xs font-bold text-exceso">
               Licor
             </span>
           )}
           {comida.tieneFoto && (
-            <span className="inline-flex items-center text-tinta-3">
+            <span className="inline-flex items-center text-ceniza">
               <Icon nombre="camara" tamano={14} />
               <span className="sr-only">Con foto</span>
             </span>
           )}
         </span>
-        <span className="text-xs font-medium text-tinta-3">
+        <span className="text-xs font-medium text-ceniza">
           {formatoDecimal(comida.proteinaG)} g proteína · {formatoDecimal(comida.azucarG)} g azúcar
         </span>
       </span>
@@ -114,31 +115,31 @@ export function DetalleComida({ registros, fecha, metas }: Props) {
 
   return (
     <div className="flex flex-col gap-2.5">
-      <section aria-label="Metas principales" className="flex flex-col gap-2 rounded-tarjeta bg-crema p-3.5">
+      <section aria-label="Metas principales" className="flex flex-col gap-2 rounded-tarjeta bg-banco p-3.5">
         <div className="flex items-baseline justify-between">
           <span className="text-[13px] font-bold">
             Calorías{' '}
-            <span className="font-medium text-tinta-3">
+            <span className="font-medium text-ceniza">
               {formatoEntero(calorias.valor)} / {formatoEntero(calorias.meta)} kcal
             </span>
           </span>
-          <span className={`text-xs font-bold ${exceso > 0 ? 'text-error' : 'text-kalo-oscuro'}`}>
+          <span className={`text-xs font-bold ${exceso > 0 ? 'text-exceso' : 'text-llama'}`}>
             {exceso > 0 ? `Te pasaste por ${formatoEntero(exceso)}` : `Quedan ${formatoEntero(restante(calorias))}`}
           </span>
         </div>
-        <Barra avance={fraccion(calorias)} alto="h-1.5" pista="bg-calorias-pista" relleno="bg-kalo" />
+        <Barra avance={fraccion(calorias)} alto="h-1.5" pista="bg-filo" relleno="bg-llama" />
         <div className="flex items-baseline justify-between pt-0.5">
           <span className="text-[13px] font-bold">
             Proteína{' '}
-            <span className="font-medium text-tinta-3">
+            <span className="font-medium text-ceniza">
               {formatoEntero(proteina.valor)} / {formatoEntero(proteina.meta)} g
             </span>
           </span>
-          <span className="text-xs font-bold text-kalo-oscuro">
+          <span className="text-xs font-bold text-llama">
             {restante(proteina) > 0 ? `Faltan ${formatoEntero(restante(proteina))} g` : 'Meta cumplida'}
           </span>
         </div>
-        <Barra avance={fraccion(proteina)} alto="h-1.5" pista="bg-proteina-pista" relleno="bg-proteina" />
+        <Barra avance={fraccion(proteina)} alto="h-1.5" pista="bg-filo" relleno="bg-sol" />
       </section>
 
       {grupos.map(({ titulo, tipos, alta, conFoto }) => {
@@ -146,10 +147,10 @@ export function DetalleComida({ registros, fecha, metas }: Props) {
         const kcal = comidas.reduce((total, comida) => total + comida.kcal, 0)
         const destino = `${conFoto ? rutas.camara : rutas.comidaManual}?tipo=${alta}&fecha=${fecha}`
         return (
-          <section key={titulo} className="rounded-2xl border border-borde px-3">
+          <section key={titulo} className="rounded-2xl border border-filo px-3">
             <div className="flex min-h-[52px] items-center gap-2.5">
               <h3 className="grow text-sm font-extrabold">{titulo}</h3>
-              <span className="text-xs font-semibold text-tinta-3">
+              <span className="text-xs font-semibold text-ceniza">
                 {comidas.length > 0 ? `${formatoEntero(kcal)} kcal` : 'Sin registrar'}
               </span>
               <Link
@@ -157,7 +158,7 @@ export function DetalleComida({ registros, fecha, metas }: Props) {
                 aria-label={`Añadir a ${titulo}`}
                 className="-my-1 flex size-11 items-center justify-center rounded-full"
               >
-                <span className="flex size-9 items-center justify-center rounded-full bg-kalo text-white">
+                <span className="flex size-9 items-center justify-center rounded-full bg-brasa text-white">
                   <Icon nombre="mas" tamano={18} grosor={2.4} />
                 </span>
               </Link>
@@ -184,17 +185,17 @@ export function DetalleAgua({ registros, fecha, esHoy, metas, acciones }: Props)
 
   return (
     <div className="flex flex-col gap-2.5">
-      <section aria-label="Agua del día" className="flex flex-col gap-2 rounded-tarjeta bg-agua-fondo p-4">
+      <section aria-label="Agua del día" className="flex flex-col gap-2 rounded-tarjeta bg-agua-luz/10 p-4">
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-extrabold tracking-[-1px] text-agua-fuerte">
+          <span className="text-4xl font-extrabold tracking-[-1px] text-agua-luz">
             {formatoDecimal(ml / 1000)} L
           </span>
-          <span className="text-[13px] font-semibold text-tinta-2">
+          <span className="text-[13px] font-semibold text-ceniza">
             de {formatoDecimal(metas.aguaL, 2)} L · {Math.min(Math.round((ml / metaMl) * 100), 100)} %
           </span>
         </div>
-        <Barra avance={ml / metaMl} alto="h-2" pista="bg-agua-pista" relleno="bg-agua" />
-        <p aria-live="polite" className="text-xs font-medium text-tinta-2">
+        <Barra avance={ml / metaMl} alto="h-2" pista="bg-filo" relleno="bg-agua-luz" />
+        <p aria-live="polite" className="text-xs font-medium text-ceniza">
           {faltan > 0
             ? `Te faltan ${formatoEntero(faltan)} ml.`
             : esHoy
@@ -208,7 +209,7 @@ export function DetalleAgua({ registros, fecha, esHoy, metas, acciones }: Props)
             key={atajo}
             type="button"
             onClick={() => void acciones.agregarAgua(fecha, atajo)}
-            className="h-12 rounded-boton bg-agua-suave text-sm font-extrabold text-agua-fuerte"
+            className="h-12 rounded-boton bg-agua-luz/15 text-sm font-extrabold text-agua-luz"
           >
             +{atajo} ml
           </button>
@@ -223,13 +224,13 @@ export function DetalleAgua({ registros, fecha, esHoy, metas, acciones }: Props)
         Deshacer último
       </button>
       {tomas.length > 0 && (
-        <ul aria-label="Agua registrada" className="rounded-2xl border border-borde px-3.5 py-1">
+        <ul aria-label="Agua registrada" className="rounded-2xl border border-filo px-3.5 py-1">
           {tomas.map((toma) => (
             <li
               key={toma.id}
               className="flex min-h-11 items-center justify-between border-b border-divisor text-[13px] last:border-b-0"
             >
-              <span className="font-semibold text-tinta-3">{formatoHora(toma.creadoEn)}</span>
+              <span className="font-semibold text-ceniza">{formatoHora(toma.creadoEn)}</span>
               <span className="font-extrabold">{formatoEntero(toma.ml)} ml</span>
             </li>
           ))}
@@ -294,18 +295,18 @@ function FormularioEjercicio({ fecha, acciones }: Pick<Props, 'fecha' | 'accione
       noValidate
       onSubmit={(evento) => void enviar(evento)}
       aria-label="Registrar ejercicio"
-      className="flex flex-col gap-3.5 rounded-tarjeta border border-borde bg-white p-4"
+      className="flex flex-col gap-3.5 rounded-tarjeta border border-filo bg-muro p-4"
     >
       <div>
         <h3 className="text-[15px] font-extrabold">Registrar una sesión</h3>
-        <p className="text-xs font-medium text-tinta-3">
+        <p className="text-xs font-medium text-ceniza">
           Escribe la duración y, si tu reloj o pulsera mide las calorías, ponlas tal cual.
         </p>
       </div>
 
       <div className="flex flex-col gap-2">
         <label htmlFor="ejercicio-nombre" className="text-[13px] font-bold">
-          Actividad <span className="font-medium text-tinta-3">(opcional)</span>
+          Actividad <span className="font-medium text-ceniza">(opcional)</span>
         </label>
         <input
           id="ejercicio-nombre"
@@ -315,7 +316,7 @@ function FormularioEjercicio({ fecha, acciones }: Pick<Props, 'fecha' | 'accione
           placeholder="Caminata, pesas, fútbol…"
           value={nombre}
           onChange={(evento) => setNombre(evento.target.value)}
-          className="h-[52px] rounded-boton border border-borde bg-crema-suave px-3.5 text-[15px] font-medium text-tinta focus:border-[1.5px] focus:border-llama focus:bg-white focus:outline-none"
+          className="h-[52px] rounded-boton border border-filo bg-muro px-3.5 text-[15px] font-medium text-hueso focus:border-[1.5px] focus:border-llama focus:bg-muro focus:outline-none"
         />
         <div role="group" aria-label="Actividades frecuentes" className="flex flex-wrap gap-1.5">
           {ACTIVIDADES.map((actividad) => (
@@ -344,15 +345,13 @@ function FormularioEjercicio({ fecha, acciones }: Pick<Props, 'fecha' | 'accione
       </div>
 
       {error && (
-        <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-          {error}
-        </p>
+        <Alerta titulo="Revisa los datos">{error}</Alerta>
       )}
       {guardado && <AvisoGuardado>{guardado}</AvisoGuardado>}
       <button
         type="submit"
         disabled={enviando}
-        className="h-[50px] rounded-boton bg-ejercicio-fuerte text-[15px] font-bold text-white hover:bg-kalo-oscuro disabled:opacity-50"
+        className="h-[50px] rounded-boton bg-ejercicio-luz text-[15px] font-bold text-tinta hover:brightness-110 disabled:opacity-50"
       >
         {enviando ? 'Guardando…' : 'Añadir ejercicio'}
       </button>
@@ -372,29 +371,29 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
     <div className="flex flex-col gap-3">
       <section
         aria-label="Ejercicio del día"
-        className="flex flex-col gap-2 rounded-tarjeta bg-ejercicio-suave p-4"
+        className="flex flex-col gap-2 rounded-tarjeta bg-ejercicio-luz/15 p-4"
       >
         <div className="flex flex-wrap items-baseline justify-between gap-x-3">
           <span className="flex items-baseline gap-1.5">
-            <span className="text-4xl font-extrabold tracking-[-1px] text-ejercicio-fuerte">
+            <span className="text-4xl font-extrabold tracking-[-1px] text-ejercicio-luz">
               {formatoEntero(totales.ejercicioMin)}
             </span>
-            <span className="text-[13px] font-semibold text-tinta-2">
+            <span className="text-[13px] font-semibold text-ceniza">
               / {formatoEntero(metas.ejercicioMin)} min
               {totales.ejercicioMin >= 60 && ` (${duracionCorta(totales.ejercicioMin)})`}
             </span>
           </span>
-          <span className="text-[13px] font-bold text-ejercicio-fuerte">
+          <span className="text-[13px] font-bold text-ejercicio-luz">
             {formatoEntero(totales.ejercicioKcal)} kcal quemadas
           </span>
         </div>
         <Barra
           avance={metas.ejercicioMin > 0 ? totales.ejercicioMin / metas.ejercicioMin : 0}
           alto="h-2"
-          pista="bg-ejercicio-pista"
-          relleno="bg-ejercicio"
+          pista="bg-filo"
+          relleno="bg-ejercicio-luz"
         />
-        <p className="text-xs font-medium text-tinta-2">
+        <p className="text-xs font-medium text-ceniza">
           {formatoEntero(minutosSemana)} min esta semana · meta cumplida {diasCumplidos} de 7 días
         </p>
       </section>
@@ -407,7 +406,7 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
             onClick={() =>
               void acciones.agregarEjercicio({ fecha, minutos: atajo, nombre: 'Ejercicio', kcal: null })
             }
-            className="h-12 rounded-boton bg-ejercicio-boton text-sm font-extrabold text-ejercicio-fuerte"
+            className="h-12 rounded-boton bg-ejercicio-luz/15 text-sm font-extrabold text-ejercicio-luz"
           >
             +{atajo} min
           </button>
@@ -416,7 +415,7 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
           type="button"
           disabled={sesiones.length === 0}
           onClick={() => void acciones.deshacerEjercicio(fecha)}
-          className="h-12 rounded-boton bg-crema-suave text-[13px] font-semibold text-tinta-2 disabled:opacity-50"
+          className="h-12 rounded-boton bg-muro text-[13px] font-semibold text-ceniza disabled:opacity-50"
         >
           Deshacer
         </button>
@@ -425,7 +424,7 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
       <FormularioEjercicio fecha={fecha} acciones={acciones} />
 
       {sesiones.length > 0 && (
-        <ul aria-label="Ejercicio registrado" className="rounded-2xl border border-borde px-3.5">
+        <ul aria-label="Ejercicio registrado" className="rounded-2xl border border-filo px-3.5">
           {sesiones.map((sesion) => (
             <li
               key={sesion.id}
@@ -433,13 +432,13 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
             >
               <span className="flex min-w-0 grow flex-col">
                 <span className="truncate text-[13px] font-bold">{sesion.nombre}</span>
-                <span className="text-xs font-medium text-tinta-3">
+                <span className="text-xs font-medium text-ceniza">
                   {formatoHora(sesion.creadoEn)} · {duracionCorta(sesion.minutos)}
                 </span>
               </span>
               <span className="flex flex-col items-end">
                 <span className="text-sm font-extrabold">{formatoEntero(sesion.kcal)} kcal</span>
-                <span className="text-xs font-medium text-tinta-3">
+                <span className="text-xs font-medium text-ceniza">
                   {sesion.origenKcal === 'manual' ? 'Tu medición' : 'Estimado'}
                 </span>
               </span>
@@ -447,7 +446,7 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
                 type="button"
                 aria-label={`Eliminar ${sesion.nombre} de las ${formatoHora(sesion.creadoEn)}`}
                 onClick={() => void acciones.eliminarEjercicio(sesion.id)}
-                className="-mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-tinta-3 hover:text-error"
+                className="-mr-2 flex size-11 shrink-0 items-center justify-center rounded-full text-ceniza hover:text-exceso"
               >
                 <Icon nombre="papelera" tamano={18} />
               </button>
@@ -457,7 +456,7 @@ export function DetalleEjercicio({ registros, fecha, esHoy, metas, acciones, sem
       )}
       <p
         aria-live="polite"
-        className="rounded-boton bg-crema-suave px-3.5 py-3 text-xs leading-normal font-medium text-tinta-2"
+        className="rounded-boton bg-muro px-3.5 py-3 text-xs leading-normal font-medium text-ceniza"
       >
         {faltan > 0
           ? `Te faltan ${formatoEntero(faltan)} min para tu meta${esHoy ? ' de hoy. Una caminata corta después de cenar te alcanza.' : ' de ese día.'}`
@@ -486,7 +485,7 @@ function diferencia(minutos: number): string {
 const ATAJOS_SIESTA_MIN = [15, 20, 30, 45, 60]
 
 const claseHora =
-  'h-[52px] rounded-boton border border-borde bg-crema-suave px-3.5 text-[17px] font-bold text-tinta focus:border-[1.5px] focus:border-llama focus:bg-white focus:outline-none'
+  'h-[52px] rounded-boton border border-filo bg-muro px-3.5 text-[17px] font-bold text-hueso focus:border-[1.5px] focus:border-llama focus:bg-muro focus:outline-none'
 
 function FormularioNoche({
   fecha,
@@ -530,12 +529,12 @@ function FormularioNoche({
       noValidate
       onSubmit={(evento) => void enviar(evento)}
       aria-label="Registrar la noche"
-      className="flex flex-col gap-3.5 rounded-tarjeta border border-borde bg-white p-4"
+      className="flex flex-col gap-3.5 rounded-tarjeta border border-filo bg-muro p-4"
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h3 className="text-[15px] font-extrabold">Sueño de la noche</h3>
-          <p className="text-xs font-medium text-tinta-3">
+          <p className="text-xs font-medium text-ceniza">
             {actual > 0 ? `Registrado: ${duracionLarga(actual)}. Puedes corregirlo.` : 'Aún sin registrar.'}
           </p>
         </div>
@@ -583,20 +582,18 @@ function FormularioNoche({
         </div>
       )}
 
-      <p aria-live="polite" className="text-sm font-bold text-sueno">
+      <p aria-live="polite" className="text-sm font-bold text-sueno-luz">
         {total && total > 0 ? `Dormiste ${duracionLarga(total)}` : 'Indica cuánto dormiste'}
       </p>
 
       {error && (
-        <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-          {error}
-        </p>
+        <Alerta titulo="Revisa los datos">{error}</Alerta>
       )}
       {guardado && <AvisoGuardado>Noche guardada.</AvisoGuardado>}
       <button
         type="submit"
         disabled={enviando}
-        className="h-[50px] rounded-boton bg-sueno text-[15px] font-bold text-white hover:bg-kalo-oscuro disabled:opacity-50"
+        className="h-[50px] rounded-boton bg-sueno-luz text-[15px] font-bold text-tinta hover:brightness-110 disabled:opacity-50"
       >
         {enviando ? 'Guardando…' : actual > 0 ? 'Actualizar la noche' : 'Guardar la noche'}
       </button>
@@ -620,13 +617,13 @@ function SeccionSiestas({ registros, fecha, acciones }: Pick<Props, 'registros' 
   return (
     <section
       aria-labelledby="siestas-titulo"
-      className="flex flex-col gap-3 rounded-tarjeta border border-borde bg-white p-4"
+      className="flex flex-col gap-3 rounded-tarjeta border border-filo bg-muro p-4"
     >
       <div>
         <h3 id="siestas-titulo" className="text-[15px] font-extrabold">
           Siestas del día
         </h3>
-        <p className="text-xs font-medium text-tinta-3">Se suman al sueño de la noche.</p>
+        <p className="text-xs font-medium text-ceniza">Se suman al sueño de la noche.</p>
       </div>
       <div role="group" aria-label="Añadir siesta" className="flex flex-wrap gap-2">
         {ATAJOS_SIESTA_MIN.map((atajo) => (
@@ -634,7 +631,7 @@ function SeccionSiestas({ registros, fecha, acciones }: Pick<Props, 'registros' 
             key={atajo}
             type="button"
             onClick={() => void anadir(atajo)}
-            className="h-11 rounded-full bg-sueno-suave px-4 text-[13px] font-extrabold text-sueno"
+            className="h-11 rounded-full bg-sueno-luz/15 px-4 text-[13px] font-extrabold text-sueno-luz"
           >
             +{atajo} min
           </button>
@@ -661,15 +658,13 @@ function SeccionSiestas({ registros, fecha, acciones }: Pick<Props, 'registros' 
         </div>
         <button
           type="submit"
-          className="h-[52px] shrink-0 rounded-boton bg-sueno px-4 text-[15px] font-bold text-white"
+          className="h-[52px] shrink-0 rounded-boton bg-sueno-luz px-4 text-[15px] font-bold text-tinta"
         >
           Añadir
         </button>
       </form>
       {error && (
-        <p role="alert" className="text-xs font-semibold text-error">
-          {error}
-        </p>
+        <Alerta titulo="Revisa la siesta">{error}</Alerta>
       )}
       {siestas.length > 0 && (
         <ul aria-label="Siestas registradas" className="border-t border-divisor">
@@ -678,13 +673,13 @@ function SeccionSiestas({ registros, fecha, acciones }: Pick<Props, 'registros' 
               key={siesta.id}
               className="flex min-h-11 items-center gap-2 border-b border-divisor text-[13px] last:border-b-0"
             >
-              <span className="grow font-semibold text-tinta-3">{formatoHora(siesta.creadoEn)}</span>
+              <span className="grow font-semibold text-ceniza">{formatoHora(siesta.creadoEn)}</span>
               <span className="font-extrabold">{duracionCorta(siesta.minutos)}</span>
               <button
                 type="button"
                 aria-label={`Eliminar la siesta de ${duracionCorta(siesta.minutos)}`}
                 onClick={() => void acciones.eliminarSiesta(siesta.id)}
-                className="-mr-2 flex size-11 items-center justify-center rounded-full text-tinta-3 hover:text-error"
+                className="-mr-2 flex size-11 items-center justify-center rounded-full text-ceniza hover:text-exceso"
               >
                 <Icon nombre="papelera" tamano={18} />
               </button>
@@ -723,19 +718,19 @@ export function DetalleSueno({
           Antenoche
         </Chip>
         {fecha !== hoy && fecha !== ayer && (
-          <span className="flex min-h-11 items-center text-[13px] font-semibold text-tinta-3">{noche}</span>
+          <span className="flex min-h-11 items-center text-[13px] font-semibold text-ceniza">{noche}</span>
         )}
       </div>
 
       <section
         aria-label="Horas dormidas"
-        className="flex flex-col gap-2.5 rounded-tarjeta bg-sueno p-4 text-white"
+        className="flex flex-col gap-2.5 rounded-tarjeta bg-sueno-luz/15 p-4 text-sueno-luz"
       >
-        <div className="text-[13px] font-semibold text-kalo-claro">{noche}</div>
-        <div aria-live="polite" className="text-4xl leading-none font-extrabold tracking-[-1px]">
+        <div className="text-[13px] font-semibold text-ceniza">{noche}</div>
+        <div aria-live="polite" className="num-marcador text-5xl leading-none font-extrabold">
           {minutos > 0 ? duracionLarga(minutos) : 'Sin registrar'}
         </div>
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-kalo-claro">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-ceniza">
           <span>Meta: {formatoDuracion(metas.suenoMin)}</span>
           {totales.siestaMin > 0 && (
             <span>
@@ -757,15 +752,15 @@ export function DetalleSueno({
       </div>
 
       <div className="grid grid-cols-2 gap-2.5">
-        <div className="flex flex-col gap-1 rounded-2xl border border-borde p-3.5">
-          <span className="text-xs font-semibold text-tinta-3">Promedio semanal</span>
+        <div className="flex flex-col gap-1 rounded-2xl border border-filo p-3.5">
+          <span className="text-xs font-semibold text-ceniza">Promedio semanal</span>
           <span className="text-lg font-extrabold">
             {media > 0 ? diferencia(media).replace('+', '') : '—'}
           </span>
         </div>
-        <div className="flex flex-col gap-1 rounded-2xl border border-borde p-3.5">
-          <span className="text-xs font-semibold text-tinta-3">Frente a tu meta</span>
-          <span className={`text-lg font-extrabold ${minutos > 0 && frenteAMeta < 0 ? 'text-error' : ''}`}>
+        <div className="flex flex-col gap-1 rounded-2xl border border-filo p-3.5">
+          <span className="text-xs font-semibold text-ceniza">Frente a tu meta</span>
+          <span className={`text-lg font-extrabold ${minutos > 0 && frenteAMeta < 0 ? 'text-exceso' : ''}`}>
             {minutos > 0 ? diferencia(frenteAMeta) : '—'}
           </span>
         </div>

@@ -23,19 +23,19 @@ export function FilaRecordatorio({
 }) {
   return (
     <li className="flex items-center gap-3 border-b border-divisor py-2 last:border-b-0">
-      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-crema text-kalo">
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-banco text-llama">
         <Icon nombre={iconoDeRecordatorio[recordatorio.tipo]} tamano={18} />
       </span>
       <span className="flex min-w-0 grow flex-col">
         <span className="truncate text-sm font-bold">{recordatorio.nombre}</span>
-        <span className="text-xs font-medium text-tinta-3">{descripcionDe(recordatorio)}</span>
+        <span className="text-xs font-medium text-ceniza">{descripcionDe(recordatorio)}</span>
       </span>
       {onBorrar && (
         <button
           type="button"
           aria-label={`Eliminar ${recordatorio.nombre}`}
           onClick={onBorrar}
-          className="flex size-11 shrink-0 items-center justify-center rounded-full text-tinta-3 hover:text-error"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full text-ceniza hover:text-exceso"
         >
           <Icon nombre="papelera" tamano={18} />
         </button>

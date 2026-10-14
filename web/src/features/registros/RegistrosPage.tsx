@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { ErrorCarga } from '../../components/ui/ErrorCarga'
 import { Icon } from '../../components/ui/Icon'
 import { esClaveDia, formatoDiaRelativo, ultimosDias, type ClaveDia } from '../../domain/fechas'
@@ -61,16 +62,19 @@ export function RegistrosPage({ seccion }: { seccion: Seccion }) {
   const cabecera = (
     <>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-extrabold tracking-[-0.5px] lg:text-[32px] lg:tracking-[-0.8px]">
+        <h1 className="num-marcador text-[40px] leading-[0.9] font-extrabold uppercase lg:text-[48px]">
           Registros
         </h1>
         {/* Solo informa el día elegido: sin borde de botón para no parecer un selector. */}
-        <span className="flex min-h-10 items-center gap-1.5 text-[13px] font-semibold text-tinta-2">
+        <span className="flex min-h-10 items-center gap-1.5 text-[13px] font-semibold text-ceniza">
           <Icon nombre="calendario" tamano={16} />
           {formatoDiaRelativo(fecha, hoy)}
         </span>
       </div>
-      <nav aria-label="Sección de registros" className="grid grid-cols-4 gap-2">
+      <nav
+        aria-label="Sección de registros"
+        className="grid grid-cols-4 gap-1 rounded-boton-sm bg-muro p-1"
+      >
         {SECCIONES.map((otra) => {
           const activa = otra === seccion
           return (
@@ -78,10 +82,8 @@ export function RegistrosPage({ seccion }: { seccion: Seccion }) {
               key={otra}
               to={`${secciones[otra].ruta}${busqueda}`}
               aria-current={activa ? 'page' : undefined}
-              className={`flex h-14 flex-col items-center justify-center gap-1 rounded-2xl border text-xs font-bold no-underline ${
-                activa
-                  ? `${secciones[otra].claseActiva} text-white`
-                  : 'border-borde bg-crema-suave text-tinta-2 hover:text-tinta'
+              className={`flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-[9px] text-xs font-semibold no-underline ${
+                activa ? 'bg-hueso text-tinta' : 'text-ceniza hover:text-hueso'
               }`}
             >
               <Icon nombre={secciones[otra].icono} tamano={20} />
@@ -98,7 +100,7 @@ export function RegistrosPage({ seccion }: { seccion: Seccion }) {
       <div className="flex flex-col gap-3.5">
         {cabecera}
         {estado.fase === 'cargando' ? (
-          <p role="status" className="py-10 text-center text-sm font-medium text-tinta-3">
+          <p role="status" className="py-10 text-center text-sm font-medium text-ceniza">
             Cargando tus registros…
           </p>
         ) : (
@@ -149,7 +151,7 @@ export function RegistrosPage({ seccion }: { seccion: Seccion }) {
           {seccion === 'comida' && (
             <Link
               to={`${rutas.camara}${busqueda}`}
-              className="flex h-11 items-center gap-1.5 rounded-full bg-kalo px-3.5 text-[13px] font-bold text-white no-underline hover:bg-kalo-oscuro hover:text-white"
+              className="flex h-11 items-center gap-1.5 rounded-full bg-brasa px-3.5 text-[13px] font-bold text-white no-underline hover:bg-brasa-hover hover:text-white"
             >
               <Icon nombre="mas" tamano={16} grosor={2.4} />
               Registrar
@@ -157,12 +159,9 @@ export function RegistrosPage({ seccion }: { seccion: Seccion }) {
           )}
         </div>
         {fallo && (
-          <p
-            role="alert"
-            className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error"
-          >
-            No pudimos guardar el cambio. Inténtalo de nuevo.
-          </p>
+          <Alerta titulo="No pudimos guardar el último cambio">
+            No se ha registrado. Revisa tu conexión y vuelve a pulsarlo; lo demás está guardado.
+          </Alerta>
         )}
         <Detalle
           registros={registros}

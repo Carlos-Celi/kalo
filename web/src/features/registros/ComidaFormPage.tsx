@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate, useParams, useSearchParams } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { Chip } from '../../components/ui/Chip'
 import { Icon } from '../../components/ui/Icon'
@@ -25,7 +26,7 @@ import {
 import { FotoDeComida } from './FotoDeComida'
 
 const claseCampo =
-  'h-[50px] w-full min-w-0 rounded-boton border bg-crema-suave px-3.5 text-[15px] font-medium text-tinta focus:border-llama focus:bg-white'
+  'h-[50px] w-full min-w-0 rounded-boton border bg-muro px-3.5 text-[15px] font-medium text-hueso focus:border-llama focus:bg-muro'
 
 interface CamposProps {
   borrador: BorradorComida
@@ -43,7 +44,7 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
     <label className="flex flex-col gap-2 text-[13px] font-semibold">
       <span>
         {etiqueta}
-        {unidad && <span className="font-medium text-tinta-3"> ({unidad})</span>}
+        {unidad && <span className="font-medium text-ceniza"> ({unidad})</span>}
       </span>
       <input
         type="text"
@@ -53,9 +54,9 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
         value={borrador[clave]}
         onChange={(evento) => onCambio({ [clave]: evento.target.value })}
         aria-invalid={errores[clave] ? true : undefined}
-        className={`${claseCampo} ${errores[clave] ? 'border-error' : 'border-borde'}`}
+        className={`${claseCampo} ${errores[clave] ? 'border-exceso' : 'border-filo'}`}
       />
-      {errores[clave] && <span className="text-xs font-semibold text-error">{errores[clave]}</span>}
+      {errores[clave] && <span className="text-xs font-semibold text-exceso">{errores[clave]}</span>}
     </label>
   )
 
@@ -91,8 +92,8 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
           Nombre del alimento o bebida
         </label>
         <div
-          className={`flex h-[52px] items-center gap-2.5 rounded-boton border bg-crema-suave px-3.5 text-tinta-3 focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-white focus-within:text-kalo ${
-            errores.nombre ? 'border-error' : 'border-borde'
+          className={`flex h-[52px] items-center gap-2.5 rounded-boton border bg-muro px-3.5 text-ceniza focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-muro focus-within:text-llama ${
+            errores.nombre ? 'border-exceso' : 'border-filo'
           }`}
         >
           <Icon nombre="cubiertos" tamano={20} className="shrink-0" />
@@ -105,11 +106,11 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
             onChange={(evento) => onCambio({ nombre: evento.target.value })}
             aria-invalid={errores.nombre ? true : undefined}
             aria-describedby={errores.nombre ? 'nombre-comida-error' : undefined}
-            className="min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-tinta outline-none"
+            className="min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-hueso outline-none"
           />
         </div>
         {errores.nombre && (
-          <p id="nombre-comida-error" className="text-xs font-semibold text-error">
+          <p id="nombre-comida-error" className="text-xs font-semibold text-exceso">
             {errores.nombre}
           </p>
         )}
@@ -128,13 +129,13 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
 
       {TIPOS_CON_ALCOHOL.includes(borrador.tipo) && (
       <div className="flex flex-col gap-3.5 sm:col-span-2">
-      <div className="flex items-center gap-3 rounded-2xl bg-crema px-3.5 py-3">
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white text-kalo">
+      <div className="flex items-center gap-3 rounded-2xl bg-banco px-3.5 py-3">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muro text-llama">
           <Icon nombre="copa" tamano={18} />
         </span>
         <div className="grow">
           <div className="text-sm font-bold">Es una bebida con alcohol</div>
-          <div className="text-xs font-medium text-tinta-3">Se registra como licor en tu resumen</div>
+          <div className="text-xs font-medium text-ceniza">Se registra como licor en tu resumen</div>
         </div>
         <button
           type="button"
@@ -146,10 +147,10 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
         >
           <span
             className={`flex h-[30px] w-[50px] rounded-full p-[3px] ${
-              borrador.esAlcohol ? 'justify-end bg-kalo' : 'justify-start bg-borde-fuerte'
+              borrador.esAlcohol ? 'justify-end bg-brasa' : 'justify-start bg-filo'
             }`}
           >
-            <span className="size-6 rounded-full bg-white" />
+            <span className="size-6 rounded-full bg-muro" />
           </span>
         </button>
       </div>
@@ -165,8 +166,8 @@ export function CamposComida({ borrador, errores, onCambio }: CamposProps) {
             value={borrador.gradosAlcohol}
             onChange={(evento) => onCambio({ gradosAlcohol: evento.target.value })}
             aria-invalid={errores.gradosAlcohol ? true : undefined}
-            className={`h-11 w-[110px] rounded-boton-sm border bg-crema-suave px-3 text-right text-sm font-medium ${
-              errores.gradosAlcohol ? 'border-error' : 'border-borde'
+            className={`h-11 w-[110px] rounded-boton-sm border bg-muro px-3 text-right text-sm font-medium ${
+              errores.gradosAlcohol ? 'border-exceso' : 'border-filo'
             }`}
           />
         </label>
@@ -251,13 +252,14 @@ export function ComidaFormPage() {
     return (
       <PantallaFlujo titulo="Editar comida" volver={rutas.registros}>
         {carga.fase === 'cargando' ? (
-          <p role="status" className="py-10 text-center text-sm font-medium text-tinta-3">
+          <p role="status" className="py-10 text-center text-sm font-medium text-ceniza">
             Cargando…
           </p>
         ) : (
-          <p role="alert" className="py-10 text-center text-sm font-semibold text-error">
-            No encontramos esa comida.
-          </p>
+          <Alerta titulo="No encontramos esa comida" className="my-6">
+            Puede que se haya borrado desde otro dispositivo o que el enlace esté incompleto. Vuelve
+            a Registros para ver tus comidas.
+          </Alerta>
         )}
       </PantallaFlujo>
     )
@@ -278,29 +280,26 @@ export function ComidaFormPage() {
         {!existente && (
           <Link
             to={`${rutas.camara}?tipo=${borrador.tipo}&fecha=${fecha}`}
-            className="flex items-center gap-3 rounded-2xl border border-borde px-3.5 py-3 text-tinta no-underline"
+            className="flex items-center gap-3 rounded-2xl border border-filo px-3.5 py-3 text-hueso no-underline"
           >
-            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-crema text-kalo">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-banco text-llama">
               <Icon nombre="destello" tamano={18} grosor={2} />
             </span>
             <span className="grow">
               <span className="block text-sm font-bold">¿No tienes los datos?</span>
-              <span className="block text-xs font-medium text-tinta-3">
+              <span className="block text-xs font-medium text-ceniza">
                 Toma una foto y la IA los completa
               </span>
             </span>
-            <Icon nombre="flechaAdelante" tamano={18} grosor={2} className="text-tinta-3" />
+            <Icon nombre="flechaAdelante" tamano={18} grosor={2} className="text-ceniza" />
           </Link>
         )}
 
         <div className="mt-auto flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-end">
           {fallo && (
-            <p
-              role="alert"
-              className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error"
-            >
-              No pudimos guardar el cambio. Inténtalo de nuevo.
-            </p>
+            <Alerta titulo="No pudimos guardar la comida" className="sm:mr-auto">
+              Puede ser la conexión. Lo que escribiste sigue aquí: vuelve a intentarlo en un momento.
+            </Alerta>
           )}
           <Button type="submit" tamano="xl" disabled={ocupado} className="gap-2 text-[15px]">
             <Icon nombre="check" tamano={18} grosor={2.4} />

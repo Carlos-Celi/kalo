@@ -23,9 +23,9 @@ interface Props {
 export function PantallaFlujo({ titulo, volver, variante = 'centrado', ancha = false, children }: Props) {
   const destacado = variante === 'destacado'
   return (
-    <div className="min-h-dvh bg-white sm:flex sm:items-center sm:justify-center sm:bg-crema-suave sm:p-8 lg:p-10">
+    <div className="min-h-dvh bg-muro sm:flex sm:items-center sm:justify-center sm:bg-muro sm:p-8 lg:p-10">
       <main
-        className={`mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-4 bg-white px-4 pt-[max(20px,env(safe-area-inset-top))] pb-7 sm:min-h-[640px] sm:rounded-[28px] sm:border sm:border-borde sm:p-8 sm:shadow-[0_12px_40px_-16px_rgba(120,60,30,0.25)] ${
+        className={`mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-4 bg-muro px-4 pt-[max(20px,env(safe-area-inset-top))] pb-7 sm:min-h-[640px] sm:rounded-[28px] sm:border sm:border-filo sm:p-8 ${
           ancha ? 'sm:max-w-[820px] lg:max-w-[1000px]' : 'sm:max-w-[720px]'
         }`}
       >
@@ -35,7 +35,7 @@ export function PantallaFlujo({ titulo, volver, variante = 'centrado', ancha = f
               to={volver}
               aria-label="Volver"
               className={`flex size-11 shrink-0 items-center justify-center rounded-full ${
-                destacado ? 'bg-crema text-kalo-oscuro' : 'bg-arena text-tinta hover:bg-borde'
+                destacado ? 'bg-banco text-llama' : 'bg-banco text-hueso hover:bg-filo'
               }`}
             >
               <Icon nombre="flechaAtras" tamano={20} grosor={2} />

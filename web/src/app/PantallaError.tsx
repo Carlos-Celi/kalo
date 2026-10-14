@@ -9,9 +9,9 @@ import { rutas } from './rutas'
 export function PantallaError() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center gap-4 px-5 text-center">
-      <MascotAvatar tamano={72} />
-      <h1 className="text-2xl font-extrabold tracking-[-0.5px]">Algo salió mal</h1>
-      <p role="alert" className="max-w-xs text-sm font-medium text-tinta-3">
+      <MascotAvatar tamano={96} estado="apagado" />
+      <h1 className="num-marcador text-[40px] leading-[0.9] font-extrabold uppercase">Algo salió mal</h1>
+      <p role="alert" className="max-w-xs text-sm font-medium text-ceniza">
         No pudimos mostrar esta pantalla. Tus datos guardados no se ven afectados.
       </p>
       <div className="flex flex-col gap-2.5">

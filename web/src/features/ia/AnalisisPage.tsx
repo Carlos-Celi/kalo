@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { CampoNumero } from '../../components/ui/CamposNumericos'
 import { Icon } from '../../components/ui/Icon'
@@ -58,7 +59,7 @@ function PasosDeAnalisis() {
       <p role="status" className="sr-only">
         La IA está estimando calorías, proteína, azúcar y grasa…
       </p>
-      <p aria-hidden="true" key={paso} className="animate-aparecer text-sm font-bold text-kalo-oscuro">
+      <p aria-hidden="true" key={paso} className="animate-aparecer text-sm font-bold text-llama">
         {PASOS_DE_ANALISIS[paso]}
       </p>
       <div aria-hidden="true" className="flex gap-1.5">
@@ -80,18 +81,18 @@ function CifraKcal({ valor }: { valor: number }) {
 }
 
 const claseNivel: Record<Nivel, string> = {
-  Bajo: 'bg-crema text-kalo-oscuro',
-  Medio: 'bg-media-fondo text-peso-texto',
-  Alto: 'bg-error-fondo text-error',
+  Bajo: 'bg-banco text-llama',
+  Medio: 'bg-peso-luz/15 text-peso-luz',
+  Alto: 'bg-exceso/15 text-exceso',
 }
 
 function Macro({ nombre, gramos, referencia, relleno, pista }: { nombre: string; gramos: number; referencia: number; relleno: string; pista: string }) {
   const nivel = nivelDe(gramos, referencia)
   const porcentaje = Math.round((gramos / referencia) * 100)
   return (
-    <div className="flex flex-col gap-1.5 rounded-2xl border border-borde p-3">
+    <div className="flex flex-col gap-1.5 rounded-2xl border border-filo p-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold text-tinta-3">{nombre}</span>
+        <span className="text-xs font-semibold text-ceniza">{nombre}</span>
         <span className={`rounded-md px-[7px] py-px text-xs font-bold ${claseNivel[nivel]}`}>
           {nivel}
         </span>
@@ -100,7 +101,7 @@ function Macro({ nombre, gramos, referencia, relleno, pista }: { nombre: string;
       <div aria-hidden="true" className={`h-1.5 rounded-full ${pista}`}>
         <div className={`h-1.5 rounded-full ${relleno}`} style={{ width: `${Math.min(porcentaje, 100)}%` }} />
       </div>
-      <div className="text-xs font-medium text-tinta-3">{porcentaje} % de la referencia diaria</div>
+      <div className="text-xs font-medium text-ceniza">{porcentaje} % de la referencia diaria</div>
     </div>
   )
 }
@@ -204,7 +205,7 @@ export function AnalisisPage() {
   }
 
   const foto = (
-    <div className="relative overflow-hidden rounded-3xl bg-camara-visor">
+    <div className="relative overflow-hidden rounded-3xl bg-muro">
       <canvas
         ref={pintarFoto}
         role="img"
@@ -213,7 +214,7 @@ export function AnalisisPage() {
       />
       {estado.fase === 'analizando' && (
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl">
-          <div className="absolute inset-0 bg-camara/35" />
+          <div className="absolute inset-0 bg-sala/35" />
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.14)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.14)_1px,transparent_1px)] bg-[size:28px_28px] opacity-50" />
           <div className="absolute inset-x-0 h-24 -translate-y-1/2 animate-escaneo bg-linear-to-b from-transparent via-sol/35 to-transparent" />
           <div className="absolute inset-x-0 h-[3px] -translate-y-1/2 animate-escaneo bg-sol shadow-[0_0_16px_4px_rgba(255,201,51,0.7)]" />
@@ -229,7 +230,7 @@ export function AnalisisPage() {
           ))}
         </div>
       )}
-      <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-kalo-oscuro">
+      <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-muro px-2.5 py-1 text-xs font-bold text-llama">
         <Icon nombre="destello" tamano={12} grosor={2.2} className={estado.fase === 'listo' ? '' : 'animate-brillo'} />
         {estado.fase === 'listo' ? 'Analizado con IA' : 'Analizando con IA'}
       </div>
@@ -242,9 +243,7 @@ export function AnalisisPage() {
         {foto}
         {estado.fase === 'fallo' ? (
           <div className="flex flex-col gap-3">
-            <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-              {estado.mensaje}
-            </p>
+            <Alerta titulo="No pudimos analizar la foto">{estado.mensaje}</Alerta>
             <Button
               tamano="lg"
               onClick={() => {
@@ -316,27 +315,27 @@ export function AnalisisPage() {
         <>
           <div className="flex flex-col gap-1.5">
             <div className="flex items-start justify-between gap-2">
-              <h2 className="text-xl leading-tight font-extrabold tracking-[-0.4px]">{borrador.nombre}</h2>
-              <span className="shrink-0 rounded-full bg-crema px-2.5 py-1 text-xs font-bold text-kalo-oscuro">
+              <h2 className="text-xl leading-tight font-bold tracking-[-0.3px]">{borrador.nombre}</h2>
+              <span className="shrink-0 rounded-full bg-banco px-2.5 py-1 text-xs font-bold text-llama">
                 {tiposDeComida[borrador.tipo].etiqueta}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-tinta-3">
+            <div className="flex items-center gap-1.5 text-xs font-semibold text-ceniza">
               <Icon nombre="escudo" tamano={14} />
               Confianza de la IA: {analisis.confianza} %
             </div>
           </div>
 
-          <div className="flex items-center justify-between rounded-tarjeta bg-crema px-4 py-3.5">
-            <div className="flex items-baseline gap-1.5 text-kalo-oscuro">
-              <span className="text-[40px] leading-none font-extrabold tracking-[-1px]">
+          <div className="flex items-center justify-between rounded-tarjeta bg-banco px-4 py-3.5">
+            <div className="flex items-baseline gap-1.5 text-ceniza">
+              <span className="num-marcador text-[64px] leading-[0.9] font-extrabold text-hueso">
                 <CifraKcal valor={kcal} />
               </span>
               <span className="text-sm font-bold">kcal</span>
             </div>
             {kcal === analisis.kcal && (
               <div className="text-right">
-                <div className="text-xs font-medium text-tinta-3">Rango estimado</div>
+                <div className="text-xs font-medium text-ceniza">Rango estimado</div>
                 <div className="text-[13px] font-extrabold">
                   {formatoEntero(analisis.kcal_minimo)} – {formatoEntero(analisis.kcal_maximo)} kcal
                 </div>
@@ -344,7 +343,7 @@ export function AnalisisPage() {
             )}
           </div>
 
-          <div className="rounded-2xl border border-borde p-3.5">
+          <div className="rounded-2xl border border-filo p-3.5">
             <CampoNumero
               id="cantidad"
               etiqueta="Cantidad"
@@ -360,25 +359,25 @@ export function AnalisisPage() {
           </div>
 
           <div className="grid grid-cols-2 gap-2.5">
-            <Macro nombre="Azúcar" gramos={azucarG} referencia={referencias.azucarG} relleno="bg-azucar" pista="bg-azucar-pista" />
-            <Macro nombre="Grasa" gramos={grasaG} referencia={referencias.grasaG} relleno="bg-ejercicio" pista="bg-grasa-pista" />
+            <Macro nombre="Azúcar" gramos={azucarG} referencia={referencias.azucarG} relleno="bg-azucar" pista="bg-filo" />
+            <Macro nombre="Grasa" gramos={grasaG} referencia={referencias.grasaG} relleno="bg-ejercicio-luz" pista="bg-filo" />
           </div>
 
-          <div className="flex flex-col gap-2.5 rounded-2xl border border-borde p-3.5">
+          <div className="flex flex-col gap-2.5 rounded-2xl border border-filo p-3.5">
             <div className="flex flex-col gap-1.5">
               <div className="flex justify-between text-[13px] font-bold">
                 <span>Proteína · meta principal</span>
                 <span>{formatoDecimal(proteinaG)} g</span>
               </div>
-              <div aria-hidden="true" className="h-1.5 rounded-full bg-proteina-pista">
-                <div className="h-1.5 rounded-full bg-proteina" style={{ width: `${Math.min(porcentajeProteina, 100)}%` }} />
+              <div aria-hidden="true" className="h-1.5 rounded-full bg-filo">
+                <div className="h-1.5 rounded-full bg-sol" style={{ width: `${Math.min(porcentajeProteina, 100)}%` }} />
               </div>
-              <div className="text-xs font-medium text-tinta-3">
+              <div className="text-xs font-medium text-ceniza">
                 {porcentajeProteina} % de tu meta diaria de {formatoEntero(metas.proteinaG)} g
               </div>
             </div>
             <div className="flex justify-between border-t border-divisor pt-2.5 text-[13px] font-semibold">
-              <span className="text-tinta-3">Carbohidratos</span>
+              <span className="text-ceniza">Carbohidratos</span>
               <span className="font-extrabold">{formatoDecimal(carbohidratosG)} g</span>
             </div>
           </div>
@@ -388,7 +387,7 @@ export function AnalisisPage() {
               <h3 className="text-[13px] font-bold">Ingredientes detectados</h3>
               <ul className="flex flex-wrap gap-1.5">
                 {analisis.ingredientes.map((ingrediente) => (
-                  <li key={ingrediente} className="rounded-full border border-borde bg-crema-suave px-3 py-1.5 text-xs font-semibold">
+                  <li key={ingrediente} className="rounded-full border border-filo bg-muro px-3 py-1.5 text-xs font-semibold">
                     {ingrediente}
                   </li>
                 ))}
@@ -399,10 +398,10 @@ export function AnalisisPage() {
       )}
 
       {miniatura && (
-        <div className="flex items-center gap-3 rounded-2xl bg-crema-suave px-3.5 py-3 ring-1 ring-borde">
+        <div className="flex items-center gap-3 rounded-2xl bg-muro px-3.5 py-3 ring-1 ring-filo">
           <div className="grow">
             <div className="text-[13px] font-bold">Guardar la foto con esta comida</div>
-            <div className="text-xs font-medium text-tinta-3">
+            <div className="text-xs font-medium text-ceniza">
               Ultracomprimida (≈ {kilobytesDe(miniatura)} KB). La verás al abrir la comida.
             </div>
           </div>
@@ -416,9 +415,9 @@ export function AnalisisPage() {
 
       <div className="mt-auto flex flex-col gap-2.5 pt-2">
         {guardado === 'fallo' && (
-          <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-            No pudimos guardar la comida. Inténtalo de nuevo.
-          </p>
+          <Alerta titulo="No pudimos guardar la comida">
+            La estimación sigue aquí con tus cambios. Revisa tu conexión y pulsa guardar de nuevo.
+          </Alerta>
         )}
         <Button tamano="lg" disabled={guardado === 'guardando'} onClick={() => void guardar()} className="gap-1.5 text-sm">
           <Icon nombre="check" tamano={18} grosor={2.4} />

@@ -2,6 +2,7 @@ import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { Chip } from '../../components/ui/Chip'
 import { Icon, type NombreIcono } from '../../components/ui/Icon'
@@ -50,13 +51,13 @@ function Canal({
   children?: ReactNode
 }) {
   return (
-    <div className="flex items-center gap-3 rounded-tarjeta border border-borde bg-white p-3.5">
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-crema text-kalo">
+    <div className="flex items-center gap-3 rounded-tarjeta border border-filo bg-muro p-3.5">
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-banco text-llama">
         <Icon nombre={icono} tamano={20} />
       </span>
       <span className="flex min-w-0 grow flex-col">
         <span className="text-sm font-extrabold">{titulo}</span>
-        <span className="text-xs leading-normal font-medium text-tinta-3">{detalle}</span>
+        <span className="text-xs leading-normal font-medium text-ceniza">{detalle}</span>
       </span>
       {children}
     </div>
@@ -112,11 +113,11 @@ export function RecordatoriosPage() {
         <Link
           to={rutas.ajustes}
           aria-label="Volver a Configuración"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-arena text-tinta hover:bg-borde"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-banco text-hueso hover:bg-filo"
         >
           <Icon nombre="flechaAtras" tamano={20} grosor={2} />
         </Link>
-        <h1 className="grow text-2xl font-extrabold tracking-[-0.5px] lg:text-[32px] lg:tracking-[-0.8px]">
+        <h1 className="grow num-marcador text-[40px] leading-[0.9] font-extrabold uppercase lg:text-[48px]">
           Recordatorios
         </h1>
         <button
@@ -125,14 +126,14 @@ export function RecordatoriosPage() {
           aria-expanded={creando}
           disabled={lleno}
           onClick={() => setCreando((actual) => !actual)}
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-kalo text-white hover:bg-kalo-oscuro disabled:opacity-50"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-brasa text-white hover:bg-brasa-hover disabled:opacity-50"
         >
           <Icon nombre={creando ? 'cerrar' : 'mas'} tamano={20} grosor={2.2} />
         </button>
       </div>
 
       <section aria-labelledby="canales" className="flex flex-col gap-2.5">
-        <h2 id="canales" className="text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase">
+        <h2 id="canales" className="text-xs font-bold tracking-[0.8px] text-ceniza uppercase">
           Dónde te avisamos
         </h2>
         <div className="grid gap-3 md:grid-cols-2">
@@ -151,7 +152,7 @@ export function RecordatoriosPage() {
               </Button>
             )}
             {permiso === 'concedido' && (
-              <span className="shrink-0 rounded-md bg-ia-fondo px-2 py-[3px] text-xs font-bold text-kalo-oscuro">
+              <span className="shrink-0 rounded-md bg-llama/15 px-2 py-[3px] text-xs font-bold text-llama">
                 Activas
               </span>
             )}
@@ -180,9 +181,9 @@ export function RecordatoriosPage() {
           </Canal>
         </div>
         {correo.fallo && (
-          <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error">
-            No pudimos guardar este cambio. Inténtalo de nuevo.
-          </p>
+          <Alerta titulo="No pudimos guardar el aviso por correo">
+            Sigue como estaba. Revisa tu conexión y vuelve a intentarlo.
+          </Alerta>
         )}
       </section>
 
@@ -191,7 +192,7 @@ export function RecordatoriosPage() {
           noValidate
           onSubmit={crear}
           aria-label="Nuevo recordatorio"
-          className="flex flex-col gap-3 rounded-tarjeta border-[1.5px] border-llama bg-crema-suave p-4"
+          className="flex flex-col gap-3 rounded-tarjeta border-[1.5px] border-llama bg-muro p-4"
         >
           <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_160px]">
             <label className="flex flex-col gap-2 text-[13px] font-semibold">
@@ -203,7 +204,7 @@ export function RecordatoriosPage() {
                 placeholder="Tomar vitaminas, estirar…"
                 value={nombre}
                 onChange={(evento) => setNombre(evento.target.value)}
-                className="h-12 rounded-boton border border-borde bg-white px-3.5 text-[15px] font-medium text-tinta"
+                className="h-12 rounded-boton border border-filo bg-muro px-3.5 text-[15px] font-medium text-hueso"
               />
             </label>
             <label className="flex flex-col gap-2 text-[13px] font-semibold">
@@ -212,7 +213,7 @@ export function RecordatoriosPage() {
                 type="time"
                 value={hora}
                 onChange={(evento) => setHora(evento.target.value)}
-                className="h-12 rounded-boton border border-borde bg-white px-3 text-[15px] font-medium text-tinta"
+                className="h-12 rounded-boton border border-filo bg-muro px-3 text-[15px] font-medium text-hueso"
               />
             </label>
           </div>
@@ -233,9 +234,7 @@ export function RecordatoriosPage() {
             ))}
           </div>
           {error && (
-            <p role="alert" className="text-xs font-semibold text-error">
-              {error}
-            </p>
+            <Alerta titulo="Revisa el recordatorio">{error}</Alerta>
           )}
           <Button type="submit" tamano="lg" className="md:self-end md:px-8">
             Guardar recordatorio
@@ -243,10 +242,10 @@ export function RecordatoriosPage() {
         </form>
       )}
 
-      <h2 className="text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase">
+      <h2 className="text-xs font-bold tracking-[0.8px] text-ceniza uppercase">
         {activos} de {recordatorios.length} activos
       </h2>
-      <ul aria-label="Recordatorios" className="rounded-tarjeta border border-borde bg-white px-3.5">
+      <ul aria-label="Recordatorios" className="rounded-tarjeta border border-filo bg-muro px-3.5">
         {recordatorios.map((recordatorio) => (
           <FilaRecordatorio
             key={recordatorio.id}
@@ -261,7 +260,7 @@ export function RecordatoriosPage() {
         ))}
       </ul>
 
-      <div className="flex gap-2.5 rounded-2xl bg-crema p-3.5 text-xs leading-normal font-semibold text-kalo-oscuro">
+      <div className="flex gap-2.5 rounded-2xl bg-banco p-3.5 text-xs leading-normal font-semibold text-llama">
         <Icon nombre="destello" tamano={18} grosor={2} className="shrink-0" />
         <p>
           Avisos inteligentes: no te avisamos si ya registraste esa comida, llegaste a tu meta de agua o

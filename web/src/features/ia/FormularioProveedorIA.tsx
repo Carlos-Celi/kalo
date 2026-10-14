@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { Icon } from '../../components/ui/Icon'
 import {
@@ -139,10 +140,10 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
       <div
         role="status"
         className={`flex items-center gap-3 rounded-2xl px-3.5 py-3 ${
-          conectada ? 'bg-crema text-kalo-oscuro' : 'bg-media-fondo text-peso-texto'
+          conectada ? 'bg-banco text-llama' : 'bg-peso-luz/15 text-peso-luz'
         }`}
       >
-        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white">
+        <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-muro">
           <Icon nombre={conectada ? 'check' : 'destello'} tamano={18} grosor={2.2} />
         </span>
         <span className="flex flex-col">
@@ -162,7 +163,7 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
               <label
                 key={otro}
                 className={`flex cursor-pointer flex-col items-center gap-1 rounded-2xl p-3 text-center has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-llama ${
-                  activo ? 'border-[1.5px] border-llama bg-crema' : 'border border-borde bg-white'
+                  activo ? 'border-[1.5px] border-llama bg-banco' : 'border border-filo bg-muro'
                 }`}
               >
                 <input
@@ -176,13 +177,13 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
                 <span
                   aria-hidden="true"
                   className={`flex size-9 items-center justify-center rounded-boton-sm text-base font-extrabold ${
-                    activo ? 'bg-kalo text-white' : 'bg-arena text-tinta-2'
+                    activo ? 'bg-brasa text-white' : 'bg-banco text-ceniza'
                   }`}
                 >
                   {proveedores[otro].inicial}
                 </span>
                 <span className="text-[13px] font-bold">{proveedores[otro].nombre}</span>
-                <span className="text-xs font-medium text-tinta-3">{proveedores[otro].familia}</span>
+                <span className="text-xs font-medium text-ceniza">{proveedores[otro].familia}</span>
               </label>
             )
           })}
@@ -193,7 +194,7 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
         <label htmlFor="apikey" className="text-[13px] font-bold">
           2. Pega tu API key
         </label>
-        <div className="flex h-[52px] items-center gap-2.5 rounded-boton border border-borde bg-crema-suave pr-1.5 pl-3.5 text-tinta-3 focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-white focus-within:text-kalo">
+        <div className="flex h-[52px] items-center gap-2.5 rounded-boton border border-filo bg-muro pr-1.5 pl-3.5 text-ceniza focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-muro focus-within:text-llama">
           <Icon nombre="llave" tamano={20} className="shrink-0" />
           <input
             id="apikey"
@@ -215,21 +216,21 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
               setPrueba({ fase: 'sin-probar' })
             }}
             aria-describedby="apikey-nota"
-            className={`min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-tinta outline-none ${visible ? '' : 'texto-oculto'}`}
+            className={`min-w-0 grow border-0 bg-transparent text-[15px] font-medium text-hueso outline-none ${visible ? '' : 'texto-oculto'}`}
           />
           <button
             type="button"
             aria-label={visible ? 'Ocultar la clave' : 'Mostrar la clave'}
             aria-pressed={visible}
             onClick={() => setVisible((actual) => !actual)}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full text-tinta-3"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full text-ceniza"
           >
             <Icon nombre={visible ? 'ojoTachado' : 'ojo'} tamano={20} />
           </button>
         </div>
         <p
           id="apikey-nota"
-          className="flex gap-2 text-xs leading-normal font-medium text-tinta-3"
+          className="flex gap-2 text-xs leading-normal font-medium text-ceniza"
         >
           <Icon nombre="candado" tamano={16} className="mt-0.5 shrink-0" />
           Tu clave se guarda cifrada en este navegador y se envía únicamente a tu proveedor. El uso
@@ -250,12 +251,12 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
       <fieldset className="flex flex-col">
         <legend className="mb-2.5 flex w-full items-baseline justify-between gap-2">
           <span className="text-[13px] font-bold">3. Elige el modelo</span>
-          <span className="text-xs font-medium text-tinta-3">
+          <span className="text-xs font-medium text-ceniza">
             {modelos.length > 1 ? 'Lista cargada desde tu proveedor' : 'Prueba la conexión para cargarla'}
           </span>
         </legend>
         {modelos.length === 0 ? (
-          <p className="rounded-boton bg-crema-suave px-3.5 py-3 text-xs font-medium text-tinta-2">
+          <p className="rounded-boton bg-muro px-3.5 py-3 text-xs font-medium text-ceniza">
             Cuando la conexión funcione verás aquí los modelos disponibles para tu clave.
           </p>
         ) : (
@@ -268,7 +269,7 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
                 <label
                   key={otro.id}
                   className={`flex min-h-[52px] cursor-pointer items-center gap-3 rounded-boton px-3.5 py-2 has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-llama ${
-                    activo ? 'border-[1.5px] border-llama bg-crema' : 'border border-borde bg-white'
+                    activo ? 'border-[1.5px] border-llama bg-banco' : 'border border-filo bg-muro'
                   }`}
                 >
                   <input
@@ -281,14 +282,14 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
                   />
                   <span className="flex min-w-0 grow flex-col">
                     <span className="truncate text-sm font-bold">{otro.nombre}</span>
-                    <span className="truncate text-xs font-medium text-tinta-3">
+                    <span className="truncate text-xs font-medium text-ceniza">
                       {otro.id === datos.modeloPorDefecto ? 'Recomendado' : otro.id}
                     </span>
                   </span>
                   <span
                     aria-hidden="true"
                     className={`flex size-[22px] shrink-0 items-center justify-center rounded-full ${
-                      activo ? 'bg-kalo text-white' : 'border-[1.5px] border-borde-fuerte bg-white'
+                      activo ? 'bg-brasa text-white' : 'border-[1.5px] border-filo bg-muro'
                     }`}
                   >
                     {activo && <Icon nombre="check" tamano={14} grosor={3} />}
@@ -302,22 +303,19 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
         </div>
       </div>
 
-      <p className="text-xs leading-normal font-medium text-tinta-3">
+      <p className="text-xs leading-normal font-medium text-ceniza">
         Esta IA se usa para analizar fotos de comida, completar calorías y proteína, y para el
         asistente nutriólogo.
       </p>
 
       <div className="mt-auto flex flex-col gap-2.5 pt-2">
         {prueba.fase === 'fallo' && (
-          <p
-            role="alert"
-            className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error"
-          >
+          <Alerta titulo="La conexión con tu proveedor no funcionó">
             {prueba.mensaje}
             {prueba.codigo && (
-              <span className="mt-1 block text-xs font-medium">Código del proveedor: {prueba.codigo}</span>
+              <span className="mt-1 block text-xs">Código del proveedor: {prueba.codigo}</span>
             )}
-          </p>
+          </Alerta>
         )}
         <div className="grid grid-cols-2 gap-2.5">
           <Button
@@ -339,7 +337,7 @@ export function FormularioProveedorIA({ onTerminar, extra }: Props) {
             onClick={() => {
               void borrar().then(onTerminar)
             }}
-            className="min-h-11 text-[13px] font-bold text-error"
+            className="min-h-11 text-[13px] font-bold text-exceso"
           >
             Quitar la clave de este navegador
           </button>

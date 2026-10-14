@@ -23,3 +23,6 @@ supabase/.env.*
 
 # Notas locales para continuar el trabajo en otra máquina
 CONTINUAR.md
+
+# Estado local de las herramientas de diseño (impeccable)
+.impeccable/

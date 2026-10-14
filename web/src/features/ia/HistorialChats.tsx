@@ -38,17 +38,17 @@ export function HistorialChats({ chats, activoId, ocupado, enBlanco, onNuevo, on
         type="button"
         disabled={ocupado || enBlanco}
         onClick={onNuevo}
-        className="flex h-12 items-center justify-center gap-2 rounded-boton bg-kalo text-[15px] font-bold text-white hover:bg-kalo-oscuro disabled:opacity-50"
+        className="flex h-12 items-center justify-center gap-2 rounded-boton bg-brasa text-[15px] font-bold text-white hover:bg-brasa-hover disabled:opacity-50"
       >
         <Icon nombre="mas" tamano={18} grosor={2.4} />
         Chat nuevo
       </button>
 
-      <h2 className="mt-1 text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase">
+      <h2 className="mt-1 text-xs font-bold tracking-[0.8px] text-ceniza uppercase">
         Historial · últimos {MAXIMO_CHATS}
       </h2>
       {chats.length === 0 ? (
-        <p className="rounded-boton bg-crema-suave px-3.5 py-3 text-xs leading-normal font-medium text-tinta-3">
+        <p className="rounded-boton bg-muro px-3.5 py-3 text-xs leading-normal font-medium text-ceniza">
           Aquí aparecerán tus conversaciones. Se guardan solo en este dispositivo y se conservan las{' '}
           {MAXIMO_CHATS} más recientes.
         </p>
@@ -61,7 +61,7 @@ export function HistorialChats({ chats, activoId, ocupado, enBlanco, onNuevo, on
               <li
                 key={chat.id}
                 className={`flex items-center rounded-2xl ${
-                  activo ? 'bg-crema ring-1 ring-llama' : 'hover:bg-crema-suave'
+                  activo ? 'bg-banco ring-1 ring-llama' : 'hover:bg-muro'
                 }`}
               >
                 <button
@@ -72,7 +72,7 @@ export function HistorialChats({ chats, activoId, ocupado, enBlanco, onNuevo, on
                   className="flex min-h-[56px] min-w-0 grow flex-col justify-center gap-0.5 rounded-2xl px-3 py-1.5 text-left disabled:opacity-60"
                 >
                   <span className="truncate text-[13px] font-bold">{chat.titulo}</span>
-                  <span className="text-xs font-medium text-tinta-3">
+                  <span className="text-xs font-medium text-ceniza">
                     {enviados}/{LIMITE_MENSAJES_POR_CHAT} mensajes · {haceCuanto(chat.actualizadoEn, ahora)}
                   </span>
                 </button>
@@ -81,7 +81,7 @@ export function HistorialChats({ chats, activoId, ocupado, enBlanco, onNuevo, on
                   disabled={ocupado}
                   aria-label={`Eliminar el chat «${chat.titulo}»`}
                   onClick={() => onBorrar(chat.id)}
-                  className="mr-1 flex size-11 shrink-0 items-center justify-center rounded-full text-tinta-3 hover:text-error disabled:opacity-60"
+                  className="mr-1 flex size-11 shrink-0 items-center justify-center rounded-full text-ceniza hover:text-exceso disabled:opacity-60"
                 >
                   <Icon nombre="papelera" tamano={18} />
                 </button>
@@ -91,7 +91,7 @@ export function HistorialChats({ chats, activoId, ocupado, enBlanco, onNuevo, on
         </ul>
       )}
 
-      <p className="mt-auto text-xs leading-normal font-medium text-tinta-3">
+      <p className="mt-auto text-xs leading-normal font-medium text-ceniza">
         Cada chat admite {LIMITE_MENSAJES_POR_CHAT} mensajes tuyos; después abre uno nuevo. Así la
         conversación se mantiene al día con tus registros.
       </p>

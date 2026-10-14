@@ -15,7 +15,7 @@ function EnLinea({ texto }: { texto: string }) {
             return <em key={i}>{tramo.texto}</em>
           case 'codigo':
             return (
-              <code key={i} className="rounded bg-arena px-1 py-px text-[0.92em]">
+              <code key={i} className="rounded bg-banco px-1 py-px text-[0.92em]">
                 {tramo.texto}
               </code>
             )
@@ -38,7 +38,7 @@ export function Markdown({ texto }: { texto: string }) {
             return (
               <p
                 key={i}
-                className={`font-extrabold tracking-[-0.2px] text-tinta ${
+                className={`font-extrabold tracking-[-0.2px] text-hueso ${
                   bloque.nivel === 1 ? 'text-[17px]' : bloque.nivel === 2 ? 'pt-1 text-[15px]' : 'text-sm'
                 }`}
               >
@@ -56,7 +56,7 @@ export function Markdown({ texto }: { texto: string }) {
             return (
               <Etiqueta
                 key={i}
-                className={`flex flex-col gap-1 pl-5 ${bloque.ordenada ? 'list-decimal' : 'list-disc'} marker:text-kalo`}
+                className={`flex flex-col gap-1 pl-5 ${bloque.ordenada ? 'list-decimal' : 'list-disc'} marker:text-llama`}
               >
                 {bloque.elementos.map((elemento, j) => (
                   <li key={j} className="pl-0.5">
@@ -76,7 +76,7 @@ export function Markdown({ texto }: { texto: string }) {
                         <th
                           key={j}
                           scope="col"
-                          className="border-b border-borde-fuerte px-2 py-1.5 text-left font-extrabold whitespace-nowrap"
+                          className="border-b border-filo px-2 py-1.5 text-left font-extrabold whitespace-nowrap"
                         >
                           <EnLinea texto={celda} />
                         </th>
@@ -98,7 +98,7 @@ export function Markdown({ texto }: { texto: string }) {
               </div>
             )
           case 'separador':
-            return <hr key={i} className="border-0 border-t border-borde" />
+            return <hr key={i} className="border-0 border-t border-filo" />
         }
       })}
     </div>

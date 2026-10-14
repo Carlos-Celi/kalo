@@ -5,7 +5,7 @@ import { Icon } from '../../components/ui/Icon'
 const TOTAL_PASOS = 4
 
 const claseVolver =
-  'flex size-11 shrink-0 items-center justify-center rounded-full bg-arena text-tinta hover:bg-borde'
+  'flex size-11 shrink-0 items-center justify-center rounded-full bg-banco text-hueso hover:bg-filo'
 
 interface Props {
   /** Paso actual (1 a 4). Sin él, la cabecera muestra `encabezado` centrado. */
@@ -38,8 +38,8 @@ export function MarcoOnboarding({
   }
 
   return (
-    <div className="min-h-dvh bg-white sm:flex sm:items-center sm:justify-center sm:bg-crema-suave sm:p-8 lg:p-10">
-      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-5 bg-white px-5 pt-[max(20px,env(safe-area-inset-top))] pb-8 sm:min-h-[640px] sm:max-w-[780px] sm:rounded-[28px] sm:border sm:border-borde sm:p-10 sm:shadow-[0_12px_40px_-16px_rgba(120,60,30,0.25)]">
+    <div className="min-h-dvh bg-muro sm:flex sm:items-center sm:justify-center sm:bg-muro sm:p-8 lg:p-10">
+      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-5 bg-muro px-5 pt-[max(20px,env(safe-area-inset-top))] pb-8 sm:min-h-[640px] sm:max-w-[780px] sm:rounded-[28px] sm:border sm:border-filo sm:p-10">
         <div className="flex items-center gap-3.5">
           {typeof volver === 'string' ? (
             <Link to={volver} aria-label="Volver" className={claseVolver}>
@@ -69,11 +69,11 @@ export function MarcoOnboarding({
                 {Array.from({ length: TOTAL_PASOS }, (_, i) => (
                   <div
                     key={i}
-                    className={`h-[5px] rounded-[3px] ${i < paso ? 'bg-kalo' : 'bg-borde'}`}
+                    className={`h-[5px] rounded-[3px] ${i < paso ? 'bg-brasa' : 'bg-filo'}`}
                   />
                 ))}
               </div>
-              <div aria-hidden="true" className="text-xs font-semibold text-tinta-3">
+              <div aria-hidden="true" className="text-xs font-semibold text-ceniza">
                 {paso}/{TOTAL_PASOS}
               </div>
             </>
@@ -84,8 +84,8 @@ export function MarcoOnboarding({
 
         {titulo && (
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-[27px] leading-tight font-extrabold tracking-[-0.6px]">{titulo}</h1>
-            {lema && <p className="text-sm leading-normal text-tinta-3">{lema}</p>}
+            <h1 className="num-marcador text-[38px] leading-[0.95] font-extrabold uppercase">{titulo}</h1>
+            {lema && <p className="text-sm leading-normal text-ceniza">{lema}</p>}
           </div>
         )}
 
@@ -101,7 +101,7 @@ export function MarcoOnboarding({
 /** Aviso en crema con icono, como los del diseño. */
 export function Nota({ icono, children }: { icono: 'escudo' | 'pulso'; children: ReactNode }) {
   return (
-    <div className="flex items-center gap-2.5 rounded-boton bg-crema p-3.5 text-xs leading-normal font-semibold text-kalo-oscuro">
+    <div className="flex items-center gap-2.5 rounded-boton bg-banco p-3.5 text-xs leading-normal font-semibold text-llama">
       <Icon nombre={icono} tamano={18} className="shrink-0" />
       <span>{children}</span>
     </div>

@@ -3,7 +3,7 @@ import { numeroDeTexto } from '../../domain/formato'
 import { Icon } from './Icon'
 
 const claseCaja =
-  'flex h-[52px] items-center rounded-boton border bg-crema-suave text-tinta-3 focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-white'
+  'flex h-[52px] items-center rounded-boton border bg-muro text-ceniza focus-within:border-[1.5px] focus-within:border-llama focus-within:bg-muro'
 
 /** "1850" · "2,25": el número tal como se escribe en español, con coma decimal. */
 function aTexto(valor: number, decimales: number): string {
@@ -25,7 +25,7 @@ interface PropsNumero {
 }
 
 const claseBotonPaso =
-  'flex size-12 shrink-0 items-center justify-center rounded-boton text-[22px] font-bold disabled:opacity-40'
+  'flex size-12 shrink-0 items-center justify-center rounded-boton-sm border border-filo bg-banco text-[22px] font-bold text-hueso hover:bg-filo disabled:opacity-40'
 
 /**
  * Número editable con botones − y +: se puede escribir o ajustar por pasos.
@@ -68,12 +68,12 @@ export function CampoNumero({
           aria-label={`Disminuir ${etiqueta.toLowerCase()}`}
           disabled={valor <= min}
           onClick={() => mover(-1)}
-          className={`${claseBotonPaso} border border-barra-suave bg-white text-kalo`}
+          className={claseBotonPaso}
         >
           −
         </button>
         <div
-          className={`${claseCaja} min-w-0 grow justify-center gap-1.5 px-2 ${fuera ? 'border-error' : 'border-borde'}`}
+          className={`${claseCaja} min-w-0 grow justify-center gap-1.5 px-2 ${fuera ? 'border-exceso' : 'border-filo'}`}
         >
           <input
             id={id}
@@ -91,23 +91,23 @@ export function CampoNumero({
               const numero = numeroDeTexto(nuevo)
               if (Number.isFinite(numero) && numero >= min && numero <= max) onCambio(numero)
             }}
-            className="w-full min-w-0 border-0 bg-transparent text-center text-xl font-extrabold text-tinta outline-none"
+            className="num-marcador w-full min-w-0 border-0 bg-transparent text-center text-[26px] font-bold text-hueso outline-none"
           />
-          <span className="shrink-0 text-sm font-semibold text-tinta-3">{unidad}</span>
+          <span className="shrink-0 text-sm font-semibold text-ceniza">{unidad}</span>
         </div>
         <button
           type="button"
           aria-label={`Aumentar ${etiqueta.toLowerCase()}`}
           disabled={valor >= max}
           onClick={() => mover(1)}
-          className={`${claseBotonPaso} bg-kalo text-white hover:bg-kalo-oscuro`}
+          className={claseBotonPaso}
         >
           +
         </button>
       </div>
       <p
         id={idAyuda}
-        className={`text-xs leading-normal font-medium ${fuera ? 'font-semibold text-error' : 'text-tinta-3'}`}
+        className={`text-xs leading-normal font-medium ${fuera ? 'font-semibold text-exceso' : 'text-ceniza'}`}
       >
         {fuera ? `Escribe un valor entre ${aTexto(min, decimales)} y ${aTexto(max, decimales)} ${unidad}.` : ayuda}
       </p>
@@ -147,7 +147,7 @@ export function CampoMedida({
       <label htmlFor={id} className="text-[13px] font-bold">
         {etiqueta}
       </label>
-      <div className={`${claseCaja} gap-2 border-borde px-3.5`}>
+      <div className={`${claseCaja} gap-2 border-filo px-3.5`}>
         <input
           id={id}
           type="text"
@@ -160,12 +160,12 @@ export function CampoMedida({
           onChange={(evento) =>
             onCambio(evento.target.value.replace(decimales ? /[^\d.,]/g : /\D/g, ''))
           }
-          className="w-full min-w-0 border-0 bg-transparent text-[17px] font-bold text-tinta outline-none"
+          className="w-full min-w-0 border-0 bg-transparent text-[17px] font-bold text-hueso outline-none"
         />
         <span className="shrink-0 text-[13px] font-semibold">{unidad}</span>
       </div>
       {ayuda && (
-        <p id={idAyuda} className="text-xs leading-normal font-medium text-tinta-3">
+        <p id={idAyuda} className="text-xs leading-normal font-medium text-ceniza">
           {ayuda}
         </p>
       )}
@@ -178,7 +178,7 @@ export function AvisoGuardado({ children }: { children: ReactNode }) {
   return (
     <p
       role="status"
-      className="flex animate-aparecer items-center gap-2 rounded-boton bg-crema px-3.5 py-3 text-[13px] font-bold text-kalo-oscuro"
+      className="flex animate-aparecer items-center gap-2 rounded-boton bg-banco px-3.5 py-3 text-[13px] font-bold text-llama"
     >
       <Icon nombre="check" tamano={16} grosor={2.4} className="shrink-0" />
       {children}

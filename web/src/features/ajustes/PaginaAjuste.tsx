@@ -1,6 +1,7 @@
 import type { FormEvent, ReactNode } from 'react'
 import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
+import { Alerta } from '../../components/ui/Alerta'
 import { AvisoGuardado } from '../../components/ui/CamposNumericos'
 import { Icon } from '../../components/ui/Icon'
 
@@ -42,15 +43,15 @@ export function PaginaAjuste({
         <Link
           to={rutas.ajustes}
           aria-label="Volver a Configuración"
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-arena text-tinta hover:bg-borde"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-banco text-hueso hover:bg-filo"
         >
           <Icon nombre="flechaAtras" tamano={20} grosor={2} />
         </Link>
         <div className="min-w-0">
-          <h1 className="text-2xl font-extrabold tracking-[-0.5px] lg:text-[32px] lg:tracking-[-0.8px]">
+          <h1 className="num-marcador text-[40px] leading-[0.9] font-extrabold uppercase lg:text-[48px]">
             {titulo}
           </h1>
-          <p className="text-[13px] leading-normal font-medium text-tinta-3">{descripcion}</p>
+          <p className="text-[13px] leading-normal font-medium text-ceniza">{descripcion}</p>
         </div>
       </header>
 
@@ -58,7 +59,7 @@ export function PaginaAjuste({
         noValidate
         onSubmit={enviar}
         aria-label={titulo}
-        className="flex flex-col gap-6 rounded-tarjeta-lg border border-borde bg-white p-4 sm:p-6"
+        className="flex flex-col gap-6 rounded-tarjeta-lg border border-filo bg-muro p-4 sm:p-6"
       >
         {children}
 
@@ -69,20 +70,20 @@ export function PaginaAjuste({
             </div>
           )}
           {fase === 'fallo' && (
-            <p role="alert" className="rounded-boton bg-error-fondo px-3.5 py-3 text-[13px] font-semibold text-error sm:mr-auto">
-              No pudimos guardar los cambios. Inténtalo de nuevo.
-            </p>
+            <Alerta titulo="No pudimos guardar los cambios" className="sm:mr-auto">
+              Puede ser la conexión. Lo que escribiste sigue aquí: vuelve a intentarlo en un momento.
+            </Alerta>
           )}
           <Link
             to={rutas.ajustes}
-            className="flex h-[50px] items-center justify-center rounded-boton border border-borde px-5 text-[15px] font-bold text-tinta no-underline hover:bg-crema-suave"
+            className="flex h-[50px] items-center justify-center rounded-boton border border-filo px-5 text-[15px] font-bold text-hueso no-underline hover:bg-muro"
           >
             {fase === 'guardado' ? 'Volver a Configuración' : 'Cancelar'}
           </Link>
           <button
             type="submit"
             disabled={deshabilitado || fase === 'guardando'}
-            className="h-[50px] rounded-boton bg-kalo px-6 text-[15px] font-bold text-white hover:bg-kalo-oscuro disabled:opacity-50"
+            className="h-[50px] rounded-boton bg-brasa px-6 text-[15px] font-bold text-white hover:bg-brasa-hover disabled:opacity-50"
           >
             {fase === 'guardando' ? 'Guardando…' : 'Guardar cambios'}
           </button>
@@ -94,5 +95,5 @@ export function PaginaAjuste({
 
 /** Título de una sección dentro de un formulario de Configuración. */
 export function TituloSeccion({ children }: { children: ReactNode }) {
-  return <h2 className="text-xs font-bold tracking-[0.8px] text-tinta-3 uppercase">{children}</h2>
+  return <h2 className="text-xs font-bold tracking-[0.8px] text-ceniza uppercase">{children}</h2>
 }

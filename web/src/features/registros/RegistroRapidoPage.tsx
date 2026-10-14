@@ -94,30 +94,30 @@ export function RegistroRapidoPage() {
         to={rutas.inicio}
         aria-label="Cerrar registro rápido"
         tabIndex={-1}
-        className="absolute inset-0 bg-tinta/55"
+        className="absolute inset-0 bg-sala/55"
       />
       <div
         ref={dialogo}
         role="dialog"
         aria-modal="true"
         aria-labelledby="registro-rapido"
-        className="relative flex w-full max-w-[480px] flex-col gap-3.5 rounded-t-[28px] bg-white px-4 pt-3.5 pb-[max(36px,env(safe-area-inset-bottom))] lg:rounded-[28px] lg:p-6"
+        className="relative flex w-full max-w-[480px] flex-col gap-3.5 rounded-t-[28px] bg-muro px-4 pt-3.5 pb-[max(36px,env(safe-area-inset-bottom))] lg:rounded-[28px] lg:p-6"
       >
-        <div aria-hidden="true" className="h-1 w-10 self-center rounded-sm bg-borde lg:hidden" />
+        <div aria-hidden="true" className="h-1 w-10 self-center rounded-sm bg-filo lg:hidden" />
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <MascotAvatar tamano={44} />
             <div>
-              <h1 id="registro-rapido" className="text-[22px] font-extrabold tracking-[-0.4px]">
+              <h1 id="registro-rapido" className="num-marcador text-[30px] leading-none font-extrabold uppercase">
                 Registro rápido
               </h1>
-              <p className="mt-0.5 text-[13px] text-tinta-3">¿Qué quieres registrar ahora?</p>
+              <p className="mt-0.5 text-[13px] text-ceniza">¿Qué quieres registrar ahora?</p>
             </div>
           </div>
           <Link
             to={rutas.inicio}
             aria-label="Cerrar"
-            className="flex size-11 items-center justify-center rounded-full bg-crema text-kalo-oscuro"
+            className="flex size-11 items-center justify-center rounded-full bg-banco text-llama"
           >
             <Icon nombre="cerrar" tamano={20} grosor={2} />
           </Link>
@@ -126,9 +126,9 @@ export function RegistroRapidoPage() {
         <Link
           to={rutas.camara}
           autoFocus
-          className="flex items-center gap-3.5 rounded-[20px] bg-kalo p-4 text-white no-underline hover:bg-kalo-oscuro hover:text-white"
+          className="flex items-center gap-3.5 rounded-[20px] bg-brasa p-4 text-white no-underline hover:bg-brasa-hover hover:text-white"
         >
-          <span className="flex size-[52px] shrink-0 items-center justify-center rounded-2xl bg-white/20">
+          <span className="flex size-[52px] shrink-0 items-center justify-center rounded-2xl bg-muro/20">
             <Icon nombre="camara" tamano={26} />
           </span>
           <span className="grow">
@@ -148,7 +148,7 @@ export function RegistroRapidoPage() {
                 ? `${formatoDecimal(totales.aguaMl / 1000)} / ${formatoDecimal(metas.aguaL, 2)} L hoy`
                 : 'Vasos y botellas'
             }
-            clase="bg-agua-suave text-agua-fuerte hover:text-agua-fuerte"
+            clase="bg-agua-luz/15 text-agua-luz hover:text-agua-luz"
           />
           <Mosaico
             to={rutas.registrosEjercicio}
@@ -159,7 +159,7 @@ export function RegistroRapidoPage() {
                 ? `${formatoEntero(totales.ejercicioMin)} / ${formatoEntero(metas.ejercicioMin)} min`
                 : 'Minutos de actividad'
             }
-            clase="bg-ejercicio-boton text-ejercicio-fuerte hover:text-ejercicio-fuerte"
+            clase="bg-ejercicio-luz/15 text-ejercicio-luz hover:text-ejercicio-luz"
           />
           <Mosaico
             to={rutas.registrosSueno}
@@ -170,14 +170,14 @@ export function RegistroRapidoPage() {
                 ? `${formatoDuracion(totales.suenoMin)} anoche`
                 : 'Horas dormidas'
             }
-            clase="bg-sueno-suave text-sueno hover:text-sueno"
+            clase="bg-sueno-luz/15 text-sueno-luz hover:text-sueno-luz"
           />
           <Mosaico
             to={rutas.peso}
             icono="bascula"
             nombre="Peso"
             detalle={peso ? `${formatoPeso(peso)} kg · para tus métricas` : 'Para tus métricas'}
-            clase="bg-peso-fondo text-peso-texto hover:text-peso-texto"
+            clase="bg-peso-luz/15 text-peso-luz hover:text-peso-luz"
           />
         </div>
       </div>

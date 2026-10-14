@@ -1,7 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Navigate, useLocation } from 'react-router'
+import { Link, Navigate, useLocation } from 'react-router'
 import { rutas } from '../../app/rutas'
 import { useTitulo } from '../../app/useTitulo'
+import { Alerta } from '../../components/ui/Alerta'
 import { Button } from '../../components/ui/Button'
 import { CampoTexto } from '../../components/ui/CampoTexto'
 import { Icon } from '../../components/ui/Icon'
@@ -24,7 +25,15 @@ type Modo = 'entrar' | 'crear' | 'recuperar'
 
 interface Aviso {
   tipo: 'error' | 'info'
+  /** Qué falló, según lo que se intentaba hacer. */
+  titulo?: string
   texto: string
+}
+
+const tituloDeFallo: Record<Modo, string> = {
+  entrar: 'No pudimos iniciar sesión',
+  crear: 'No pudimos crear la cuenta',
+  recuperar: 'No pudimos enviar el enlace',
 }
 
 const textos: Record<Modo, { titulo: string; lema: string; enviar: string }> = {
@@ -62,7 +71,12 @@ export function LoginPage() {
   const [modo, setModo] = useState<Modo>('entrar')
   const [correo, setCorreo] = useState('')
   const [contrasena, setContrasena] = useState('')
-  const [errores, setErrores] = useState<{ correo?: string | null; contrasena?: string | null }>({})
+  const [errores, setErrores] = useState<{
+    correo?: string | null
+    contrasena?: string | null
+    consentimiento?: string | null
+  }>({})
+  const [acepta, setAcepta] = useState(false)
   const [aviso, setAviso] = useState<Aviso | null>(null)
   const [enviando, setEnviando] = useState(false)
   const [captcha, setCaptcha] = useState<{ ronda: number; token: string | null }>({
@@ -95,6 +109,7 @@ export function LoginPage() {
     setErrores({})
     setAviso(null)
     setContrasena('')
+    setAcepta(false)
   }
 
   function actualizarFreno(nuevo: typeof freno) {
@@ -114,8 +129,10 @@ export function LoginPage() {
         : modo === 'crear'
           ? validarContrasenaNueva(contrasena)
           : validarContrasenaExistente(contrasena)
-    setErrores({ correo: errorCorreo, contrasena: errorContrasena })
-    if (errorCorreo || errorContrasena) return
+    const errorConsentimiento =
+      modo === 'crear' && !acepta ? 'Para crear la cuenta tienes que aceptarlo.' : null
+    setErrores({ correo: errorCorreo, contrasena: errorContrasena, consentimiento: errorConsentimiento })
+    if (errorCorreo || errorContrasena || errorConsentimiento) return
 
     setEnviando(true)
     setAviso(null)
@@ -137,7 +154,7 @@ export function LoginPage() {
       if (modo === 'entrar' && resultado.motivo === 'credenciales') {
         actualizarFreno(trasFallo(freno, Date.now()))
       }
-      setAviso({ tipo: 'error', texto: mensajeDeFallo[resultado.motivo] })
+      setAviso({ tipo: 'error', titulo: tituloDeFallo[modo], texto: mensajeDeFallo[resultado.motivo] })
       return
     }
 
@@ -183,7 +200,11 @@ export function LoginPage() {
             icono="candado"
             type="password"
             autoComplete={modo === 'crear' ? 'new-password' : 'current-password'}
-            placeholder={`Mínimo ${CONTRASENA_MINIMO} caracteres`}
+            placeholder={
+              modo === 'crear'
+                ? `Mínimo ${CONTRASENA_MINIMO}, con letras y números`
+                : `Mínimo ${CONTRASENA_MINIMO} caracteres`
+            }
             maxLength={128}
             valor={contrasena}
             onCambio={setContrasena}
@@ -196,10 +217,42 @@ export function LoginPage() {
             <button
               type="button"
               onClick={() => cambiarModo('recuperar')}
-              className="-my-2.5 min-h-11 text-[13px] font-bold text-kalo hover:text-kalo-oscuro"
+              className="-my-2.5 min-h-11 text-[13px] font-bold text-llama hover:text-llama"
             >
               ¿Olvidaste tu contraseña?
             </button>
+          </div>
+        )}
+        {modo === 'crear' && (
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="consentimiento" className="flex cursor-pointer items-start gap-3 text-[13px] leading-normal text-ceniza">
+              <input
+                id="consentimiento"
+                type="checkbox"
+                checked={acepta}
+                onChange={(evento) => setAcepta(evento.target.checked)}
+                aria-invalid={errores.consentimiento ? true : undefined}
+                aria-describedby={errores.consentimiento ? 'consentimiento-error' : undefined}
+                className="mt-0.5 size-5 shrink-0 accent-brasa"
+              />
+              <span>
+                Acepto los{' '}
+                <Link to={rutas.terminos} className="font-semibold text-llama">
+                  términos de uso
+                </Link>{' '}
+                y la{' '}
+                <Link to={rutas.privacidad} className="font-semibold text-llama">
+                  política de privacidad
+                </Link>
+                , y consiento que Kalo trate mis datos de salud (comidas, peso, sueño y condiciones
+                que indique) para calcular mi plan.
+              </span>
+            </label>
+            {errores.consentimiento && (
+              <p id="consentimiento-error" className="text-xs font-semibold text-exceso">
+                {errores.consentimiento}
+              </p>
+            )}
           </div>
         )}
         {claveTurnstile && !esDemo && (
@@ -213,31 +266,33 @@ export function LoginPage() {
 
       <div aria-live="polite" className="flex flex-col gap-3 empty:hidden">
         {aviso && (
-          <p
-            role={aviso.tipo === 'error' ? 'alert' : 'status'}
-            className={`rounded-boton px-3.5 py-3 text-[13px] leading-normal font-semibold ${
-              aviso.tipo === 'error' ? 'bg-error-fondo text-error' : 'bg-crema text-kalo-oscuro'
-            }`}
-          >
-            {aviso.texto}
-          </p>
+          aviso.tipo === 'error' ? (
+            <Alerta titulo={aviso.titulo ?? 'No pudimos completar la operación'}>{aviso.texto}</Alerta>
+          ) : (
+            <p
+              role="status"
+              className="rounded-boton-sm bg-banco px-3.5 py-3 text-[13px] leading-normal font-semibold text-llama"
+            >
+              {aviso.texto}
+            </p>
+          )
         )}
         {espera > 0 && (
-          <p role="status" className="text-center text-[13px] font-semibold text-tinta-2">
+          <p role="status" className="text-center text-[13px] font-semibold text-ceniza">
             Demasiados intentos fallidos. Podrás reintentar en {espera} s.
           </p>
         )}
         {esDemo && (
-          <p role="status" className="rounded-boton bg-peso-fondo px-3.5 py-3 text-[13px] leading-normal font-semibold text-peso-texto">
+          <p role="status" className="rounded-boton bg-peso-luz/15 px-3.5 py-3 text-[13px] leading-normal font-semibold text-peso-luz">
             Modo demostración: no hay un servidor de cuentas configurado, así que la app muestra
             datos de ejemplo.
           </p>
         )}
       </div>
 
-      <div className="flex items-center gap-2.5 rounded-boton bg-crema px-3.5 py-3 text-xs leading-normal font-semibold text-kalo-oscuro">
+      <div className="flex items-center gap-2.5 rounded-boton bg-banco px-3.5 py-3 text-xs leading-normal font-semibold text-llama">
         <Icon nombre="escudo" tamano={18} className="shrink-0" />
-        Tus datos están cifrados y solo se usan para tu plan.
+        Tus datos viajan cifrados, no se venden y puedes borrarlos cuando quieras.
       </div>
 
       <div className="mt-auto flex flex-col gap-3 lg:mt-2">
@@ -260,6 +315,17 @@ export function LoginPage() {
           </>
         )}
       </div>
+      <nav aria-label="Documentos legales" className="flex justify-center gap-5 text-xs">
+        <Link to={rutas.privacidad} className="flex min-h-11 items-center font-semibold text-ceniza hover:text-hueso">
+          Privacidad
+        </Link>
+        <Link to={rutas.terminos} className="flex min-h-11 items-center font-semibold text-ceniza hover:text-hueso">
+          Términos
+        </Link>
+        <Link to={rutas.cookies} className="flex min-h-11 items-center font-semibold text-ceniza hover:text-hueso">
+          Cookies
+        </Link>
+      </nav>
     </MarcoAcceso>
   )
 }

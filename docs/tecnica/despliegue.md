@@ -12,11 +12,13 @@ El repositorio es público y **no contiene nada de ningún despliegue concreto**
    supabase db push
    ```
    `supabase link` guarda el identificador en `supabase/.temp/`, que está ignorado por git.
-3. **Authentication → Sign In / Providers → Email**: activa *Confirm email* y *Secure password change*; longitud mínima de contraseña 8 o más. Si tu plan lo permite, activa *Prevent use of leaked passwords*.
+3. **Authentication → Sign In / Providers → Email**: activa *Confirm email* y *Secure password change*; longitud mínima de contraseña 8 o más y *Password requirements* = **Letters and digits** (la web exige lo mismo al crear la cuenta; `supabase/config.toml` solo aplica en local). Si tu plan lo permite, activa *Prevent use of leaked passwords*.
 4. **Authentication → URL Configuration**: *Site URL* = la URL de producción en Vercel. En *Redirect URLs* añade `https://<tu-dominio>/**` y, si quieres probar las vistas previas de Vercel, su patrón (`https://*-<tu-equipo>.vercel.app/**`).
 5. **Authentication → Rate Limits**: deja los valores por defecto o redúcelos; no los subas.
 6. (Recomendado) **Authentication → Attack Protection**: activa el CAPTCHA con Cloudflare Turnstile y pega ahí la *secret key*. La *site key* (pública) va en Vercel como `VITE_TURNSTILE_SITE_KEY`.
 7. **Project Settings → API Keys**: copia la *Project URL* y la clave **publishable** (o `anon`). La clave `secret` / `service_role` no se usa en este proyecto: no la copies a ningún sitio.
+
+> `supabase db push` aplica también `20261015000000_eliminar_cuenta.sql`: sin ella, «Eliminar mi cuenta» falla con un aviso y no borra nada.
 
 ## 2. Vercel
 
@@ -29,6 +31,7 @@ El repositorio es público y **no contiene nada de ningún despliegue concreto**
    | `VITE_SUPABASE_URL` | Project URL de Supabase |
    | `VITE_SUPABASE_PUBLISHABLE_KEY` | Clave publishable/anon |
    | `VITE_TURNSTILE_SITE_KEY` | (opcional) site key de Turnstile |
+   | `VITE_CONTACTO_PRIVACIDAD` | (opcional) correo que la política de privacidad muestra para consultas; sin él remite a Configuración |
 
    Son valores públicos por diseño: acaban en el JavaScript que descarga el navegador. Aun así se definen en Vercel y no en git, para que el repositorio no quede atado a un despliegue.
 4. Despliega. Desde entonces cada push a `main` publica en producción y cada rama o PR genera una vista previa.

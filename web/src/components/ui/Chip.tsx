@@ -17,8 +17,8 @@ export function Chip({ seleccionado = false, onClick, tono = 'blanco', children 
       onClick={onClick}
       className={`inline-flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[13px] ${
         seleccionado
-          ? 'bg-kalo font-bold text-white'
-          : `border border-borde font-semibold text-tinta ${tono === 'crema' ? 'bg-crema-suave' : 'bg-white'}`
+          ? 'bg-hueso font-bold text-tinta'
+          : `border border-filo font-semibold text-hueso ${tono === 'crema' ? 'bg-banco' : 'bg-muro'}`
       }`}
     >
       {seleccionado && <span aria-hidden="true">✓</span>}

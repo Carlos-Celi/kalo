@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { repositorios } from '../../data'
+import { Alerta } from '../../components/ui/Alerta'
 import { Icon } from '../../components/ui/Icon'
 import { pintarMiniatura } from '../ia/foto'
 
@@ -50,7 +51,7 @@ export function FotoDeComida({ id, onQuitada }: Props) {
 
   return (
     <section aria-label="Foto de la comida" className="flex flex-col gap-2">
-      <div className="relative overflow-hidden rounded-3xl bg-camara-visor">
+      <div className="relative overflow-hidden rounded-3xl bg-muro">
         <canvas
           ref={lienzo}
           role="img"
@@ -64,7 +65,7 @@ export function FotoDeComida({ id, onQuitada }: Props) {
         )}
       </div>
       <div className="flex items-center justify-between gap-2">
-        <span className="flex items-center gap-1.5 text-xs font-medium text-tinta-3">
+        <span className="flex items-center gap-1.5 text-xs font-medium text-ceniza">
           <Icon nombre="camara" tamano={14} />
           Foto ultracomprimida, solo visible para ti
         </span>
@@ -72,15 +73,15 @@ export function FotoDeComida({ id, onQuitada }: Props) {
           type="button"
           disabled={quitando}
           onClick={() => void quitar()}
-          className="min-h-11 rounded-full px-3 text-[13px] font-bold text-error disabled:opacity-50"
+          className="min-h-11 rounded-full px-3 text-[13px] font-bold text-exceso disabled:opacity-50"
         >
           Quitar foto
         </button>
       </div>
       {fallo && (
-        <p role="alert" className="text-xs font-semibold text-error">
-          No pudimos quitar la foto. Inténtalo de nuevo.
-        </p>
+        <Alerta titulo="No pudimos quitar la foto">
+          La comida y la foto siguen como estaban. Revisa tu conexión y vuelve a intentarlo.
+        </Alerta>
       )}
     </section>
   )

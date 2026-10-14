@@ -18,10 +18,10 @@ function Entrada({ ruta, etiqueta, icono, exacta }: EntradaNav) {
         to={ruta}
         end={exacta}
         className={({ isActive }) =>
-          `flex h-12 items-center gap-3 rounded-2xl px-3.5 text-[15px] no-underline ${
+          `flex h-11 items-center gap-3 rounded-[10px] px-3 text-[15px] no-underline ${
             isActive
-              ? 'bg-crema font-extrabold text-kalo-oscuro'
-              : 'font-semibold text-tinta-2 hover:bg-crema-suave'
+              ? 'bg-muro font-bold text-llama'
+              : 'font-semibold text-ceniza hover:bg-muro hover:text-hueso'
           }`
         }
       >
@@ -39,21 +39,16 @@ export function Sidebar({ className = '' }: { className?: string }) {
   return (
     <nav
       aria-label="Navegación principal"
-      className={`sticky top-0 h-dvh flex-col gap-6 border-r border-borde bg-white px-4 py-6 ${className}`}
+      className={`sticky top-0 h-dvh flex-col gap-6 border-r border-divisor bg-sala px-4 py-6 ${className}`}
     >
       <Link
         to={rutas.inicio}
         aria-label="Kalo, ir a Inicio"
-        className="flex items-center gap-3 px-2 text-tinta no-underline"
+        className="flex items-center gap-3 px-2 text-hueso no-underline"
       >
         <MascotAvatar tamano={44} />
-        <span className="text-[30px] leading-none font-extrabold tracking-[-1.5px]">kalo</span>
+        <span className="num-marcador text-[32px] leading-none font-extrabold">kalo</span>
       </Link>
-
-      <Button to={rutas.registroRapido} tamano="lg" className="gap-2">
-        <Icon nombre="mas" tamano={20} grosor={2.4} />
-        Registro rápido
-      </Button>
 
       <ul className="flex flex-col gap-1">
         {entradasNav.map((entrada) => (
@@ -61,7 +56,13 @@ export function Sidebar({ className = '' }: { className?: string }) {
         ))}
       </ul>
 
-      <ul className="mt-auto flex flex-col gap-1 border-t border-borde pt-4">
+      {/* Debajo de las secciones principales: la acción rápida cierra el grupo. */}
+      <Button to={rutas.registroRapido} tamano="lg" className="-mt-2 gap-2">
+        <Icon nombre="mas" tamano={20} grosor={2.4} />
+        Registro rápido
+      </Button>
+
+      <ul className="mt-auto flex flex-col gap-1 border-t border-divisor pt-4">
         {secundarias.map((entrada) => (
           <Entrada key={entrada.ruta} {...entrada} />
         ))}
@@ -70,17 +71,17 @@ export function Sidebar({ className = '' }: { className?: string }) {
       {nombre && (
         <Link
           to={rutas.ajustesPerfil}
-          className="flex items-center gap-3 rounded-2xl bg-crema-suave px-3 py-2.5 text-tinta no-underline hover:bg-crema"
+          className="flex items-center gap-3 rounded-boton-sm bg-muro px-3 py-2.5 text-hueso no-underline hover:bg-banco"
         >
           <span
             aria-hidden="true"
-            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-kalo text-sm font-extrabold text-white"
+            className="flex size-9 shrink-0 items-center justify-center rounded-full bg-brasa text-sm font-extrabold text-white"
           >
             {nombre.charAt(0).toUpperCase()}
           </span>
           <span className="flex min-w-0 flex-col">
             <span className="truncate text-sm font-extrabold">{nombre}</span>
-            <span className="text-xs font-medium text-tinta-3">Ver mi perfil</span>
+            <span className="text-xs font-medium text-ceniza">Ver mi perfil</span>
           </span>
         </Link>
       )}

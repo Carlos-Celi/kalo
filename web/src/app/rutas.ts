@@ -27,6 +27,9 @@ export const rutas = {
   bienvenidaHabitos: '/bienvenida/habitos',
   bienvenidaPlan: '/bienvenida/plan',
   bienvenidaIA: '/bienvenida/ia',
+  privacidad: '/privacidad',
+  terminos: '/terminos',
+  cookies: '/cookies',
 } as const
 
 /** Ruta para editar una comida ya registrada. */

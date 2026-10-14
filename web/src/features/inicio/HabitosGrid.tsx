@@ -1,157 +1,86 @@
-import { useState, type ReactNode } from 'react'
+import { useSyncExternalStore } from 'react'
 import { Link } from 'react-router'
 import { rutas } from '../../app/rutas'
-import { Icon, type NombreIcono } from '../../components/ui/Icon'
-import { ProgressBar } from '../../components/ui/ProgressBar'
-import { fraccion } from '../../domain/reglas'
+import {
+  marcarUltimoRegistro,
+  suscribirUltimoRegistro,
+  ultimoRegistro,
+} from '../../data/ultimoRegistro'
+import { LineaAvance, type TonoLinea } from '../../components/ui/LineaAvance'
+import { estadoAnillo } from '../../domain/reglas'
 import type { Avance, Habito } from '../../domain/tipos'
-import { mensajeHabito, valorHabito } from './mensajes'
-
-/** Cantidad del atajo de agua: un vaso. */
-const VASO_ML = 250
+import { mensajeHabito, partesHabito, valorHabito } from './mensajes'
 
 interface Estilo {
   nombre: string
   ruta: string
-  icono: NombreIcono
-  claseIcono: string
-  claseMensaje: string
-  claseRelleno: string
-  clasePista: string
+  tono: TonoLinea
+  claseValor: string
 }
 
 const estilos: Record<Habito, Estilo> = {
-  agua: {
-    nombre: 'Agua',
-    ruta: rutas.registrosAgua,
-    icono: 'gota',
-    claseIcono: 'bg-agua-suave text-agua',
-    claseMensaje: 'text-agua-fuerte',
-    claseRelleno: 'bg-agua',
-    clasePista: 'bg-agua-suave',
-  },
+  agua: { nombre: 'Agua', ruta: rutas.registrosAgua, tono: 'agua', claseValor: 'text-agua-luz' },
   ejercicio: {
     nombre: 'Ejercicio',
     ruta: rutas.registrosEjercicio,
-    icono: 'llama',
-    claseIcono: 'bg-ejercicio-suave text-ejercicio',
-    claseMensaje: 'text-ejercicio-fuerte',
-    claseRelleno: 'bg-ejercicio',
-    clasePista: 'bg-ejercicio-suave',
+    tono: 'ejercicio',
+    claseValor: 'text-ejercicio-luz',
   },
-  sueno: {
-    nombre: 'Sueño',
-    ruta: rutas.registrosSueno,
-    icono: 'luna',
-    claseIcono: 'bg-sueno-suave text-sueno',
-    claseMensaje: 'text-sueno',
-    claseRelleno: 'bg-sueno',
-    clasePista: 'bg-sueno-suave',
-  },
-  comidas: {
-    nombre: 'Comidas',
-    ruta: rutas.registros,
-    icono: 'cubiertos',
-    claseIcono: 'bg-crema text-kalo',
-    claseMensaje: 'text-kalo-oscuro',
-    claseRelleno: 'bg-llama',
-    clasePista: 'bg-crema',
-  },
+  sueno: { nombre: 'Sueño', ruta: rutas.registrosSueno, tono: 'sueno', claseValor: 'text-sueno-luz' },
+  comidas: { nombre: 'Comidas', ruta: rutas.registros, tono: 'llama', claseValor: 'text-llama' },
 }
 
-function Mosaico({ habito, avance, pie }: { habito: Habito; avance: Avance; pie?: ReactNode }) {
+function Mosaico({ habito, avance }: { habito: Habito; avance: Avance }) {
   const estilo = estilos[habito]
-  return (
-    <div className="sombra-suave flex flex-col gap-2.5 rounded-tarjeta border border-borde bg-white p-3.5 text-tinta transition hover:border-barra-suave lg:p-[18px]">
-      <Link to={estilo.ruta} className="flex flex-col gap-2.5 text-tinta no-underline hover:text-tinta">
-        <div className="flex items-center gap-2.5">
-          <span
-            className={`flex size-[34px] shrink-0 items-center justify-center rounded-full ${estilo.claseIcono}`}
-          >
-            <Icon nombre={estilo.icono} tamano={17} />
-          </span>
-          <div className="min-w-0">
-            <div className="text-xs font-medium text-tinta-3">{estilo.nombre}</div>
-            <div className="text-[15px] font-extrabold">{valorHabito(habito, avance)}</div>
-            <div className={`text-xs font-semibold ${estilo.claseMensaje}`}>
-              {mensajeHabito(habito, avance)}
-            </div>
-          </div>
-        </div>
-        <ProgressBar
-          fraccion={fraccion(avance)}
-          claseRelleno={estilo.claseRelleno}
-          clasePista={estilo.clasePista}
-        />
-      </Link>
-      {pie}
-    </div>
-  )
-}
-
-interface AtajoAguaProps {
-  onAgregar: (ml: number) => Promise<boolean>
-  onDeshacer: () => Promise<boolean>
-}
-
-/** "+250 ml" sin salir de Inicio, con deshacer del último vaso añadido desde aquí. */
-function AtajoAgua({ onAgregar, onDeshacer }: AtajoAguaProps) {
-  const [anadidos, setAnadidos] = useState(0)
-  const [ocupado, setOcupado] = useState(false)
-  const [aviso, setAviso] = useState<{ texto: string; fallo: boolean } | null>(null)
-
-  async function agregar() {
-    setOcupado(true)
-    const guardado = await onAgregar(VASO_ML)
-    setOcupado(false)
-    if (guardado) setAnadidos((actual) => actual + 1)
-    setAviso(
-      guardado
-        ? { texto: `Se añadieron ${VASO_ML} ml de agua.`, fallo: false }
-        : { texto: 'No pudimos guardar. Inténtalo de nuevo.', fallo: true },
-    )
+  const partes = partesHabito(habito, avance)
+  const razon = avance.meta > 0 ? avance.valor / avance.meta : 0
+  // Lo último que se registró queda resaltado hasta que la persona lo mira.
+  const ultimo = useSyncExternalStore(suscribirUltimoRegistro, ultimoRegistro)
+  const nuevo = ultimo === habito
+  const visto = () => {
+    if (nuevo) marcarUltimoRegistro(null)
   }
-
-  async function deshacer() {
-    setOcupado(true)
-    const quitado = await onDeshacer()
-    setOcupado(false)
-    if (quitado) setAnadidos((actual) => Math.max(actual - 1, 0))
-    setAviso(
-      quitado
-        ? { texto: 'Se quitó el último registro de agua.', fallo: false }
-        : { texto: 'No pudimos deshacerlo. Inténtalo de nuevo.', fallo: true },
-    )
-  }
-
   return (
-    <div className="flex flex-col gap-1">
-      <div className={`grid gap-2 ${anadidos > 0 ? 'grid-cols-2' : 'grid-cols-1'}`}>
-        <button
-          type="button"
-          disabled={ocupado}
-          onClick={() => void agregar()}
-          className="h-11 rounded-boton-sm bg-agua-suave px-1 text-xs font-extrabold whitespace-nowrap text-agua-fuerte hover:bg-agua-pista disabled:opacity-60"
-        >
-          +{VASO_ML} ml
-        </button>
-        {anadidos > 0 && (
-          <button
-            type="button"
-            disabled={ocupado}
-            onClick={() => void deshacer()}
-            className="h-11 rounded-boton-sm border border-agua-pista px-1 text-xs font-bold text-agua-fuerte hover:bg-agua-fondo disabled:opacity-60"
-          >
-            Deshacer
-          </button>
-        )}
-      </div>
-      <p
-        role="status"
-        className={aviso?.fallo ? 'text-xs font-semibold text-error' : 'sr-only'}
+    <div
+      onPointerEnter={visto}
+      onFocusCapture={visto}
+      className={`flex flex-col gap-2 rounded-boton-sm border bg-muro p-3 text-hueso transition-[border-color,box-shadow] duration-[600ms] ${
+        nuevo
+          ? 'border-llama shadow-[0_0_24px_-6px_rgb(249_115_22/0.6)]'
+          : 'border-transparent hover:border-filo'
+      }`}
+    >
+      <Link
+        to={estilo.ruta}
+        onClick={visto}
+        className="flex flex-col gap-1 text-hueso no-underline hover:text-hueso"
       >
-        {aviso?.texto}
-      </p>
+        <span className="flex items-baseline justify-between gap-2 text-xs font-semibold text-ceniza">
+          <span>{estilo.nombre}</span>
+          {nuevo ? (
+            <span className="text-[11px] font-bold tracking-[0.04em] text-llama uppercase">Nuevo</span>
+          ) : (
+            <span aria-hidden="true">{partes.meta}</span>
+          )}
+        </span>
+        <span className="sr-only">{valorHabito(habito, avance)}</span>
+        <span
+          aria-hidden="true"
+          className={`num-marcador text-[28px] leading-[1.05] font-bold ${estilo.claseValor}`}
+        >
+          {partes.valor}
+          {partes.unidad && (
+            <span className="ml-1 text-[15px] font-semibold text-ceniza">{partes.unidad}</span>
+          )}
+        </span>
+        <LineaAvance
+          razon={razon}
+          estado={estadoAnillo(avance)}
+          tono={estilo.tono}
+          className="mt-1"
+        />
+        <span className="text-xs text-ceniza">{mensajeHabito(habito, avance)}</span>
+      </Link>
     </div>
   )
 }
@@ -161,39 +90,36 @@ interface Props {
   ejercicio: Avance
   sueno: Avance
   comidas: Avance
-  /** Sin estas acciones el mosaico de agua es solo un enlace. */
-  onAgregarAgua?: (ml: number) => Promise<boolean>
-  onDeshacerAgua?: () => Promise<boolean>
   className?: string
 }
 
-/** Cuatro mosaicos de hábitos: 2×2 en móvil, una fila en escritorio. */
+/** Resumen de registros de hoy: cuatro mosaicos, 2×2 en móvil y una fila en escritorio. */
 export function HabitosGrid({
   agua,
   ejercicio,
   sueno,
   comidas,
-  onAgregarAgua,
-  onDeshacerAgua,
   className = '',
 }: Props) {
   return (
     <section
-      aria-label="Hábitos de hoy"
-      className={`grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-5 ${className}`}
+      aria-labelledby="registros-de-hoy"
+      className={`flex flex-col gap-2 ${className}`}
     >
-      <Mosaico
-        habito="agua"
-        avance={agua}
-        pie={
-          onAgregarAgua && onDeshacerAgua ? (
-            <AtajoAgua onAgregar={onAgregarAgua} onDeshacer={onDeshacerAgua} />
-          ) : undefined
-        }
-      />
+      <div className="flex items-baseline justify-between">
+        <h2 id="registros-de-hoy" className="num-marcador text-[22px] font-bold uppercase">
+          Registros de hoy
+        </h2>
+        <Link to={rutas.registros} className="flex min-h-11 items-center text-[13px] font-semibold text-ceniza no-underline hover:text-hueso">
+          Ver todo
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-4">
+      <Mosaico habito="agua" avance={agua} />
       <Mosaico habito="ejercicio" avance={ejercicio} />
       <Mosaico habito="sueno" avance={sueno} />
       <Mosaico habito="comidas" avance={comidas} />
+      </div>
     </section>
   )
 }

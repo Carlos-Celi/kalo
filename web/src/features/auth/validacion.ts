@@ -35,5 +35,9 @@ export function validarContrasenaNueva(contrasena: string): string | null {
   if (new TextEncoder().encode(contrasena).length > CONTRASENA_MAXIMO) {
     return 'La contraseña es demasiado larga.'
   }
+  // Igual que `password_requirements = "letters_digits"` en Supabase.
+  if (!/[A-Za-z]/.test(contrasena) || !/\d/.test(contrasena)) {
+    return 'Combina letras y números.'
+  }
   return null
 }

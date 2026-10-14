@@ -91,16 +91,16 @@ export function CamaraPage() {
   }
 
   const claseLateral = 'flex w-[72px] flex-col items-center gap-1.5 text-xs font-semibold text-white no-underline hover:text-white disabled:opacity-50'
-  const claseIcono = 'flex size-12 items-center justify-center rounded-full bg-camara-chip'
+  const claseIcono = 'flex size-12 items-center justify-center rounded-full bg-banco'
 
   return (
-    <div className="min-h-dvh bg-camara lg:flex lg:items-center lg:justify-center lg:p-10">
-      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-4 bg-camara px-4 pt-[max(20px,env(safe-area-inset-top))] pb-[30px] text-white lg:min-h-[760px] lg:max-w-[760px] lg:rounded-[28px]">
+    <div className="min-h-dvh bg-sala lg:flex lg:items-center lg:justify-center lg:p-10">
+      <main className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col gap-4 bg-sala px-4 pt-[max(20px,env(safe-area-inset-top))] pb-[30px] text-white lg:min-h-[760px] lg:max-w-[760px] lg:rounded-[28px]">
         <div className="flex items-center gap-3.5">
           <Link
             to={`${rutas.registros}?fecha=${fecha}`}
             aria-label="Cerrar"
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-camara-chip text-white hover:text-white"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-banco text-white hover:text-white"
           >
             <Icon nombre="cerrar" tamano={20} grosor={2} />
           </Link>
@@ -122,7 +122,7 @@ export function CamaraPage() {
                 aria-pressed={activo}
                 onClick={() => setTipo(otro)}
                 className={`min-h-11 shrink-0 snap-start rounded-full px-3.5 text-[13px] ${
-                  activo ? 'bg-llama font-bold text-camara' : 'bg-camara-chip font-semibold text-white'
+                  activo ? 'bg-llama font-bold text-sala' : 'bg-banco font-semibold text-white'
                 }`}
               >
                 {activo && <span aria-hidden="true">✓ </span>}
@@ -132,7 +132,7 @@ export function CamaraPage() {
           })}
         </div>
 
-        <div className="relative flex min-h-[320px] grow items-center justify-center overflow-hidden rounded-3xl bg-camara-visor">
+        <div className="relative flex min-h-[320px] grow items-center justify-center overflow-hidden rounded-3xl bg-muro">
           {iaLista ? (
             <>
               <video
@@ -144,7 +144,7 @@ export function CamaraPage() {
                 className={`absolute inset-0 size-full object-cover ${camara === 'lista' ? '' : 'hidden'}`}
               />
               {camara === 'lista' ? (
-                <div className="absolute top-3.5 flex items-center gap-1.5 rounded-full bg-camara/70 px-3 py-1.5 text-xs font-bold">
+                <div className="absolute top-3.5 flex items-center gap-1.5 rounded-full bg-sala/70 px-3 py-1.5 text-xs font-bold">
                   <Icon nombre="destello" tamano={14} grosor={2.2} className="text-llama" />
                   IA lista · centra el plato
                 </div>
@@ -169,14 +169,14 @@ export function CamaraPage() {
               {/* Mucha gente no tendrá API key: el registro a mano es la salida principal. */}
               <Link
                 to={`${rutas.comidaManual}${busqueda}`}
-                className="flex h-12 items-center gap-2 rounded-full bg-llama px-5 text-sm font-bold text-camara no-underline hover:text-camara"
+                className="flex h-12 items-center gap-2 rounded-full bg-brasa px-5 text-sm font-bold text-white no-underline hover:bg-brasa-hover hover:text-white"
               >
                 <Icon nombre="lapiz" tamano={18} />
                 Registrar a mano
               </Link>
               <Link
                 to={rutas.proveedorIA}
-                className="flex h-11 items-center rounded-full bg-camara-chip px-4 text-[13px] font-bold text-white no-underline hover:text-white"
+                className="flex h-11 items-center rounded-full bg-banco px-4 text-[13px] font-bold text-white no-underline hover:text-white"
               >
                 Configurar la IA
               </Link>
@@ -214,7 +214,7 @@ export function CamaraPage() {
             onClick={tomar}
             className="flex size-[82px] items-center justify-center rounded-full border-4 border-white disabled:opacity-40"
           >
-            <span className="size-16 rounded-full bg-white" />
+            <span className="size-16 rounded-full bg-muro" />
           </button>
           <Link to={`${rutas.comidaManual}${busqueda}`} className={claseLateral}>
             <span className={claseIcono}>

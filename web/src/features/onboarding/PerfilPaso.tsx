@@ -101,7 +101,7 @@ export function PerfilPaso() {
           ))}
         </div>
         {errores.sexo && (
-          <p id="sexo-error" className="text-xs font-semibold text-error">
+          <p id="sexo-error" className="text-xs font-semibold text-exceso">
             {errores.sexo}
           </p>
         )}

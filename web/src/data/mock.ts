@@ -226,6 +226,11 @@ export const repositoriosMock: Repositorios = {
     guardarPlan: async (plan: Plan) => {
       perfilActual = { nombre: plan.datos.nombre, plan }
     },
+    // En modo demostración no hay cuenta: se vuelve a los datos de ejemplo.
+    eliminarCuenta: async () => {
+      restablecerPerfilMock()
+      restablecerRegistrosMock()
+    },
   },
   registros: {
     obtenerRango: async (desde, hasta) => ({

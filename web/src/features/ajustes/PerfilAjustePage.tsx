@@ -83,7 +83,7 @@ export function PerfilAjustePage() {
         }}
         falta={revisado && !sexo}
       />
-      <p className="rounded-boton bg-crema-suave px-3.5 py-3 text-xs leading-normal font-medium text-tinta-2">
+      <p className="rounded-boton bg-muro px-3.5 py-3 text-xs leading-normal font-medium text-ceniza">
         Tus metas diarias no cambian solas al editar tu perfil. Si quieres que se recalculen con estos
         datos, hazlo desde «Metas diarias».
       </p>
